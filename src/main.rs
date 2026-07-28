@@ -1,3 +1,75 @@
+use anyhow::{Context, bail};
+use clap::Parser;
+use cliflow::cli::{Cli, Commands};
+use cliflow::error::Result;
+use cliflow::exec;
+use cliflow::recipe::{Registry, load_recipes};
+
 fn main() {
-    println!("Hello, world!");
+    let cli = Cli::parse();
+    owo_colors::set_override(!cli.no_color);
+
+    let code = match run(cli) {
+        Ok(code) => code,
+        Err(error) => {
+            eprintln!("error: {error:#}");
+            1
+        }
+    };
+
+    std::process::exit(code);
+}
+
+fn run(cli: Cli) -> Result<i32> {
+    let registry = Registry::new(load_recipes()?);
+
+    match cli.command {
+        Commands::Tools => {
+            cliflow::display::print_tools(&registry.namespaces());
+            Ok(0)
+        }
+        Commands::List { namespace } => {
+            let recipes = registry.list(namespace.as_deref());
+            cliflow::display::print_recipe_list(&recipes);
+            Ok(0)
+        }
+        Commands::Search { query } => {
+            let results = cliflow::search::search(registry.all(), &query);
+            cliflow::display::print_search_results(&results);
+            Ok(0)
+        }
+        Commands::Show { recipe } => {
+            let recipe = find_recipe(&registry, &recipe)?;
+            cliflow::display::print_recipe(recipe);
+            Ok(0)
+        }
+        Commands::Run {
+            recipe,
+            dry_run,
+            yes,
+            set,
+        } => {
+            let recipe = find_recipe(&registry, &recipe)?;
+            let set_values = exec::resolve::parse_set_values(&set)?;
+            let command = exec::resolve::resolve_command(recipe, &set_values)?;
+
+            if dry_run {
+                cliflow::display::print_resolved_command(&command);
+                return Ok(0);
+            }
+
+            exec::run::maybe_confirm(recipe, &command, yes)?;
+            exec::run::run_command(&command)
+        }
+    }
+}
+
+fn find_recipe<'a>(registry: &'a Registry, key: &str) -> Result<&'a cliflow::recipe::Recipe> {
+    if !key.contains('/') {
+        bail!("recipe must be in namespace/id format");
+    }
+
+    registry
+        .get(key)
+        .with_context(|| format!("recipe not found: {key}"))
 }

@@ -1,0 +1,10 @@
+id = "whoami"
+namespace = "aws"
+title = "Show current AWS identity"
+description = "Displays the AWS account and identity used by the selected profile."
+command = "aws sts get-caller-identity --profile {profile}"
+tags = ["aws", "sts", "identity", "account"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

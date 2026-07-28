@@ -1,0 +1,8 @@
+id = "current-status"
+namespace = "git"
+title = "Show repository status"
+description = "Shows changed, staged, untracked, and branch state for the current repository."
+command = "git status --short --branch"
+tags = ["git", "status", "branch", "changes"]
+danger = "low"
+args = []
