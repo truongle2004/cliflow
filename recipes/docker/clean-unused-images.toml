@@ -1,0 +1,8 @@
+id = "clean-unused-images"
+namespace = "docker"
+title = "Remove dangling and unused Docker images"
+description = "Frees disk space by deleting images not referenced by any container."
+command = "docker image prune -a -f"
+tags = ["docker", "cleanup", "images", "disk-space"]
+danger = "high"
+args = []

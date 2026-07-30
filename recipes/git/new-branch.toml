@@ -1,0 +1,10 @@
+id = "new-branch"
+namespace = "git"
+title = "Create and switch to a new branch"
+description = "Creates a new branch from the current HEAD and checks it out."
+command = "git switch -c {branch}"
+tags = ["git", "branch", "checkout", "switch"]
+danger = "low"
+args = [
+  { name = "branch", prompt = "New branch name" }
+]

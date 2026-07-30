@@ -1,0 +1,12 @@
+id = "sync-directory-to-s3"
+namespace = "aws"
+title = "Sync a local directory to S3"
+description = "Uploads new and changed files from a local directory to an S3 URI."
+command = "aws s3 sync {source} {destination} --profile {profile}"
+tags = ["aws", "s3", "sync", "upload"]
+danger = "medium"
+args = [
+  { name = "source", prompt = "Local source directory" },
+  { name = "destination", prompt = "Destination S3 URI" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

@@ -1,0 +1,10 @@
+id = "view-logs"
+namespace = "docker"
+title = "View container logs"
+description = "Streams logs from a Docker container."
+command = "docker logs --follow {container}"
+tags = ["docker", "logs", "container", "debug"]
+danger = "low"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]
