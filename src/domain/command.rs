@@ -8,5 +8,6 @@ pub struct Command {
     pub args: Vec<String>,
     #[serde(default)]
     pub env: BTreeMap<String, String>,
+    #[serde(default)]
     pub working_dir: Option<String>,
 }

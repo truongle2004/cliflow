@@ -17,6 +17,12 @@ pub enum Error {
     Toml(#[from] toml::de::Error),
 
     #[error(transparent)]
+    Yaml(#[from] serde_yaml::Error),
+
+    #[error(transparent)]
+    Walkdir(#[from] walkdir::Error),
+
+    #[error(transparent)]
     ShellWords(#[from] shell_words::ParseError),
 
     #[error(transparent)]

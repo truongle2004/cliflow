@@ -15,6 +15,9 @@ pub struct Cli {
 
 #[derive(Debug, Subcommand)]
 pub enum Commands {
+    /// Print loaded workflow count.
+    #[command(hide = true)]
+    DebugWorkflows,
     /// List all namespaces.
     Tools,
     /// List recipes, optionally filtered to one namespace.
