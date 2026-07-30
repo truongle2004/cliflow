@@ -1,7 +1,6 @@
-use anyhow::{Context, bail};
 use clap::Parser;
 use cliflow::cli::{Cli, Commands};
-use cliflow::error::Result;
+use cliflow::error::{Error, Result};
 use cliflow::exec;
 use cliflow::recipe::{Registry, load_recipes};
 
@@ -66,10 +65,12 @@ fn run(cli: Cli) -> Result<i32> {
 
 fn find_recipe<'a>(registry: &'a Registry, key: &str) -> Result<&'a cliflow::recipe::Recipe> {
     if !key.contains('/') {
-        bail!("recipe must be in namespace/id format");
+        return Err(Error::Message(
+            "recipe must be in namespace/id format".to_string(),
+        ));
     }
 
     registry
         .get(key)
-        .with_context(|| format!("recipe not found: {key}"))
+        .ok_or_else(|| Error::Message(format!("recipe not found: {key}")))
 }
