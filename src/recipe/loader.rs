@@ -1,6 +1,5 @@
 use super::Recipe;
-use crate::error::Result;
-use anyhow::{Context, anyhow};
+use crate::error::{Error, Result};
 use rust_embed::RustEmbed;
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
@@ -26,11 +25,9 @@ pub fn load_embedded_recipes() -> Result<Vec<Recipe>> {
 
     for file in EmbeddedRecipes::iter().filter(|path| path.ends_with(".toml")) {
         let content = EmbeddedRecipes::get(file.as_ref())
-            .ok_or_else(|| anyhow!("embedded recipe disappeared: {file}"))?;
-        let text = std::str::from_utf8(content.data.as_ref())
-            .with_context(|| format!("embedded recipe is not UTF-8: {file}"))?;
-        let recipe = toml::from_str::<Recipe>(text)
-            .with_context(|| format!("failed to parse embedded recipe: {file}"))?;
+            .ok_or_else(|| Error::Message(format!("embedded recipe disappeared: {file}")))?;
+        let text = std::str::from_utf8(content.data.as_ref())?;
+        let recipe = toml::from_str::<Recipe>(text)?;
         recipes.push(recipe);
     }
 
@@ -49,10 +46,8 @@ fn load_filesystem_recipes(root: &Path) -> Result<Vec<Recipe>> {
             continue;
         }
 
-        let text = std::fs::read_to_string(path)
-            .with_context(|| format!("failed to read recipe: {}", path.display()))?;
-        let recipe = toml::from_str::<Recipe>(&text)
-            .with_context(|| format!("failed to parse recipe: {}", path.display()))?;
+        let text = std::fs::read_to_string(path)?;
+        let recipe = toml::from_str::<Recipe>(&text)?;
         recipes.push(recipe);
     }
 

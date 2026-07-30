@@ -1,6 +1,5 @@
-use crate::error::Result;
+use crate::error::{Error, Result};
 use crate::recipe::Recipe;
-use anyhow::{Context, bail};
 use dialoguer::{Input, theme::ColorfulTheme};
 use std::collections::BTreeMap;
 
@@ -9,10 +8,14 @@ pub fn parse_set_values(values: &[String]) -> Result<BTreeMap<String, String>> {
 
     for value in values {
         let Some((name, val)) = value.split_once('=') else {
-            bail!("--set must use name=value format: {value}");
+            return Err(Error::Message(format!(
+                "--set must use name=value format: {value}"
+            )));
         };
         if name.is_empty() {
-            bail!("--set name cannot be empty: {value}");
+            return Err(Error::Message(format!(
+                "--set name cannot be empty: {value}"
+            )));
         }
         parsed.insert(name.to_string(), val.to_string());
     }
@@ -43,7 +46,5 @@ fn prompt_for_arg(arg: &crate::recipe::Arg) -> Result<String> {
         input = input.default(default.clone());
     }
 
-    input
-        .interact_text()
-        .with_context(|| format!("failed to read value for {}", arg.name))
+    Ok(input.interact_text()?)
 }
