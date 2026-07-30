@@ -1,8 +1,10 @@
+pub mod application;
 pub mod cli;
 pub mod display;
 pub mod domain;
 pub mod error;
 pub mod exec;
 pub mod infrastructure;
+pub mod presentation;
 pub mod recipe;
 pub mod search;

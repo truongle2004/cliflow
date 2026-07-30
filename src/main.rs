@@ -1,8 +1,6 @@
 use clap::Parser;
-use cliflow::cli::{Cli, Commands};
-use cliflow::error::{Error, Result};
-use cliflow::exec;
-use cliflow::recipe::{Registry, load_recipes};
+use cliflow::cli::arguments::{Cli, Commands};
+use cliflow::error::Result;
 
 fn main() {
     let cli = Cli::parse();
@@ -20,62 +18,21 @@ fn main() {
 }
 
 fn run(cli: Cli) -> Result<i32> {
-    let registry = Registry::new(load_recipes()?);
-
     match cli.command {
-        Commands::DebugWorkflows => {
+        Commands::List => {
             let workflows = cliflow::infrastructure::embedded_loader::load_embedded_workflows()?;
-            println!("{}", workflows.len());
+            println!("{} workflows loaded", workflows.len());
             Ok(0)
         }
-        Commands::Tools => {
-            cliflow::display::print_tools(&registry.namespaces());
-            Ok(0)
-        }
-        Commands::List { namespace } => {
-            let recipes = registry.list(namespace.as_deref());
-            cliflow::display::print_recipe_list(&recipes);
+        Commands::Show { id } => {
+            let workflows = cliflow::infrastructure::embedded_loader::load_embedded_workflows()?;
+            let workflow = cliflow::application::show_workflow::show_workflow(&workflows, &id)?;
+            cliflow::presentation::terminal_renderer::render_workflow(&workflow);
             Ok(0)
         }
         Commands::Search { query } => {
-            let results = cliflow::search::search(registry.all(), &query);
-            cliflow::display::print_search_results(&results);
+            println!("search is not implemented yet: {query}");
             Ok(0)
         }
-        Commands::Show { recipe } => {
-            let recipe = find_recipe(&registry, &recipe)?;
-            cliflow::display::print_recipe(recipe);
-            Ok(0)
-        }
-        Commands::Run {
-            recipe,
-            dry_run,
-            yes,
-            set,
-        } => {
-            let recipe = find_recipe(&registry, &recipe)?;
-            let set_values = exec::resolve::parse_set_values(&set)?;
-            let command = exec::resolve::resolve_command(recipe, &set_values)?;
-
-            if dry_run {
-                cliflow::display::print_resolved_command(&command);
-                return Ok(0);
-            }
-
-            exec::run::maybe_confirm(recipe, &command, yes)?;
-            exec::run::run_command(&command)
-        }
     }
-}
-
-fn find_recipe<'a>(registry: &'a Registry, key: &str) -> Result<&'a cliflow::recipe::Recipe> {
-    if !key.contains('/') {
-        return Err(Error::Message(
-            "recipe must be in namespace/id format".to_string(),
-        ));
-    }
-
-    registry
-        .get(key)
-        .ok_or_else(|| Error::Message(format!("recipe not found: {key}")))
 }
