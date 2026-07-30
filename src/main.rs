@@ -23,6 +23,11 @@ fn run(cli: Cli) -> Result<i32> {
     let registry = Registry::new(load_recipes()?);
 
     match cli.command {
+        Commands::DebugWorkflows => {
+            let workflows = cliflow::infrastructure::embedded_loader::load_embedded_workflows()?;
+            println!("{}", workflows.len());
+            Ok(0)
+        }
         Commands::Tools => {
             cliflow::display::print_tools(&registry.namespaces());
             Ok(0)

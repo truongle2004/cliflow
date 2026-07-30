@@ -1,0 +1,25 @@
+id: list-containers
+title: List Docker containers
+description: Show all Docker containers, including stopped containers.
+tool:
+  id: docker
+  name: Docker
+  description: Container runtime and tooling.
+category:
+  id: inspect
+  name: Inspect
+  description: Read-only inspection commands.
+risk: low
+tags:
+  - docker
+  - containers
+steps:
+  - id: docker-ps-all
+    title: Run docker ps
+    description: Lists all containers.
+    command:
+      program: docker
+      args:
+        - ps
+        - -a
+    risk: low
