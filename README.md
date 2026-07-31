@@ -10,10 +10,13 @@ Recipes are TOML files under `recipes/`. They can be listed, searched, shown, or
 cargo run
 ```
 
+Running `cliflow` without a subcommand opens the interactive search UI.
+
 ## Commands
 
 ```bash
 cliflow tools
+cliflow ui
 cliflow list [namespace]
 cliflow search <query>
 cliflow show <namespace>/<id>

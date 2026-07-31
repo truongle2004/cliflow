@@ -23,36 +23,40 @@ fn run(cli: Cli) -> Result<i32> {
     let registry = Registry::new(load_recipes()?);
 
     match cli.command {
-        Commands::DebugWorkflows => {
+        None | Some(Commands::Ui) => {
+            cliflow::tui::run(&registry)?;
+            Ok(0)
+        }
+        Some(Commands::DebugWorkflows) => {
             let workflows = cliflow::infrastructure::embedded_loader::load_embedded_workflows()?;
             println!("{}", workflows.len());
             Ok(0)
         }
-        Commands::Tools => {
+        Some(Commands::Tools) => {
             cliflow::display::print_tools(&registry.namespaces());
             Ok(0)
         }
-        Commands::List { namespace } => {
+        Some(Commands::List { namespace }) => {
             let recipes = registry.list(namespace.as_deref());
             cliflow::display::print_recipe_list(&recipes);
             Ok(0)
         }
-        Commands::Search { query } => {
+        Some(Commands::Search { query }) => {
             let results = cliflow::search::search(registry.all(), &query);
             cliflow::display::print_search_results(&results);
             Ok(0)
         }
-        Commands::Show { recipe } => {
+        Some(Commands::Show { recipe }) => {
             let recipe = find_recipe(&registry, &recipe)?;
             cliflow::display::print_recipe(recipe);
             Ok(0)
         }
-        Commands::Run {
+        Some(Commands::Run {
             recipe,
             dry_run,
             yes,
             set,
-        } => {
+        }) => {
             let recipe = find_recipe(&registry, &recipe)?;
             let set_values = exec::resolve::parse_set_values(&set)?;
             let command = exec::resolve::resolve_command(recipe, &set_values)?;
