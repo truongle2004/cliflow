@@ -7,10 +7,12 @@ build = "build.rs"
 [dependencies]
 anyhow = "1"
 clap = { version = "4", features = ["derive"] }
+crossterm = "0.28"
 dialoguer = "0.11"
 dirs = "6"
 include_dir = "0.7"
 owo-colors = { version = "4", features = ["supports-colors"] }
+ratatui = "0.29"
 rust-embed = "8"
 serde = { version = "1", features = ["derive"] }
 serde_yaml = "0.9"

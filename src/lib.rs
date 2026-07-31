@@ -6,3 +6,4 @@ pub mod exec;
 pub mod infrastructure;
 pub mod recipe;
 pub mod search;
+pub mod tui;

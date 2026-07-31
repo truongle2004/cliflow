@@ -10,11 +10,13 @@ pub struct Cli {
     pub no_color: bool,
 
     #[command(subcommand)]
-    pub command: Commands,
+    pub command: Option<Commands>,
 }
 
 #[derive(Debug, Subcommand)]
 pub enum Commands {
+    /// Open the interactive search UI.
+    Ui,
     /// Print loaded workflow count.
     #[command(hide = true)]
     DebugWorkflows,
