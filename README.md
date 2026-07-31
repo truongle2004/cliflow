@@ -1,8 +1,8 @@
 # lazycmds
 
-`lazycmds` stores curated command recipes for common developer tools so you do not have to remember exact syntax.
+`lazycmds` is a search-first terminal helper for developer commands.
 
-Recipes are TOML files under `recipes/`. They can be listed, searched, shown, or resolved and run.
+It stores short executable command recipes and longer multi-step workflows so you can quickly find what to run and understand when to run it.
 
 ## Run
 
@@ -10,23 +10,56 @@ Recipes are TOML files under `recipes/`. They can be listed, searched, shown, or
 cargo run
 ```
 
-Running `lazycmds` without a subcommand opens the interactive search UI.
+Running `lazycmds` without a subcommand opens the interactive Ratatui UI.
 
-## Commands
+## Interactive UI
+
+The UI is designed around search first:
+
+- Type to search recipes and workflows.
+- Recipes and workflows are shown in separate panes.
+- Press `Tab` to switch between panes.
+- Press `Up` / `Down` to select an item.
+- Press `PgUp` / `PgDn` to scroll long workflow details.
+- Press `Esc` or `Ctrl-C` to quit.
+
+Recipes are single commands. Workflows are multi-step examples for real situations, such as moving work from `main` to a feature branch, rebasing a diverged branch, or stashing work during an urgent context switch.
+
+## Content
+
+Embedded recipes live in `recipes/` as TOML files.
+
+Embedded workflows live in `content/<tool>/workflows/` as YAML files.
+
+Local recipe overrides can be added under:
 
 ```bash
-lazycmds tools
-lazycmds ui
-lazycmds list [namespace]
-lazycmds search <query>
-lazycmds show <namespace>/<id>
-lazycmds run <namespace>/<id>
-lazycmds run <namespace>/<id> --dry-run
-lazycmds run <namespace>/<id> --yes
-lazycmds run <namespace>/<id> --set name=value
+~/.config/lazycmds/recipes/
 ```
 
-High-danger recipes always ask for confirmation before execution, even with `--yes`.
+Workflow content should describe multi-step flows. Single CLI commands belong in `recipes/`, not `content/*/workflows/`.
+
+## Current Content
+
+Recipe namespaces:
+
+- `git`
+- `docker`
+- `aws`
+
+Git workflows include:
+
+- Git CLI setup defaults
+- Moving uncommitted `main` changes to a feature branch
+- Moving an accidental `main` commit to a branch
+- Updating a branch before pushing
+- Full feature branch lifecycle
+- Stash/context-switch scenarios
+- Release tagging
+- Bisect debugging
+- Cherry-picking fixes
+- Worktree hotfix flow
+- Submodules, Git LFS, and team history audit flows
 
 ## Development
 
@@ -37,27 +70,9 @@ cargo test --all-features
 cargo check --all-features
 ```
 
-## Todo
+If embedded recipes or workflows appear stale after moving the project folder, rebuild the binary:
 
-- [x] Decide the first supported commands and workflows
-- [x] Add CLI argument parsing
-- [x] Add a simple recipe data model
-- [x] Load recipes from embedded files
-- [x] Load local recipe overrides from `~/.config/lazycmds/recipes/`
-- [x] Implement `tools`
-- [x] Implement `list`
-- [x] Implement `show`
-- [x] Implement `search`
-- [x] Implement `run --dry-run`
-- [x] Implement guarded command execution
-- [x] Add Git recipes
-- [x] Add Docker recipes
-- [x] Add AWS recipes
-- [x] Add recipe validation tests
-- [ ] Add GitHub CLI recipes
-- [ ] Add shell completions
-- [ ] Add more namespaces
-
-## Status
-
-Early development.
+```bash
+cargo clean
+cargo run
+```
