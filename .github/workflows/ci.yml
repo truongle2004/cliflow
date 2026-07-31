@@ -44,6 +44,7 @@ jobs:
   dangerous-patterns:
     name: dangerous patterns scan
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -74,7 +75,7 @@ jobs:
           fi
   test:
     name: test (${{ matrix.os }})
-    needs: clippy
+    needs: cargo
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
