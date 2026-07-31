@@ -1,5 +1,5 @@
 use lazycmds::recipe::loader::load_embedded_recipes;
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 #[test]
 fn embedded_recipes_are_valid() {
@@ -43,6 +43,91 @@ fn embedded_recipes_are_valid() {
                 token
             );
         }
+    }
+}
+
+#[test]
+fn embedded_recipe_catalog_has_expected_counts() {
+    let recipes = load_embedded_recipes().expect("embedded recipes should load");
+    let mut counts = BTreeMap::<String, usize>::new();
+
+    for recipe in &recipes {
+        *counts.entry(recipe.namespace.clone()).or_default() += 1;
+    }
+
+    assert_eq!(recipes.len(), 155);
+    assert_eq!(counts.get("aws"), Some(&59));
+    assert_eq!(counts.get("docker"), Some(&52));
+    assert_eq!(counts.get("git"), Some(&44));
+}
+
+#[test]
+fn embedded_aws_recipes_include_daily_operations() {
+    let keys = load_embedded_recipes()
+        .expect("embedded recipes should load")
+        .into_iter()
+        .map(|recipe| recipe.key())
+        .collect::<BTreeSet<_>>();
+
+    for key in [
+        "aws/create-s3-bucket",
+        "aws/list-objects-in-bucket",
+        "aws/copy-file-to-s3",
+        "aws/copy-file-from-s3",
+        "aws/remove-s3-object",
+        "aws/remove-s3-bucket",
+        "aws/generate-presigned-url",
+        "aws/enable-bucket-versioning",
+        "aws/list-iam-users",
+        "aws/list-iam-roles",
+        "aws/assume-role",
+        "aws/list-access-keys",
+        "aws/create-access-key",
+        "aws/rotate-access-key",
+        "aws/list-ec2-instances",
+        "aws/start-ec2-instance",
+        "aws/stop-ec2-instance",
+        "aws/terminate-ec2-instance",
+        "aws/describe-instance",
+        "aws/ssh-into-instance",
+        "aws/get-instance-public-ip",
+        "aws/list-security-groups",
+        "aws/open-security-group-port",
+        "aws/list-vpcs",
+        "aws/list-subnets",
+        "aws/list-lambda-functions",
+        "aws/invoke-lambda-function",
+        "aws/update-lambda-code",
+        "aws/view-lambda-logs",
+        "aws/delete-lambda-function",
+        "aws/tail-log-group",
+        "aws/list-log-groups",
+        "aws/get-log-events",
+        "aws/list-cloudwatch-alarms",
+        "aws/list-ecs-clusters",
+        "aws/list-ecs-services",
+        "aws/list-ecs-tasks",
+        "aws/update-ecs-service",
+        "aws/exec-into-ecs-task",
+        "aws/push-image-to-ecr",
+        "aws/get-ecr-login",
+        "aws/list-stacks",
+        "aws/describe-stack",
+        "aws/deploy-stack",
+        "aws/delete-stack",
+        "aws/view-stack-events",
+        "aws/list-rds-instances",
+        "aws/describe-rds-instance",
+        "aws/create-rds-snapshot",
+        "aws/restore-rds-from-snapshot",
+        "aws/configure-profile",
+        "aws/list-profiles",
+        "aws/switch-profile",
+        "aws/get-current-region",
+        "aws/get-cost-and-usage",
+        "aws/list-cost-by-service",
+    ] {
+        assert!(keys.contains(key), "missing embedded recipe: {key}");
     }
 }
 
