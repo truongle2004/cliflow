@@ -1,0 +1,74 @@
+id: rebase-diverged-branch
+title: Rebase a long-running branch that diverged from main
+description: Your feature branch is behind main and has diverged. Inspect what changed, rebase, resolve conflicts, and push safely.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: medium
+tags:
+  - git
+  - rebase
+  - diverged
+  - branch
+  - force-with-lease
+steps:
+  - id: checkout-feature
+    title: Switch to feature branch
+    description: Start from the branch that needs updating.
+    command:
+      program: git
+      args:
+        - checkout
+        - feature/payment-retry
+    risk: low
+  - id: fetch-origin
+    title: Fetch remote state
+    description: Download latest main and remote branch refs.
+    command:
+      program: git
+      args:
+        - fetch
+        - origin
+    risk: low
+  - id: inspect-main-changes
+    title: Inspect what main has
+    description: See commits on origin/main that are not in your branch.
+    command:
+      program: git
+      args:
+        - log
+        - --oneline
+        - feature/payment-retry..origin/main
+    risk: low
+  - id: rebase-main
+    title: Rebase on origin/main
+    description: Replay your branch commits on top of the latest main.
+    command:
+      program: git
+      args:
+        - rebase
+        - origin/main
+    risk: medium
+  - id: continue-rebase
+    title: Continue after resolving conflicts
+    description: After editing conflicted files and staging them, continue the rebase.
+    command:
+      program: git
+      args:
+        - rebase
+        - --continue
+    risk: medium
+  - id: push-with-lease
+    title: Push rewritten branch safely
+    description: Use --force-with-lease after rebase, never plain --force.
+    command:
+      program: git
+      args:
+        - push
+        - --force-with-lease
+    risk: medium

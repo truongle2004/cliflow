@@ -1,0 +1,69 @@
+id: main-changes-to-feature-branch
+title: Move uncommitted main changes to a feature branch
+description: You made code changes on main but have not committed yet. Create a branch first, then stage, commit, and push there.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: low
+tags:
+  - git
+  - main
+  - branch
+  - add
+  - commit
+  - push
+  - workflow
+steps:
+  - id: check-status
+    title: See what changed
+    description: Confirm you are on main and review changed files.
+    command:
+      program: git
+      args:
+        - status
+    risk: low
+  - id: create-branch
+    title: Create and switch to a feature branch
+    description: Uncommitted changes move with you to the new branch.
+    command:
+      program: git
+      args:
+        - checkout
+        - -b
+        - feature/my-branch
+    risk: low
+  - id: stage-changes
+    title: Stage changes
+    description: Stage the intended changes before committing.
+    command:
+      program: git
+      args:
+        - add
+        - .
+    risk: low
+  - id: commit-changes
+    title: Commit on the feature branch
+    description: The commit now belongs to feature/my-branch, not main.
+    command:
+      program: git
+      args:
+        - commit
+        - -m
+        - "feat: add login validation"
+    risk: low
+  - id: push-branch
+    title: Push and set upstream
+    description: Create the remote branch and link local pushes to it.
+    command:
+      program: git
+      args:
+        - push
+        - -u
+        - origin
+        - feature/my-branch
+    risk: low

@@ -1,0 +1,48 @@
+id: worktree-hotfix
+title: Use a worktree for parallel hotfix work
+description: Work on two branches at once without cloning the repository twice.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: low
+tags:
+  - git
+  - worktree
+  - hotfix
+  - branch
+steps:
+  - id: add-worktree
+    title: Add hotfix worktree
+    description: Create another working directory checked out to a hotfix branch.
+    command:
+      program: git
+      args:
+        - worktree
+        - add
+        - ../hotfix-branch
+        - hotfix/x
+    risk: low
+  - id: list-worktrees
+    title: List worktrees
+    description: See all working directories attached to this repository.
+    command:
+      program: git
+      args:
+        - worktree
+        - list
+    risk: low
+  - id: remove-worktree
+    title: Remove worktree
+    description: Clean up the extra worktree after finishing.
+    command:
+      program: git
+      args:
+        - worktree
+        - remove
+        - ../hotfix-branch
+    risk: low

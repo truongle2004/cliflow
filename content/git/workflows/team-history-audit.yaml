@@ -1,0 +1,56 @@
+id: team-history-audit
+title: Audit team history from the CLI
+description: Inspect contributors, recent activity, author-specific changes, and signed commit configuration as a project grows.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: scale
+  name: Scale
+  description: Workflows useful as projects and teams grow.
+risk: low
+tags:
+  - git
+  - team
+  - audit
+  - history
+steps:
+  - id: author-log
+    title: Show commits by author
+    description: Audit what a specific person changed.
+    command:
+      program: git
+      args:
+        - log
+        - --author=name
+    risk: low
+  - id: contributor-summary
+    title: Show contributor summary
+    description: Count commits by contributor.
+    command:
+      program: git
+      args:
+        - shortlog
+        - -sn
+    risk: low
+  - id: enable-signed-commits
+    title: Enable signed commits globally
+    description: Common in organizations that require verified commits.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - commit.gpgsign
+        - "true"
+    risk: low
+  - id: recent-activity
+    title: Show recent activity
+    description: Inspect commits from the last two weeks.
+    command:
+      program: git
+      args:
+        - log
+        - --since=2 weeks ago
+    risk: low

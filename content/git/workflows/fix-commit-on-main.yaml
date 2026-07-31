@@ -1,0 +1,59 @@
+id: fix-commit-on-main
+title: Move an accidental main commit to a branch
+description: You already committed on main by mistake. Preserve the commit on a new branch, then reset main back to origin/main.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: high
+tags:
+  - git
+  - main
+  - mistake
+  - reset
+  - branch
+  - workflow
+steps:
+  - id: create-branch-at-commit
+    title: Preserve the accidental commit
+    description: Create a branch pointing at the current commit while still on main.
+    command:
+      program: git
+      args:
+        - branch
+        - feature/my-branch
+    risk: low
+  - id: reset-main
+    title: Reset main back to remote
+    description: This drops the stray commit from main only because the previous step preserved it on feature/my-branch.
+    command:
+      program: git
+      args:
+        - reset
+        - --hard
+        - origin/main
+    risk: high
+  - id: checkout-feature
+    title: Switch to the branch with the commit
+    description: Your commit is preserved on this branch.
+    command:
+      program: git
+      args:
+        - checkout
+        - feature/my-branch
+    risk: low
+  - id: push-feature
+    title: Push the branch
+    description: Publish the branch and the preserved commit.
+    command:
+      program: git
+      args:
+        - push
+        - -u
+        - origin
+        - feature/my-branch
+    risk: low

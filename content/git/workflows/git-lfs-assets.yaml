@@ -1,0 +1,46 @@
+id: git-lfs-assets
+title: Track large binary files with Git LFS
+description: Configure Git LFS for large assets such as design files, media, or datasets.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: scale
+  name: Scale
+  description: Workflows useful as projects and teams grow.
+risk: low
+tags:
+  - git
+  - lfs
+  - assets
+  - binary
+steps:
+  - id: install-lfs
+    title: Install Git LFS hooks
+    description: Enable Git LFS in the current environment.
+    command:
+      program: git
+      args:
+        - lfs
+        - install
+    risk: low
+  - id: track-psd
+    title: Track large file pattern
+    description: Store PSD files through LFS instead of normal Git blobs.
+    command:
+      program: git
+      args:
+        - lfs
+        - track
+        - "*.psd"
+    risk: low
+  - id: stage-attributes
+    title: Commit LFS attributes
+    description: Stage the generated .gitattributes file.
+    command:
+      program: git
+      args:
+        - add
+        - .gitattributes
+    risk: low

@@ -1,3 +1,4 @@
+use crate::domain::workflow::Workflow;
 use crate::error::Result;
 use crate::recipe::{Danger, Recipe, Registry};
 use crate::search;
@@ -14,9 +15,9 @@ use ratatui::widgets::{Block, Borders, Clear, List, ListItem, ListState, Paragra
 use ratatui::{Frame, Terminal};
 use std::io;
 
-pub fn run(registry: &Registry) -> Result<()> {
+pub fn run(registry: &Registry, workflows: &[Workflow]) -> Result<()> {
     let mut terminal = setup_terminal()?;
-    let result = App::new(registry).run(&mut terminal);
+    let result = App::new(registry, workflows).run(&mut terminal);
     restore_terminal(&mut terminal)?;
     result
 }
@@ -38,16 +39,30 @@ fn restore_terminal(terminal: &mut Terminal<CrosstermBackend<io::Stdout>>) -> Re
 
 struct App<'a> {
     registry: &'a Registry,
+    workflows: &'a [Workflow],
     query: String,
-    selected: usize,
+    active_pane: ActivePane,
+    selected_recipe: usize,
+    selected_workflow: usize,
+    detail_scroll: u16,
+}
+
+#[derive(Clone, Copy, Eq, PartialEq)]
+enum ActivePane {
+    Recipes,
+    Workflows,
 }
 
 impl<'a> App<'a> {
-    fn new(registry: &'a Registry) -> Self {
+    fn new(registry: &'a Registry, workflows: &'a [Workflow]) -> Self {
         Self {
             registry,
+            workflows,
             query: String::new(),
-            selected: 0,
+            active_pane: ActivePane::Recipes,
+            selected_recipe: 0,
+            selected_workflow: 0,
+            detail_scroll: 0,
         }
     }
 
@@ -65,16 +80,19 @@ impl<'a> App<'a> {
                     KeyCode::Char('c') if key.modifiers == KeyModifiers::CONTROL => break,
                     KeyCode::Backspace => {
                         self.query.pop();
-                        self.selected = 0;
+                        self.reset_selection_for_query();
                     }
                     KeyCode::Char(char) => {
                         self.query.push(char);
-                        self.selected = 0;
+                        self.reset_selection_for_query();
                     }
+                    KeyCode::Tab => self.toggle_active_pane(),
                     KeyCode::Down => self.move_selection(1),
                     KeyCode::Up => self.move_selection(-1),
-                    KeyCode::Home => self.selected = 0,
-                    KeyCode::End => self.selected = self.visible_recipes().len().saturating_sub(1),
+                    KeyCode::Home => self.set_selection(0),
+                    KeyCode::End => self.move_selection(isize::MAX),
+                    KeyCode::PageDown => self.scroll_details(8),
+                    KeyCode::PageUp => self.scroll_details(-8),
                     _ => {}
                 }
             }
@@ -85,7 +103,11 @@ impl<'a> App<'a> {
 
     fn draw(&mut self, frame: &mut Frame<'_>) {
         let recipes = self.visible_recipes();
-        self.selected = self.selected.min(recipes.len().saturating_sub(1));
+        let workflows = self.visible_workflows();
+        self.selected_recipe = self.selected_recipe.min(recipes.len().saturating_sub(1));
+        self.selected_workflow = self
+            .selected_workflow
+            .min(workflows.len().saturating_sub(1));
 
         let root = frame.area();
         let chunks = Layout::default()
@@ -101,18 +123,23 @@ impl<'a> App<'a> {
             .direction(Direction::Horizontal)
             .constraints([Constraint::Percentage(42), Constraint::Percentage(58)])
             .split(chunks[1]);
+        let lists = Layout::default()
+            .direction(Direction::Vertical)
+            .constraints([Constraint::Percentage(50), Constraint::Percentage(50)])
+            .split(body[0]);
 
         frame.render_widget(Clear, root);
         self.draw_search(frame, chunks[0]);
-        self.draw_list(frame, body[0], &recipes);
-        self.draw_details(frame, body[1], recipes.get(self.selected).copied());
-        self.draw_help(frame, chunks[2], recipes.len());
+        self.draw_recipe_list(frame, lists[0], &recipes);
+        self.draw_workflow_list(frame, lists[1], &workflows);
+        self.draw_details(frame, body[1], recipes.as_slice(), workflows.as_slice());
+        self.draw_help(frame, chunks[2], recipes.len(), workflows.len());
     }
 
     fn draw_search(&self, frame: &mut Frame<'_>, area: Rect) {
         let text = if self.query.is_empty() {
             Line::from(Span::styled(
-                "Type to search recipes...",
+                "Type to search recipes and workflows...",
                 Style::default().fg(Color::DarkGray),
             ))
         } else {
@@ -125,7 +152,7 @@ impl<'a> App<'a> {
         );
     }
 
-    fn draw_list(&self, frame: &mut Frame<'_>, area: Rect, recipes: &[&Recipe]) {
+    fn draw_recipe_list(&self, frame: &mut Frame<'_>, area: Rect, recipes: &[&Recipe]) {
         let items = recipes
             .iter()
             .map(|recipe| {
@@ -139,12 +166,15 @@ impl<'a> App<'a> {
 
         let mut state = ListState::default();
         if !items.is_empty() {
-            state.select(Some(self.selected));
+            state.select(Some(self.selected_recipe));
         }
 
         frame.render_stateful_widget(
             List::new(items)
-                .block(Block::default().title("Recipes").borders(Borders::ALL))
+                .block(section_block(
+                    "Recipes",
+                    self.active_pane == ActivePane::Recipes,
+                ))
                 .highlight_style(
                     Style::default()
                         .fg(Color::Black)
@@ -157,25 +187,83 @@ impl<'a> App<'a> {
         );
     }
 
-    fn draw_details(&self, frame: &mut Frame<'_>, area: Rect, recipe: Option<&Recipe>) {
-        let lines = match recipe {
-            Some(recipe) => recipe_lines(recipe),
-            None => vec![Line::from("No recipes match your search.")],
+    fn draw_workflow_list(&self, frame: &mut Frame<'_>, area: Rect, workflows: &[&Workflow]) {
+        let items = workflows
+            .iter()
+            .map(|workflow| {
+                ListItem::new(Line::from(vec![
+                    Span::styled(
+                        format!("{}/{}", workflow.tool.id, workflow.id),
+                        Style::default().fg(Color::Magenta),
+                    ),
+                    Span::raw("  "),
+                    Span::raw(workflow.title.as_str()),
+                ]))
+            })
+            .collect::<Vec<_>>();
+
+        let mut state = ListState::default();
+        if !items.is_empty() {
+            state.select(Some(self.selected_workflow));
+        }
+
+        frame.render_stateful_widget(
+            List::new(items)
+                .block(section_block(
+                    "Workflows",
+                    self.active_pane == ActivePane::Workflows,
+                ))
+                .highlight_style(
+                    Style::default()
+                        .fg(Color::Black)
+                        .bg(Color::Magenta)
+                        .add_modifier(Modifier::BOLD),
+                )
+                .highlight_symbol("  "),
+            area,
+            &mut state,
+        );
+    }
+
+    fn draw_details(
+        &self,
+        frame: &mut Frame<'_>,
+        area: Rect,
+        recipes: &[&Recipe],
+        workflows: &[&Workflow],
+    ) {
+        let lines = match self.active_pane {
+            ActivePane::Recipes => recipes
+                .get(self.selected_recipe)
+                .map(|recipe| recipe_lines(recipe))
+                .unwrap_or_else(|| vec![Line::from("No recipes match your search.")]),
+            ActivePane::Workflows => workflows
+                .get(self.selected_workflow)
+                .map(|workflow| workflow_lines(workflow))
+                .unwrap_or_else(|| vec![Line::from("No workflows match your search.")]),
+        };
+
+        let title = match self.active_pane {
+            ActivePane::Recipes => "Recipe Information",
+            ActivePane::Workflows => "Workflow Information",
         };
 
         frame.render_widget(
             Paragraph::new(lines)
-                .block(Block::default().title("Information").borders(Borders::ALL))
+                .block(Block::default().title(title).borders(Borders::ALL))
+                .scroll((self.detail_scroll, 0))
                 .wrap(Wrap { trim: false }),
             area,
         );
     }
 
-    fn draw_help(&self, frame: &mut Frame<'_>, area: Rect, total: usize) {
+    fn draw_help(&self, frame: &mut Frame<'_>, area: Rect, recipes: usize, workflows: usize) {
         let help = format!(
-            "{} result{} | Type: search | Up/Down: select | Esc/Ctrl-C: quit",
-            total,
-            if total == 1 { "" } else { "s" }
+            "{} recipe{} | {} workflow{} | Type: search | Tab: switch pane | Up/Down: select | PgUp/PgDn: details | Esc/Ctrl-C: quit",
+            recipes,
+            if recipes == 1 { "" } else { "s" },
+            workflows,
+            if workflows == 1 { "" } else { "s" }
         );
         frame.render_widget(
             Paragraph::new(help).block(Block::default().title("Help").borders(Borders::ALL)),
@@ -186,7 +274,7 @@ impl<'a> App<'a> {
     fn visible_recipes(&self) -> Vec<&'a Recipe> {
         let query = self.query.trim();
         if query.is_empty() {
-            self.registry.list(None)
+            self.registry.list(None).into_iter().collect::<Vec<_>>()
         } else {
             search::search(self.registry.all(), query)
                 .into_iter()
@@ -195,18 +283,117 @@ impl<'a> App<'a> {
         }
     }
 
+    fn visible_workflows(&self) -> Vec<&'a Workflow> {
+        let query = self.query.trim();
+        self.workflows
+            .iter()
+            .filter(|workflow| query.is_empty() || workflow_matches(workflow, query))
+            .collect()
+    }
+
     fn move_selection(&mut self, delta: isize) {
-        let len = self.visible_recipes().len();
+        let len = match self.active_pane {
+            ActivePane::Recipes => self.visible_recipes().len(),
+            ActivePane::Workflows => self.visible_workflows().len(),
+        };
         if len == 0 {
-            self.selected = 0;
+            self.set_selection(0);
             return;
         }
 
-        self.selected = self
-            .selected
-            .saturating_add_signed(delta)
-            .min(len.saturating_sub(1));
+        let selected = self.current_selection();
+        self.set_selection(
+            selected
+                .saturating_add_signed(delta)
+                .min(len.saturating_sub(1)),
+        );
     }
+
+    fn current_selection(&self) -> usize {
+        match self.active_pane {
+            ActivePane::Recipes => self.selected_recipe,
+            ActivePane::Workflows => self.selected_workflow,
+        }
+    }
+
+    fn set_selection(&mut self, selected: usize) {
+        match self.active_pane {
+            ActivePane::Recipes => self.selected_recipe = selected,
+            ActivePane::Workflows => self.selected_workflow = selected,
+        }
+        self.detail_scroll = 0;
+    }
+
+    fn reset_selection(&mut self) {
+        self.selected_recipe = 0;
+        self.selected_workflow = 0;
+        self.detail_scroll = 0;
+    }
+
+    fn reset_selection_for_query(&mut self) {
+        self.reset_selection();
+
+        let query = self.query.trim();
+        if query.split_whitespace().count() > 1 && !self.visible_workflows().is_empty() {
+            self.active_pane = ActivePane::Workflows;
+        }
+    }
+
+    fn toggle_active_pane(&mut self) {
+        self.active_pane = match self.active_pane {
+            ActivePane::Recipes => ActivePane::Workflows,
+            ActivePane::Workflows => ActivePane::Recipes,
+        };
+        self.detail_scroll = 0;
+    }
+
+    fn scroll_details(&mut self, delta: i16) {
+        if delta.is_negative() {
+            self.detail_scroll = self.detail_scroll.saturating_sub(delta.unsigned_abs());
+        } else {
+            self.detail_scroll = self.detail_scroll.saturating_add(delta as u16);
+        }
+    }
+}
+
+fn section_block(title: &'static str, active: bool) -> Block<'static> {
+    let style = if active {
+        Style::default()
+            .fg(Color::Yellow)
+            .add_modifier(Modifier::BOLD)
+    } else {
+        Style::default()
+    };
+
+    Block::default()
+        .title(Span::styled(title, style))
+        .borders(Borders::ALL)
+}
+
+fn workflow_matches(workflow: &Workflow, query: &str) -> bool {
+    let query = query.to_lowercase();
+    let key = format!("{}/{}", workflow.tool.id, workflow.id).to_lowercase();
+    let title = workflow.title.to_lowercase();
+    let description = workflow.description.to_lowercase();
+    let tags = workflow.tags.join(" ").to_lowercase();
+    let steps = workflow
+        .steps
+        .iter()
+        .map(|step| {
+            format!(
+                "{} {} {}",
+                step.title,
+                step.description,
+                workflow_command(&step.command)
+            )
+        })
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase();
+
+    let haystack = format!("{key} {title} {description} {tags} {steps}");
+
+    query.split_whitespace().all(|term| haystack.contains(term))
 }
 
 fn recipe_lines(recipe: &Recipe) -> Vec<Line<'_>> {
@@ -272,6 +459,69 @@ fn recipe_lines(recipe: &Recipe) -> Vec<Line<'_>> {
     ]));
 
     lines
+}
+
+fn workflow_lines(workflow: &Workflow) -> Vec<Line<'_>> {
+    let mut lines = vec![
+        Line::from(Span::styled(
+            workflow.title.as_str(),
+            Style::default().add_modifier(Modifier::BOLD),
+        )),
+        Line::from(Span::styled(
+            format!("{}/{}", workflow.tool.id, workflow.id),
+            Style::default().fg(Color::Magenta),
+        )),
+        Line::from(""),
+    ];
+
+    if !workflow.description.is_empty() {
+        lines.push(Line::from(workflow.description.as_str()));
+        lines.push(Line::from(""));
+    }
+
+    lines.push(Line::from(Span::styled(
+        "Workflow CLI Example",
+        Style::default().add_modifier(Modifier::BOLD),
+    )));
+
+    for (index, step) in workflow.steps.iter().enumerate() {
+        lines.push(Line::from(""));
+        lines.push(Line::from(vec![
+            Span::styled(
+                format!("{}. ", index + 1),
+                Style::default().add_modifier(Modifier::BOLD),
+            ),
+            Span::styled(
+                step.title.as_str(),
+                Style::default().add_modifier(Modifier::BOLD),
+            ),
+        ]));
+        if !step.description.is_empty() {
+            lines.push(Line::from(step.description.as_str()));
+        }
+        lines.push(Line::from(Span::styled(
+            workflow_command(&step.command),
+            Style::default().fg(Color::Green),
+        )));
+    }
+
+    lines
+}
+
+fn workflow_command(command: &crate::domain::command::Command) -> String {
+    std::iter::once(command.program.as_str())
+        .chain(command.args.iter().map(String::as_str))
+        .map(quote_arg)
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+
+fn quote_arg(arg: &str) -> String {
+    if arg.contains(char::is_whitespace) {
+        format!("\"{}\"", arg.replace('"', "\\\""))
+    } else {
+        arg.to_string()
+    }
 }
 
 fn danger_style(danger: Danger) -> Style {

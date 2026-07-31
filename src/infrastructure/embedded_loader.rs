@@ -44,21 +44,25 @@ mod tests {
     fn loads_embedded_content_workflows() {
         let workflows = load_embedded_workflows().unwrap();
 
-        assert_eq!(workflows.len(), 11);
+        assert!(workflows.len() >= 12);
         assert!(
-            workflows
-                .iter()
-                .any(|workflow| workflow.id == "undo-last-commit")
+            workflows.iter().all(|workflow| workflow.steps.len() > 1),
+            "workflow content should describe multi-step flows, not single CLI recipes"
         );
         assert!(
             workflows
                 .iter()
-                .any(|workflow| workflow.id == "stage-interactively")
+                .any(|workflow| workflow.id == "daily-coding-branch")
         );
         assert!(
             workflows
                 .iter()
-                .any(|workflow| workflow.id == "rebase-current-branch-on-main")
+                .any(|workflow| workflow.id == "main-changes-to-feature-branch")
+        );
+        assert!(
+            workflows
+                .iter()
+                .any(|workflow| workflow.id == "fix-commit-on-main")
         );
     }
 }

@@ -1,0 +1,105 @@
+id: urgent-stash-context-switch
+title: Stash half-finished work for an urgent branch switch
+description: You are mid-feature with uncommitted changes and need to switch branches immediately for a hotfix or investigation.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: low
+tags:
+  - git
+  - stash
+  - hotfix
+  - context-switch
+  - workflow
+steps:
+  - id: stash-work
+    title: Stash current work
+    description: Shelve all uncommitted changes with a readable name so the working directory becomes clean.
+    command:
+      program: git
+      args:
+        - stash
+        - push
+        - -m
+        - "wip: payment retry logic"
+    risk: low
+  - id: checkout-main
+    title: Switch to main
+    description: Move to main once your work is safely stashed.
+    command:
+      program: git
+      args:
+        - checkout
+        - main
+    risk: low
+  - id: pull-main
+    title: Pull latest main
+    description: Update before starting the urgent branch.
+    command:
+      program: git
+      args:
+        - pull
+    risk: low
+  - id: create-hotfix
+    title: Create hotfix branch
+    description: Start the urgent work on its own branch.
+    command:
+      program: git
+      args:
+        - checkout
+        - -b
+        - hotfix/urgent-bug
+    risk: low
+  - id: stage-hotfix
+    title: Stage hotfix changes
+    description: Stage the urgent fix.
+    command:
+      program: git
+      args:
+        - add
+        - .
+    risk: low
+  - id: commit-hotfix
+    title: Commit hotfix
+    description: Commit the urgent fix.
+    command:
+      program: git
+      args:
+        - commit
+        - -m
+        - "fix: urgent null check"
+    risk: low
+  - id: push-hotfix
+    title: Push hotfix branch
+    description: Publish the urgent branch.
+    command:
+      program: git
+      args:
+        - push
+        - -u
+        - origin
+        - hotfix/urgent-bug
+    risk: low
+  - id: return-feature
+    title: Return to feature branch
+    description: Go back to the original work.
+    command:
+      program: git
+      args:
+        - checkout
+        - feature/payment-retry
+    risk: low
+  - id: restore-stash
+    title: Restore stashed work
+    description: Apply and remove the latest stash so you can continue coding.
+    command:
+      program: git
+      args:
+        - stash
+        - pop
+    risk: medium

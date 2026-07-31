@@ -1,0 +1,55 @@
+id: find-bug-with-bisect
+title: Find a regression with git bisect
+description: Use Git's binary search across history to find which commit introduced a bug.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: debugging
+  name: Debugging
+  description: Workflows that diagnose bugs through project history.
+risk: low
+tags:
+  - git
+  - bisect
+  - bug
+  - regression
+steps:
+  - id: bisect-start
+    title: Start bisect
+    description: Begin binary-searching commit history.
+    command:
+      program: git
+      args:
+        - bisect
+        - start
+    risk: low
+  - id: mark-bad
+    title: Mark current commit bad
+    description: Tell Git the current commit has the bug.
+    command:
+      program: git
+      args:
+        - bisect
+        - bad
+    risk: low
+  - id: mark-known-good
+    title: Mark known good commit
+    description: Tell Git a previous release or commit was working.
+    command:
+      program: git
+      args:
+        - bisect
+        - good
+        - v1.0.0
+    risk: low
+  - id: reset-bisect
+    title: Finish bisect
+    description: Return to the original HEAD after finding the bad commit.
+    command:
+      program: git
+      args:
+        - bisect
+        - reset
+    risk: low

@@ -1,0 +1,58 @@
+id: move-stash-to-branch
+title: Apply stashed changes to the correct branch
+description: You stashed changes on one branch, but those changes really belong on a new feature branch.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: low
+tags:
+  - git
+  - stash
+  - branch
+  - apply
+  - workflow
+steps:
+  - id: list-stashes
+    title: List stashes
+    description: Confirm what is stashed and note the index, such as stash@{0}.
+    command:
+      program: git
+      args:
+        - stash
+        - list
+    risk: low
+  - id: create-branch
+    title: Create correct branch
+    description: Move to the branch where the stashed changes should live.
+    command:
+      program: git
+      args:
+        - checkout
+        - -b
+        - feature/my-branch
+    risk: low
+  - id: apply-stash
+    title: Apply stash safely
+    description: Apply the stash but keep it as backup until you verify the result.
+    command:
+      program: git
+      args:
+        - stash
+        - apply
+        - stash@{0}
+    risk: low
+  - id: drop-stash
+    title: Drop stash after verification
+    description: Delete the stash only after confirming the changes applied correctly.
+    command:
+      program: git
+      args:
+        - stash
+        - drop
+        - stash@{0}
+    risk: medium
