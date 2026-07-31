@@ -42,33 +42,46 @@ jobs:
       - name: Check build
         run: cargo check --all-features
   dangerous-patterns:
-      name: dangerous patterns scan
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
+    name: dangerous patterns scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-        - name: Fetch base branch
-          run: git fetch origin "${{ github.base_ref }}" --depth=1 || true
+      - name: Fetch base branch
+        run: git fetch origin "${{ github.base_ref }}" --depth=1 || true
 
-        - name: Dangerous patterns scan
-          run: |
-            echo "### Dangerous Code Patterns" >> $GITHUB_STEP_SUMMARY
-            PATTERNS=$(git diff "origin/${{ github.base_ref }}"...HEAD | grep -E "Command::new\(\"sh\"|Command::new\(\"bash\"|\.env\(\"LD_PRELOAD|\.env\(\"PATH|reqwest::|std::net::|TcpStream|UdpSocket|unsafe \{|\.unwrap\(\) |panic!\(|todo!\(|unimplemented!\(" || true)
-            if [ -n "$PATTERNS" ]; then
-              echo "**Potentially dangerous patterns detected:**" >> $GITHUB_STEP_SUMMARY
-              echo '```diff' >> $GITHUB_STEP_SUMMARY
-              echo "$PATTERNS" | head -30 >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo "**Security Concerns:**" >> $GITHUB_STEP_SUMMARY
-              echo "$PATTERNS" | grep -q "Command::new" && echo "- Shell command execution detected" >> $GITHUB_STEP_SUMMARY || true
-              echo "$PATTERNS" | grep -q "\.env\(\"" && echo "- Environment variable manipulation" >> $GITHUB_STEP_SUMMARY || true
-              echo "$PATTERNS" | grep -q "reqwest::\|std::net::\|TcpStream\|UdpSocket" && echo "- Network operations added" >> $GITHUB_STEP_SUMMARY || true
-              echo "$PATTERNS" | grep -q "unsafe" && echo "- Unsafe code blocks" >> $GITHUB_STEP_SUMMARY || true
-              echo "$PATTERNS" | grep -q "\.unwrap\(\)\|panic!\(" && echo "- Panic-inducing code" >> $GITHUB_STEP_SUMMARY || true
-              echo "::warning::Dangerous code patterns detected - manual review required"
-            else
-              echo "No dangerous patterns detected" >> $GITHUB_STEP_SUMMARY
-            fi
+      - name: Dangerous patterns scan
+        run: |
+          echo "### Dangerous Code Patterns" >> $GITHUB_STEP_SUMMARY
+          PATTERNS=$(git diff "origin/${{ github.base_ref }}"...HEAD | grep -E "Command::new\(\"sh\"|Command::new\(\"bash\"|\.env\(\"LD_PRELOAD|\.env\(\"PATH|reqwest::|std::net::|TcpStream|UdpSocket|unsafe \{|\.unwrap\(\) |panic!\(|todo!\(|unimplemented!\(" || true)
+          if [ -n "$PATTERNS" ]; then
+            echo "**Potentially dangerous patterns detected:**" >> $GITHUB_STEP_SUMMARY
+            echo '```diff' >> $GITHUB_STEP_SUMMARY
+            echo "$PATTERNS" | head -30 >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Security Concerns:**" >> $GITHUB_STEP_SUMMARY
+            echo "$PATTERNS" | grep -q "Command::new" && echo "- Shell command execution detected" >> $GITHUB_STEP_SUMMARY || true
+            echo "$PATTERNS" | grep -q "\.env\(\"" && echo "- Environment variable manipulation" >> $GITHUB_STEP_SUMMARY || true
+            echo "$PATTERNS" | grep -q "reqwest::\|std::net::\|TcpStream\|UdpSocket" && echo "- Network operations added" >> $GITHUB_STEP_SUMMARY || true
+            echo "$PATTERNS" | grep -q "unsafe" && echo "- Unsafe code blocks" >> $GITHUB_STEP_SUMMARY || true
+            echo "$PATTERNS" | grep -q "\.unwrap\(\)\|panic!\(" && echo "- Panic-inducing code" >> $GITHUB_STEP_SUMMARY || true
+            echo "::warning::Dangerous code patterns detected - manual review required"
+          else
+            echo "No dangerous patterns detected" >> $GITHUB_STEP_SUMMARY
+          fi
+  test:
+    name: test (${{ matrix.os }})
+    needs: clippy
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --all
