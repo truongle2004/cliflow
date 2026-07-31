@@ -44,7 +44,21 @@ mod tests {
     fn loads_embedded_content_workflows() {
         let workflows = load_embedded_workflows().unwrap();
 
-        assert_eq!(workflows.len(), 1);
-        assert_eq!(workflows[0].id, "undo-last-commit");
+        assert_eq!(workflows.len(), 11);
+        assert!(
+            workflows
+                .iter()
+                .any(|workflow| workflow.id == "undo-last-commit")
+        );
+        assert!(
+            workflows
+                .iter()
+                .any(|workflow| workflow.id == "stage-interactively")
+        );
+        assert!(
+            workflows
+                .iter()
+                .any(|workflow| workflow.id == "rebase-current-branch-on-main")
+        );
     }
 }

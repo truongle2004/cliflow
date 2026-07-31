@@ -1,0 +1,11 @@
+id = "delete-merged-branch"
+namespace = "git"
+title = "Delete a merged local branch"
+description = "Deletes a local branch only if Git considers it merged."
+example = "git branch -d feat/search-ui"
+command = "git branch -d {branch}"
+tags = ["git", "branch", "delete", "cleanup"]
+danger = "medium"
+args = [
+  { name = "branch", prompt = "Branch name to delete" }
+]

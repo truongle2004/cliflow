@@ -1,0 +1,9 @@
+id = "show-graph-log"
+namespace = "git"
+title = "Show graph log"
+description = "Shows a compact decorated commit graph to understand branch history."
+example = "git log --oneline --graph --decorate"
+command = "git log --oneline --graph --decorate"
+tags = ["git", "log", "graph", "history"]
+danger = "low"
+args = []

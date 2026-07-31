@@ -33,8 +33,22 @@ mod tests {
     fn loads_git_workflow_from_content_tree() {
         let workflows = load_content_workflows("content").unwrap();
 
-        assert_eq!(workflows.len(), 1);
-        assert_eq!(workflows[0].id, "undo-last-commit");
-        assert_eq!(workflows[0].tool.id, "git");
+        assert_eq!(workflows.len(), 11);
+        assert!(workflows.iter().all(|workflow| workflow.tool.id == "git"));
+        assert!(
+            workflows
+                .iter()
+                .any(|workflow| workflow.id == "undo-last-commit")
+        );
+        assert!(
+            workflows
+                .iter()
+                .any(|workflow| workflow.id == "stage-interactively")
+        );
+        assert!(
+            workflows
+                .iter()
+                .any(|workflow| workflow.id == "rebase-current-branch-on-main")
+        );
     }
 }

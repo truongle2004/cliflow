@@ -2,6 +2,7 @@ id = "sync-directory-to-s3"
 namespace = "aws"
 title = "Sync a local directory to S3"
 description = "Uploads new and changed files from a local directory to an S3 URI."
+example = "aws s3 sync dist s3://my-site-bucket --profile production"
 command = "aws s3 sync {source} {destination} --profile {profile}"
 tags = ["aws", "s3", "sync", "upload"]
 danger = "medium"

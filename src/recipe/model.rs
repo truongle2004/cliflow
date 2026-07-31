@@ -8,6 +8,8 @@ pub struct Recipe {
     pub title: String,
     #[serde(default)]
     pub description: String,
+    #[serde(default)]
+    pub example: String,
     pub command: String,
     #[serde(default)]
     pub tags: Vec<String>,

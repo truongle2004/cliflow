@@ -29,8 +29,9 @@ fn score(recipe: &Recipe, query: &str) -> Option<usize> {
     let key = recipe.key().to_lowercase();
     let title = recipe.title.to_lowercase();
     let description = recipe.description.to_lowercase();
+    let example = recipe.example.to_lowercase();
     let tags = recipe.tags.join(" ").to_lowercase();
-    let haystack = format!("{key} {title} {description} {tags}");
+    let haystack = format!("{key} {title} {description} {example} {tags}");
 
     if key == query {
         return Some(1000);
@@ -44,7 +45,7 @@ fn score(recipe: &Recipe, query: &str) -> Option<usize> {
     if tags.split_whitespace().any(|tag| tag == query) {
         return Some(500 + query.len());
     }
-    if description.contains(query) || tags.contains(query) {
+    if description.contains(query) || example.contains(query) || tags.contains(query) {
         return Some(300 + query.len());
     }
 

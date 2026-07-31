@@ -1,0 +1,29 @@
+id: rebase-current-branch-on-main
+title: Rebase current branch on main
+description: Replay local feature branch commits on top of the latest main.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: medium
+tags:
+  - git
+  - rebase
+  - pull
+  - main
+steps:
+  - id: pull-rebase-main
+    title: Pull main with rebase
+    description: Rebases the current branch on origin/main. Avoid this for shared pushed commits.
+    command:
+      program: git
+      args:
+        - pull
+        - --rebase
+        - origin
+        - main
+    risk: medium

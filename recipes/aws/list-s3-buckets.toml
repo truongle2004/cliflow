@@ -2,6 +2,7 @@ id = "list-s3-buckets"
 namespace = "aws"
 title = "List all S3 buckets"
 description = "Lists S3 buckets available to the selected AWS profile."
+example = "aws s3 ls --profile production"
 command = "aws s3 ls --profile {profile}"
 tags = ["aws", "s3", "list", "storage"]
 danger = "low"

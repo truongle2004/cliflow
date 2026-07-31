@@ -1,0 +1,29 @@
+id: push-new-branch
+title: Push a new branch upstream
+description: Push a feature branch for the first time and set upstream tracking.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: low
+tags:
+  - git
+  - push
+  - branch
+  - upstream
+steps:
+  - id: push-upstream
+    title: Push and set upstream
+    description: Replace feature/x with your current branch name.
+    command:
+      program: git
+      args:
+        - push
+        - -u
+        - origin
+        - feature/x
+    risk: low
