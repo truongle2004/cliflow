@@ -31,6 +31,11 @@ pub fn print_recipe(recipe: &Recipe) {
     println!("\n{}", "Command".bold());
     println!("  {}", recipe.command.green());
 
+    if !recipe.example.is_empty() {
+        println!("\n{}", "CLI Example".bold());
+        println!("  {}", recipe.example);
+    }
+
     if !recipe.args.is_empty() {
         println!("\n{}", "Placeholders".bold());
         for arg in &recipe.args {

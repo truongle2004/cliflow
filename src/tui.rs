@@ -229,6 +229,15 @@ fn recipe_lines(recipe: &Recipe) -> Vec<Line<'_>> {
         Span::styled(recipe.command.as_str(), Style::default().fg(Color::Green)),
     ]));
 
+    if !recipe.example.is_empty() {
+        lines.push(Line::from(""));
+        lines.push(Line::from(Span::styled(
+            "CLI Example",
+            Style::default().add_modifier(Modifier::BOLD),
+        )));
+        lines.push(Line::from(recipe.example.as_str()));
+    }
+
     if !recipe.args.is_empty() {
         lines.push(Line::from(""));
         lines.push(Line::from(Span::styled(

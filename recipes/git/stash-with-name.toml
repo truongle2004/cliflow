@@ -2,6 +2,7 @@ id = "stash-with-name"
 namespace = "git"
 title = "Stash unfinished work with a name"
 description = "Saves uncommitted work temporarily for a context switch without creating a commit."
+example = "git stash push -m \"wip: recipe examples\""
 command = "git stash push -m {name}"
 tags = ["git", "stash", "wip", "context-switch"]
 danger = "low"

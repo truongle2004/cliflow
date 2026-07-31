@@ -23,6 +23,11 @@ fn embedded_recipes_are_valid() {
             "recipe command is required for {}",
             recipe.key()
         );
+        assert!(
+            !recipe.example.trim().is_empty(),
+            "recipe example is required for {}",
+            recipe.key()
+        );
 
         let arg_names = recipe
             .args

@@ -2,6 +2,7 @@ id = "rebase-current-branch-on-main"
 namespace = "git"
 title = "Rebase current branch on main"
 description = "Fetches latest main from origin and rebases the current feature branch on top of it. Avoid rebasing shared pushed commits."
+example = "git pull --rebase origin main"
 command = "git pull --rebase origin main"
 tags = ["git", "rebase", "pull", "main"]
 danger = "medium"

@@ -2,6 +2,7 @@ id = "list-containers"
 namespace = "docker"
 title = "List all Docker containers"
 description = "Shows running and stopped containers with their status."
+example = "docker ps -a"
 command = "docker ps -a"
 tags = ["docker", "containers", "list", "ps"]
 danger = "low"

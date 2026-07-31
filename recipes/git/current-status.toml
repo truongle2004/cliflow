@@ -2,6 +2,7 @@ id = "current-status"
 namespace = "git"
 title = "Show repository status"
 description = "Shows changed, staged, untracked, and branch state for the current repository."
+example = "git status --short --branch"
 command = "git status --short --branch"
 tags = ["git", "status", "branch", "changes"]
 danger = "low"

@@ -2,6 +2,7 @@ id = "sync-with-remote"
 namespace = "git"
 title = "Sync current branch with remote"
 description = "Pulls the latest remote changes for the current branch before starting work. Configure pull.rebase for a cleaner local history."
+example = "git pull"
 command = "git pull"
 tags = ["git", "pull", "sync", "remote"]
 danger = "low"

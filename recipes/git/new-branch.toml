@@ -2,6 +2,7 @@ id = "new-branch"
 namespace = "git"
 title = "Create and switch to a new branch"
 description = "Creates a new branch from the current HEAD and checks it out."
+example = "git switch -c feat/add-recipe-examples"
 command = "git switch -c {branch}"
 tags = ["git", "branch", "checkout", "switch"]
 danger = "low"
