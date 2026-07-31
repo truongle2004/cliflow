@@ -1,4 +1,4 @@
-use cliflow::recipe::loader::load_embedded_recipes;
+use lazycmds::recipe::loader::load_embedded_recipes;
 use std::collections::BTreeSet;
 
 #[test]

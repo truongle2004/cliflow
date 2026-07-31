@@ -1,6 +1,6 @@
-# cliflow
+# lazycmds
 
-`cliflow` stores curated command recipes for common developer tools so you do not have to remember exact syntax.
+`lazycmds` stores curated command recipes for common developer tools so you do not have to remember exact syntax.
 
 Recipes are TOML files under `recipes/`. They can be listed, searched, shown, or resolved and run.
 
@@ -10,20 +10,20 @@ Recipes are TOML files under `recipes/`. They can be listed, searched, shown, or
 cargo run
 ```
 
-Running `cliflow` without a subcommand opens the interactive search UI.
+Running `lazycmds` without a subcommand opens the interactive search UI.
 
 ## Commands
 
 ```bash
-cliflow tools
-cliflow ui
-cliflow list [namespace]
-cliflow search <query>
-cliflow show <namespace>/<id>
-cliflow run <namespace>/<id>
-cliflow run <namespace>/<id> --dry-run
-cliflow run <namespace>/<id> --yes
-cliflow run <namespace>/<id> --set name=value
+lazycmds tools
+lazycmds ui
+lazycmds list [namespace]
+lazycmds search <query>
+lazycmds show <namespace>/<id>
+lazycmds run <namespace>/<id>
+lazycmds run <namespace>/<id> --dry-run
+lazycmds run <namespace>/<id> --yes
+lazycmds run <namespace>/<id> --set name=value
 ```
 
 High-danger recipes always ask for confirmation before execution, even with `--yes`.
@@ -43,7 +43,7 @@ cargo check --all-features
 - [x] Add CLI argument parsing
 - [x] Add a simple recipe data model
 - [x] Load recipes from embedded files
-- [x] Load local recipe overrides from `~/.config/cliflow/recipes/`
+- [x] Load local recipe overrides from `~/.config/lazycmds/recipes/`
 - [x] Implement `tools`
 - [x] Implement `list`
 - [x] Implement `show`

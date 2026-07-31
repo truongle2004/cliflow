@@ -1,8 +1,8 @@
 use clap::Parser;
-use cliflow::cli::{Cli, Commands};
-use cliflow::error::{Error, Result};
-use cliflow::exec;
-use cliflow::recipe::{Registry, load_recipes};
+use lazycmds::cli::{Cli, Commands};
+use lazycmds::error::{Error, Result};
+use lazycmds::exec;
+use lazycmds::recipe::{Registry, load_recipes};
 
 fn main() {
     let cli = Cli::parse();
@@ -24,32 +24,32 @@ fn run(cli: Cli) -> Result<i32> {
 
     match cli.command {
         None | Some(Commands::Ui) => {
-            let workflows = cliflow::infrastructure::embedded_loader::load_embedded_workflows()?;
-            cliflow::tui::run(&registry, &workflows)?;
+            let workflows = lazycmds::infrastructure::embedded_loader::load_embedded_workflows()?;
+            lazycmds::tui::run(&registry, &workflows)?;
             Ok(0)
         }
         Some(Commands::DebugWorkflows) => {
-            let workflows = cliflow::infrastructure::embedded_loader::load_embedded_workflows()?;
+            let workflows = lazycmds::infrastructure::embedded_loader::load_embedded_workflows()?;
             println!("{}", workflows.len());
             Ok(0)
         }
         Some(Commands::Tools) => {
-            cliflow::display::print_tools(&registry.namespaces());
+            lazycmds::display::print_tools(&registry.namespaces());
             Ok(0)
         }
         Some(Commands::List { namespace }) => {
             let recipes = registry.list(namespace.as_deref());
-            cliflow::display::print_recipe_list(&recipes);
+            lazycmds::display::print_recipe_list(&recipes);
             Ok(0)
         }
         Some(Commands::Search { query }) => {
-            let results = cliflow::search::search(registry.all(), &query);
-            cliflow::display::print_search_results(&results);
+            let results = lazycmds::search::search(registry.all(), &query);
+            lazycmds::display::print_search_results(&results);
             Ok(0)
         }
         Some(Commands::Show { recipe }) => {
             let recipe = find_recipe(&registry, &recipe)?;
-            cliflow::display::print_recipe(recipe);
+            lazycmds::display::print_recipe(recipe);
             Ok(0)
         }
         Some(Commands::Run {
@@ -63,7 +63,7 @@ fn run(cli: Cli) -> Result<i32> {
             let command = exec::resolve::resolve_command(recipe, &set_values)?;
 
             if dry_run {
-                cliflow::display::print_resolved_command(&command);
+                lazycmds::display::print_resolved_command(&command);
                 return Ok(0);
             }
 
@@ -73,7 +73,7 @@ fn run(cli: Cli) -> Result<i32> {
     }
 }
 
-fn find_recipe<'a>(registry: &'a Registry, key: &str) -> Result<&'a cliflow::recipe::Recipe> {
+fn find_recipe<'a>(registry: &'a Registry, key: &str) -> Result<&'a lazycmds::recipe::Recipe> {
     if !key.contains('/') {
         return Err(Error::Message(
             "recipe must be in namespace/id format".to_string(),
