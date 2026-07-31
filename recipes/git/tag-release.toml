@@ -1,0 +1,12 @@
+id = "tag-release"
+namespace = "git"
+title = "Create an annotated release tag"
+description = "Creates an annotated tag for a release."
+example = "git tag -a v1.0.0 -m \"Release v1.0.0\""
+command = "git tag -a {tag} -m {message}"
+tags = ["git", "tag", "release", "version"]
+danger = "medium"
+args = [
+  { name = "tag", prompt = "Tag name", default = "v1.0.0" },
+  { name = "message", prompt = "Tag message", default = "Release v1.0.0" }
+]

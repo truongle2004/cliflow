@@ -1,0 +1,9 @@
+id = "list-stashes"
+namespace = "git"
+title = "List stashes"
+description = "Shows all saved stash entries."
+example = "git stash list"
+command = "git stash list"
+tags = ["git", "stash", "list", "wip"]
+danger = "low"
+args = []

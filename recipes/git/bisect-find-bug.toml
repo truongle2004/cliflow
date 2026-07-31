@@ -1,0 +1,11 @@
+id = "bisect-find-bug"
+namespace = "git"
+title = "Start bisect to find a bug"
+description = "Starts a bisect session, marks the current revision bad, and marks a known good ref."
+example = "git bisect start && git bisect bad && git bisect good v1.0.0"
+command = "git bisect start && git bisect bad && git bisect good {good_ref}"
+tags = ["git", "bisect", "debug", "history"]
+danger = "medium"
+args = [
+  { name = "good_ref", prompt = "Known good ref" }
+]

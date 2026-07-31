@@ -1,0 +1,9 @@
+id = "fetch-all"
+namespace = "git"
+title = "Fetch from origin"
+description = "Fetches updates from the origin remote without changing the working tree."
+example = "git fetch origin"
+command = "git fetch origin"
+tags = ["git", "fetch", "remote", "origin"]
+danger = "low"
+args = []

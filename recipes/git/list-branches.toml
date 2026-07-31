@@ -1,0 +1,9 @@
+id = "list-branches"
+namespace = "git"
+title = "List local and remote branches"
+description = "Shows all local and remote branches known to the repository."
+example = "git branch -a"
+command = "git branch -a"
+tags = ["git", "branch", "list", "remote"]
+danger = "low"
+args = []

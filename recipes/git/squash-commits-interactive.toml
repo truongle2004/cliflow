@@ -1,0 +1,11 @@
+id = "squash-commits-interactive"
+namespace = "git"
+title = "Squash commits interactively"
+description = "Opens an interactive rebase for the last N commits so they can be squashed or edited. Avoid rewriting shared history."
+example = "git rebase -i HEAD~3"
+command = "git rebase -i HEAD~{count}"
+tags = ["git", "rebase", "squash", "history"]
+danger = "high"
+args = [
+  { name = "count", prompt = "Number of commits", default = "3" }
+]

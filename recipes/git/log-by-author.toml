@@ -1,0 +1,11 @@
+id = "log-by-author"
+namespace = "git"
+title = "Show commits by author"
+description = "Filters commit history by author name or email."
+example = "git log --author=\"Ada\""
+command = "git log --author={author}"
+tags = ["git", "log", "author", "inspect"]
+danger = "low"
+args = [
+  { name = "author", prompt = "Author name or email" }
+]

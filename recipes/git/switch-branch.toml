@@ -1,0 +1,11 @@
+id = "switch-branch"
+namespace = "git"
+title = "Switch to another branch"
+description = "Checks out an existing branch in the repository."
+example = "git checkout feat/search-ui"
+command = "git checkout {branch}"
+tags = ["git", "branch", "checkout", "switch"]
+danger = "low"
+args = [
+  { name = "branch", prompt = "Branch name" }
+]

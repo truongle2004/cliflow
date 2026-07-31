@@ -1,0 +1,9 @@
+id = "abort-merge"
+namespace = "git"
+title = "Abort an in-progress merge"
+description = "Stops the current merge and attempts to restore the branch to its pre-merge state."
+example = "git merge --abort"
+command = "git merge --abort"
+tags = ["git", "merge", "abort", "conflict"]
+danger = "medium"
+args = []

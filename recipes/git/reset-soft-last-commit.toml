@@ -1,0 +1,9 @@
+id = "reset-soft-last-commit"
+namespace = "git"
+title = "Soft reset the last commit"
+description = "Removes the last commit while keeping its changes staged."
+example = "git reset --soft HEAD~1"
+command = "git reset --soft HEAD~1"
+tags = ["git", "reset", "commit", "undo"]
+danger = "low"
+args = []

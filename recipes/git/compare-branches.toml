@@ -1,0 +1,12 @@
+id = "compare-branches"
+namespace = "git"
+title = "Compare commits between branches"
+description = "Shows commits reachable from one branch but not another."
+example = "git log --oneline main..feat/search-ui"
+command = "git log --oneline {base_branch}..{compare_branch}"
+tags = ["git", "branch", "compare", "log"]
+danger = "low"
+args = [
+  { name = "base_branch", prompt = "Base branch" },
+  { name = "compare_branch", prompt = "Branch to compare" }
+]

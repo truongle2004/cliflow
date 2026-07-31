@@ -1,0 +1,11 @@
+id = "rename-branch"
+namespace = "git"
+title = "Rename the current branch"
+description = "Renames the current local branch to a new branch name."
+example = "git branch -m feat/better-name"
+command = "git branch -m {new_name}"
+tags = ["git", "branch", "rename"]
+danger = "medium"
+args = [
+  { name = "new_name", prompt = "New branch name" }
+]

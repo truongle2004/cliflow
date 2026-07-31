@@ -1,0 +1,11 @@
+id = "merge-branch-no-ff"
+namespace = "git"
+title = "Merge a branch with no fast-forward"
+description = "Merges another branch into the current branch and always creates a merge commit."
+example = "git merge --no-ff feat/search-ui"
+command = "git merge --no-ff {branch}"
+tags = ["git", "merge", "branch", "no-ff"]
+danger = "medium"
+args = [
+  { name = "branch", prompt = "Branch to merge" }
+]

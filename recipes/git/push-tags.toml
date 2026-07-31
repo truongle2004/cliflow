@@ -1,0 +1,9 @@
+id = "push-tags"
+namespace = "git"
+title = "Push all tags"
+description = "Pushes local tags to the origin remote."
+example = "git push origin --tags"
+command = "git push origin --tags"
+tags = ["git", "tag", "push", "release"]
+danger = "medium"
+args = []
