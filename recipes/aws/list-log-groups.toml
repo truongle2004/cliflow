@@ -1,0 +1,11 @@
+id = "list-log-groups"
+namespace = "aws"
+title = "List CloudWatch log groups"
+description = "Lists CloudWatch Logs log groups."
+example = "aws logs describe-log-groups --profile production"
+command = "aws logs describe-log-groups --profile {profile}"
+tags = ["aws", "cloudwatch", "logs", "list"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

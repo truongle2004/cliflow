@@ -1,0 +1,12 @@
+id = "switch-profile"
+namespace = "aws"
+title = "Run a command with an AWS profile"
+description = "Runs a command with AWS_PROFILE set to a specific local profile."
+example = "AWS_PROFILE=production aws sts get-caller-identity"
+command = "AWS_PROFILE={profile} {command}"
+tags = ["aws", "profile", "config", "switch"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile name", default = "default" },
+  { name = "command", prompt = "Command to run", default = "aws sts get-caller-identity" }
+]

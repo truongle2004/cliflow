@@ -1,0 +1,13 @@
+id = "list-objects-in-bucket"
+namespace = "aws"
+title = "List objects in an S3 bucket"
+description = "Lists files and objects inside a specific S3 bucket or prefix."
+example = "aws s3 ls s3://my-bucket --recursive --profile production"
+command = "aws s3 ls s3://{bucket}/{prefix} --recursive --profile {profile}"
+tags = ["aws", "s3", "objects", "list"]
+danger = "low"
+args = [
+  { name = "bucket", prompt = "Bucket name" },
+  { name = "prefix", prompt = "Object prefix", default = "" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

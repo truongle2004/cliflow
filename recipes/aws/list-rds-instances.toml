@@ -1,0 +1,11 @@
+id = "list-rds-instances"
+namespace = "aws"
+title = "List RDS instances"
+description = "Lists RDS database instances."
+example = "aws rds describe-db-instances --profile production"
+command = "aws rds describe-db-instances --profile {profile}"
+tags = ["aws", "rds", "database", "list"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

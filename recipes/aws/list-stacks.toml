@@ -1,0 +1,11 @@
+id = "list-stacks"
+namespace = "aws"
+title = "List CloudFormation stacks"
+description = "Lists CloudFormation stacks."
+example = "aws cloudformation list-stacks --profile production"
+command = "aws cloudformation list-stacks --profile {profile}"
+tags = ["aws", "cloudformation", "stacks", "list"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

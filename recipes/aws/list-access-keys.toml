@@ -1,0 +1,12 @@
+id = "list-access-keys"
+namespace = "aws"
+title = "List access keys for a user"
+description = "Lists access keys associated with an IAM user."
+example = "aws iam list-access-keys --user-name alice --profile production"
+command = "aws iam list-access-keys --user-name {user} --profile {profile}"
+tags = ["aws", "iam", "access-keys", "list"]
+danger = "low"
+args = [
+  { name = "user", prompt = "IAM user name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

@@ -1,0 +1,13 @@
+id = "copy-file-to-s3"
+namespace = "aws"
+title = "Upload a file to S3"
+description = "Uploads a single local file to an S3 URI."
+example = "aws s3 cp ./app.zip s3://my-bucket/app.zip --profile production"
+command = "aws s3 cp {file} {destination} --profile {profile}"
+tags = ["aws", "s3", "upload", "file"]
+danger = "medium"
+args = [
+  { name = "file", prompt = "Local file path" },
+  { name = "destination", prompt = "Destination S3 URI" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

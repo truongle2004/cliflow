@@ -1,0 +1,12 @@
+id = "terminate-ec2-instance"
+namespace = "aws"
+title = "Terminate an EC2 instance"
+description = "Permanently terminates an EC2 instance."
+example = "aws ec2 terminate-instances --instance-ids i-0123456789abcdef0 --profile production"
+command = "aws ec2 terminate-instances --instance-ids {instance_id} --profile {profile}"
+tags = ["aws", "ec2", "instance", "terminate"]
+danger = "high"
+args = [
+  { name = "instance_id", prompt = "EC2 instance ID" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

@@ -1,0 +1,12 @@
+id = "get-instance-public-ip"
+namespace = "aws"
+title = "Get EC2 instance public IP"
+description = "Fetches the public IP address for a specific EC2 instance."
+example = "aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --query Reservations[0].Instances[0].PublicIpAddress --output text --profile production"
+command = "aws ec2 describe-instances --instance-ids {instance_id} --query Reservations[0].Instances[0].PublicIpAddress --output text --profile {profile}"
+tags = ["aws", "ec2", "ip", "instance"]
+danger = "low"
+args = [
+  { name = "instance_id", prompt = "EC2 instance ID" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

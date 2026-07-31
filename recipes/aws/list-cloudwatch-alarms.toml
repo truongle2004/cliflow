@@ -1,0 +1,11 @@
+id = "list-cloudwatch-alarms"
+namespace = "aws"
+title = "List CloudWatch alarms"
+description = "Lists CloudWatch metric alarms."
+example = "aws cloudwatch describe-alarms --profile production"
+command = "aws cloudwatch describe-alarms --profile {profile}"
+tags = ["aws", "cloudwatch", "alarms", "list"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

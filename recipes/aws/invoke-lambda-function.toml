@@ -1,0 +1,14 @@
+id = "invoke-lambda-function"
+namespace = "aws"
+title = "Invoke a Lambda function"
+description = "Manually invokes a Lambda function and writes the response to a file."
+example = "aws lambda invoke --function-name app-handler --payload '{}' response.json --profile production"
+command = "aws lambda invoke --function-name {function} --payload {payload} {output_file} --profile {profile}"
+tags = ["aws", "lambda", "invoke", "function"]
+danger = "medium"
+args = [
+  { name = "function", prompt = "Lambda function name" },
+  { name = "payload", prompt = "JSON payload", default = "'{}'" },
+  { name = "output_file", prompt = "Output file", default = "response.json" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

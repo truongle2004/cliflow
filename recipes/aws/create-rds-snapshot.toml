@@ -1,0 +1,13 @@
+id = "create-rds-snapshot"
+namespace = "aws"
+title = "Create an RDS snapshot"
+description = "Takes a manual snapshot of an RDS database instance."
+example = "aws rds create-db-snapshot --db-instance-identifier app-db --db-snapshot-identifier app-db-snap --profile production"
+command = "aws rds create-db-snapshot --db-instance-identifier {db_instance} --db-snapshot-identifier {snapshot} --profile {profile}"
+tags = ["aws", "rds", "snapshot", "database"]
+danger = "medium"
+args = [
+  { name = "db_instance", prompt = "DB instance identifier" },
+  { name = "snapshot", prompt = "Snapshot identifier" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

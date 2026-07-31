@@ -1,0 +1,13 @@
+id = "get-log-events"
+namespace = "aws"
+title = "Get CloudWatch log events"
+description = "Fetches recent events from a specific CloudWatch log stream."
+example = "aws logs get-log-events --log-group-name /aws/lambda/app --log-stream-name stream --profile production"
+command = "aws logs get-log-events --log-group-name {log_group} --log-stream-name {log_stream} --profile {profile}"
+tags = ["aws", "cloudwatch", "logs", "events"]
+danger = "low"
+args = [
+  { name = "log_group", prompt = "Log group name" },
+  { name = "log_stream", prompt = "Log stream name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

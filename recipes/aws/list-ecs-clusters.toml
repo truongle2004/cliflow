@@ -1,0 +1,11 @@
+id = "list-ecs-clusters"
+namespace = "aws"
+title = "List ECS clusters"
+description = "Lists ECS cluster ARNs."
+example = "aws ecs list-clusters --profile production"
+command = "aws ecs list-clusters --profile {profile}"
+tags = ["aws", "ecs", "clusters", "list"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

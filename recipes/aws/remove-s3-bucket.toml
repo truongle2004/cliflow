@@ -1,0 +1,12 @@
+id = "remove-s3-bucket"
+namespace = "aws"
+title = "Delete an empty S3 bucket"
+description = "Deletes an empty S3 bucket."
+example = "aws s3 rb s3://my-bucket --profile production"
+command = "aws s3 rb s3://{bucket} --profile {profile}"
+tags = ["aws", "s3", "bucket", "delete"]
+danger = "high"
+args = [
+  { name = "bucket", prompt = "Bucket name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

@@ -1,0 +1,13 @@
+id = "restore-rds-from-snapshot"
+namespace = "aws"
+title = "Restore RDS from a snapshot"
+description = "Restores a new RDS DB instance from a snapshot."
+example = "aws rds restore-db-instance-from-db-snapshot --db-instance-identifier app-db-restored --db-snapshot-identifier app-db-snap --profile production"
+command = "aws rds restore-db-instance-from-db-snapshot --db-instance-identifier {db_instance} --db-snapshot-identifier {snapshot} --profile {profile}"
+tags = ["aws", "rds", "restore", "snapshot"]
+danger = "high"
+args = [
+  { name = "db_instance", prompt = "New DB instance identifier" },
+  { name = "snapshot", prompt = "Snapshot identifier" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

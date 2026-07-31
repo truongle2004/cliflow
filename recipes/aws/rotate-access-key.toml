@@ -1,0 +1,13 @@
+id = "rotate-access-key"
+namespace = "aws"
+title = "Rotate an IAM access key"
+description = "Creates a new access key for a user, then deletes the specified old access key."
+example = "aws iam create-access-key --user-name alice --profile production && aws iam delete-access-key --user-name alice --access-key-id AKIAOLD --profile production"
+command = "aws iam create-access-key --user-name {user} --profile {profile} && aws iam delete-access-key --user-name {user} --access-key-id {old_access_key_id} --profile {profile}"
+tags = ["aws", "iam", "access-keys", "rotate"]
+danger = "high"
+args = [
+  { name = "user", prompt = "IAM user name" },
+  { name = "old_access_key_id", prompt = "Old access key ID to delete" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

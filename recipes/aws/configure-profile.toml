@@ -1,0 +1,11 @@
+id = "configure-profile"
+namespace = "aws"
+title = "Configure an AWS profile"
+description = "Starts AWS CLI configuration for a named profile."
+example = "aws configure --profile production"
+command = "aws configure --profile {profile}"
+tags = ["aws", "profile", "config", "configure"]
+danger = "medium"
+args = [
+  { name = "profile", prompt = "AWS profile name", default = "default" }
+]

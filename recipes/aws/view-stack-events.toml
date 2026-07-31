@@ -1,0 +1,12 @@
+id = "view-stack-events"
+namespace = "aws"
+title = "View CloudFormation stack events"
+description = "Shows recent events and errors for a CloudFormation stack."
+example = "aws cloudformation describe-stack-events --stack-name app-prod --profile production"
+command = "aws cloudformation describe-stack-events --stack-name {stack} --profile {profile}"
+tags = ["aws", "cloudformation", "events", "stack"]
+danger = "low"
+args = [
+  { name = "stack", prompt = "Stack name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

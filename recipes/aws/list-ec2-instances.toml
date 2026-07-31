@@ -1,0 +1,11 @@
+id = "list-ec2-instances"
+namespace = "aws"
+title = "List EC2 instances"
+description = "Lists EC2 instances and their current state."
+example = "aws ec2 describe-instances --profile production"
+command = "aws ec2 describe-instances --profile {profile}"
+tags = ["aws", "ec2", "instances", "list"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

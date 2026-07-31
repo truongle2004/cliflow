@@ -1,0 +1,14 @@
+id = "get-cost-and-usage"
+namespace = "aws"
+title = "Get AWS cost and usage"
+description = "Fetches AWS cost and usage for a date range."
+example = "aws ce get-cost-and-usage --time-period Start=2026-07-01,End=2026-08-01 --granularity MONTHLY --metrics UnblendedCost --profile production"
+command = "aws ce get-cost-and-usage --time-period Start={start_date},End={end_date} --granularity {granularity} --metrics UnblendedCost --profile {profile}"
+tags = ["aws", "cost", "billing", "usage"]
+danger = "low"
+args = [
+  { name = "start_date", prompt = "Start date YYYY-MM-DD" },
+  { name = "end_date", prompt = "End date YYYY-MM-DD" },
+  { name = "granularity", prompt = "Granularity", default = "MONTHLY" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

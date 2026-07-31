@@ -1,0 +1,12 @@
+id = "delete-lambda-function"
+namespace = "aws"
+title = "Delete a Lambda function"
+description = "Deletes an AWS Lambda function."
+example = "aws lambda delete-function --function-name app-handler --profile production"
+command = "aws lambda delete-function --function-name {function} --profile {profile}"
+tags = ["aws", "lambda", "delete", "function"]
+danger = "high"
+args = [
+  { name = "function", prompt = "Lambda function name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

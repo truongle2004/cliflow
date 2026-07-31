@@ -1,0 +1,11 @@
+id = "list-iam-users"
+namespace = "aws"
+title = "List IAM users"
+description = "Lists IAM users in the AWS account."
+example = "aws iam list-users --profile production"
+command = "aws iam list-users --profile {profile}"
+tags = ["aws", "iam", "users", "list"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

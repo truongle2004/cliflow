@@ -1,0 +1,12 @@
+id = "create-s3-bucket"
+namespace = "aws"
+title = "Create a new S3 bucket"
+description = "Creates an S3 bucket using the selected AWS profile."
+example = "aws s3 mb s3://my-bucket --profile production"
+command = "aws s3 mb s3://{bucket} --profile {profile}"
+tags = ["aws", "s3", "bucket", "create"]
+danger = "medium"
+args = [
+  { name = "bucket", prompt = "Bucket name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

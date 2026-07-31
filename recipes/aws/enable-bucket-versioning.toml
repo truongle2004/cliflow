@@ -1,0 +1,12 @@
+id = "enable-bucket-versioning"
+namespace = "aws"
+title = "Enable S3 bucket versioning"
+description = "Turns on versioning for an S3 bucket."
+example = "aws s3api put-bucket-versioning --bucket my-bucket --versioning-configuration Status=Enabled --profile production"
+command = "aws s3api put-bucket-versioning --bucket {bucket} --versioning-configuration Status=Enabled --profile {profile}"
+tags = ["aws", "s3", "versioning", "bucket"]
+danger = "medium"
+args = [
+  { name = "bucket", prompt = "Bucket name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

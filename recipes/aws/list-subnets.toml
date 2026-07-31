@@ -1,0 +1,12 @@
+id = "list-subnets"
+namespace = "aws"
+title = "List subnets in a VPC"
+description = "Lists subnets filtered by VPC ID."
+example = "aws ec2 describe-subnets --filters Name=vpc-id,Values=vpc-123 --profile production"
+command = "aws ec2 describe-subnets --filters Name=vpc-id,Values={vpc_id} --profile {profile}"
+tags = ["aws", "ec2", "subnets", "network"]
+danger = "low"
+args = [
+  { name = "vpc_id", prompt = "VPC ID" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

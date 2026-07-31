@@ -1,0 +1,15 @@
+id = "exec-into-ecs-task"
+namespace = "aws"
+title = "Execute a shell in an ECS task"
+description = "Starts an interactive shell inside a running ECS task container."
+example = "aws ecs execute-command --cluster app-cluster --task task-id --container api --interactive --command /bin/bash --profile production"
+command = "aws ecs execute-command --cluster {cluster} --task {task} --container {container} --interactive --command {shell} --profile {profile}"
+tags = ["aws", "ecs", "exec", "shell"]
+danger = "medium"
+args = [
+  { name = "cluster", prompt = "ECS cluster name or ARN" },
+  { name = "task", prompt = "ECS task ID or ARN" },
+  { name = "container", prompt = "Container name" },
+  { name = "shell", prompt = "Shell command", default = "/bin/bash" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

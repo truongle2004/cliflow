@@ -1,0 +1,12 @@
+id = "view-lambda-logs"
+namespace = "aws"
+title = "Tail Lambda logs"
+description = "Tails CloudWatch logs for a Lambda function log group."
+example = "aws logs tail /aws/lambda/app-handler --follow --profile production"
+command = "aws logs tail /aws/lambda/{function} --follow --profile {profile}"
+tags = ["aws", "lambda", "logs", "cloudwatch"]
+danger = "low"
+args = [
+  { name = "function", prompt = "Lambda function name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]
