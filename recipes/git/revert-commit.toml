@@ -1,0 +1,10 @@
+id = "revert-commit"
+namespace = "git"
+title = "Revert a shared commit safely"
+description = "Creates a new commit that reverses a pushed or shared commit without rewriting history."
+command = "git revert {commit}"
+tags = ["git", "revert", "undo", "history"]
+danger = "medium"
+args = [
+  { name = "commit", prompt = "Commit hash to revert" }
+]

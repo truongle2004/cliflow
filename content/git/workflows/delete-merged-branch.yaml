@@ -1,0 +1,28 @@
+id: delete-merged-branch
+title: Delete a merged local branch
+description: Delete a local branch only if Git considers it merged.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: branches
+  name: Branches
+  description: Commands that create, inspect, or clean up branches.
+risk: medium
+tags:
+  - git
+  - branch
+  - delete
+  - cleanup
+steps:
+  - id: branch-delete
+    title: Delete merged branch
+    description: Replace feature/x with the branch name to delete.
+    command:
+      program: git
+      args:
+        - branch
+        - -d
+        - feature/x
+    risk: medium

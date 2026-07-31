@@ -1,0 +1,8 @@
+id = "stage-interactively"
+namespace = "git"
+title = "Stage changes interactively"
+description = "Stages changes hunk by hunk so each commit can stay focused and logical."
+command = "git add -p"
+tags = ["git", "stage", "add", "interactive"]
+danger = "low"
+args = []

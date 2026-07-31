@@ -1,0 +1,8 @@
+id = "prune-remote-branches"
+namespace = "git"
+title = "Prune stale remote branches"
+description = "Removes local references to remote branches that no longer exist on the remote."
+command = "git fetch -p"
+tags = ["git", "fetch", "prune", "cleanup"]
+danger = "low"
+args = []

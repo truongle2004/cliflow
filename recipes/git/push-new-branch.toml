@@ -1,0 +1,10 @@
+id = "push-new-branch"
+namespace = "git"
+title = "Push a new branch upstream"
+description = "Pushes a feature branch for the first time and sets the upstream remote."
+command = "git push -u origin {branch}"
+tags = ["git", "push", "branch", "upstream"]
+danger = "low"
+args = [
+  { name = "branch", prompt = "Branch name" }
+]

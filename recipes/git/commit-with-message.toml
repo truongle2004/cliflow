@@ -1,0 +1,10 @@
+id = "commit-with-message"
+namespace = "git"
+title = "Commit with a conventional message"
+description = "Creates a commit using a short conventional message such as feat, fix, refactor, docs, chore, or test."
+command = "git commit -m {message}"
+tags = ["git", "commit", "conventional", "message"]
+danger = "low"
+args = [
+  { name = "message", prompt = "Commit message", default = "feat: short description" }
+]
