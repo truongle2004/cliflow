@@ -1,0 +1,14 @@
+id = "deploy-stack"
+namespace = "aws"
+title = "Deploy a CloudFormation stack"
+description = "Creates or updates a CloudFormation stack from a template file."
+example = "aws cloudformation deploy --stack-name app-prod --template-file template.yml --capabilities CAPABILITY_NAMED_IAM --profile production"
+command = "aws cloudformation deploy --stack-name {stack} --template-file {template_file} --capabilities {capabilities} --profile {profile}"
+tags = ["aws", "cloudformation", "stack", "deploy"]
+danger = "medium"
+args = [
+  { name = "stack", prompt = "Stack name" },
+  { name = "template_file", prompt = "Template file path" },
+  { name = "capabilities", prompt = "Capabilities", default = "CAPABILITY_NAMED_IAM" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

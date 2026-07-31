@@ -1,0 +1,14 @@
+id = "open-security-group-port"
+namespace = "aws"
+title = "Open a security group port"
+description = "Adds an inbound TCP rule to a security group for a CIDR range."
+example = "aws ec2 authorize-security-group-ingress --group-id sg-123 --protocol tcp --port 443 --cidr 0.0.0.0/0 --profile production"
+command = "aws ec2 authorize-security-group-ingress --group-id {group_id} --protocol tcp --port {port} --cidr {cidr} --profile {profile}"
+tags = ["aws", "ec2", "security-groups", "ingress"]
+danger = "high"
+args = [
+  { name = "group_id", prompt = "Security group ID" },
+  { name = "port", prompt = "TCP port" },
+  { name = "cidr", prompt = "CIDR range", default = "0.0.0.0/0" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

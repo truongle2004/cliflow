@@ -1,0 +1,13 @@
+id = "remove-s3-object"
+namespace = "aws"
+title = "Delete an S3 object"
+description = "Deletes a specific object from an S3 bucket."
+example = "aws s3 rm s3://my-bucket/app.zip --profile production"
+command = "aws s3 rm s3://{bucket}/{key} --profile {profile}"
+tags = ["aws", "s3", "delete", "object"]
+danger = "high"
+args = [
+  { name = "bucket", prompt = "Bucket name" },
+  { name = "key", prompt = "Object key" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

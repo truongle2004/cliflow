@@ -1,0 +1,12 @@
+id = "stop-ec2-instance"
+namespace = "aws"
+title = "Stop an EC2 instance"
+description = "Stops a running EC2 instance."
+example = "aws ec2 stop-instances --instance-ids i-0123456789abcdef0 --profile production"
+command = "aws ec2 stop-instances --instance-ids {instance_id} --profile {profile}"
+tags = ["aws", "ec2", "instance", "stop"]
+danger = "medium"
+args = [
+  { name = "instance_id", prompt = "EC2 instance ID" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

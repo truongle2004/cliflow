@@ -1,0 +1,12 @@
+id = "list-ecs-services"
+namespace = "aws"
+title = "List ECS services"
+description = "Lists services running in an ECS cluster."
+example = "aws ecs list-services --cluster app-cluster --profile production"
+command = "aws ecs list-services --cluster {cluster} --profile {profile}"
+tags = ["aws", "ecs", "services", "list"]
+danger = "low"
+args = [
+  { name = "cluster", prompt = "ECS cluster name or ARN" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

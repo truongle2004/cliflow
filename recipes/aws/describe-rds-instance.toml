@@ -1,0 +1,12 @@
+id = "describe-rds-instance"
+namespace = "aws"
+title = "Describe an RDS instance"
+description = "Shows details for a specific RDS database instance."
+example = "aws rds describe-db-instances --db-instance-identifier app-db --profile production"
+command = "aws rds describe-db-instances --db-instance-identifier {db_instance} --profile {profile}"
+tags = ["aws", "rds", "database", "describe"]
+danger = "low"
+args = [
+  { name = "db_instance", prompt = "DB instance identifier" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

@@ -1,0 +1,12 @@
+id = "delete-stack"
+namespace = "aws"
+title = "Delete a CloudFormation stack"
+description = "Tears down a CloudFormation stack."
+example = "aws cloudformation delete-stack --stack-name app-prod --profile production"
+command = "aws cloudformation delete-stack --stack-name {stack} --profile {profile}"
+tags = ["aws", "cloudformation", "stack", "delete"]
+danger = "high"
+args = [
+  { name = "stack", prompt = "Stack name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

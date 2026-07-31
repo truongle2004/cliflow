@@ -1,0 +1,11 @@
+id = "list-lambda-functions"
+namespace = "aws"
+title = "List Lambda functions"
+description = "Lists AWS Lambda functions."
+example = "aws lambda list-functions --profile production"
+command = "aws lambda list-functions --profile {profile}"
+tags = ["aws", "lambda", "functions", "list"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

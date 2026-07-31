@@ -1,0 +1,11 @@
+id = "list-vpcs"
+namespace = "aws"
+title = "List VPCs"
+description = "Lists VPCs in the selected AWS account and region."
+example = "aws ec2 describe-vpcs --profile production"
+command = "aws ec2 describe-vpcs --profile {profile}"
+tags = ["aws", "ec2", "vpc", "network"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

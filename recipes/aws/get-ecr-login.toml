@@ -1,0 +1,13 @@
+id = "get-ecr-login"
+namespace = "aws"
+title = "Authenticate Docker to ECR"
+description = "Logs Docker in to an ECR registry using an AWS CLI password token."
+example = "aws ecr get-login-password --region us-east-1 --profile production | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com"
+command = "aws ecr get-login-password --region {region} --profile {profile} | docker login --username AWS --password-stdin {registry}"
+tags = ["aws", "ecr", "docker", "login"]
+danger = "low"
+args = [
+  { name = "region", prompt = "AWS region", default = "us-east-1" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" },
+  { name = "registry", prompt = "ECR registry host" }
+]

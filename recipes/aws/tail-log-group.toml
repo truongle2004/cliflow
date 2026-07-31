@@ -1,0 +1,12 @@
+id = "tail-log-group"
+namespace = "aws"
+title = "Tail a CloudWatch log group"
+description = "Follows live events from a CloudWatch Logs log group."
+example = "aws logs tail /aws/lambda/app-handler --follow --profile production"
+command = "aws logs tail {log_group} --follow --profile {profile}"
+tags = ["aws", "cloudwatch", "logs", "tail"]
+danger = "low"
+args = [
+  { name = "log_group", prompt = "Log group name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

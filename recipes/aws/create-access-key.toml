@@ -1,0 +1,12 @@
+id = "create-access-key"
+namespace = "aws"
+title = "Create an IAM access key"
+description = "Generates a new access key for an IAM user."
+example = "aws iam create-access-key --user-name alice --profile production"
+command = "aws iam create-access-key --user-name {user} --profile {profile}"
+tags = ["aws", "iam", "access-keys", "create"]
+danger = "high"
+args = [
+  { name = "user", prompt = "IAM user name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

@@ -1,0 +1,13 @@
+id = "copy-file-from-s3"
+namespace = "aws"
+title = "Download a file from S3"
+description = "Downloads a single object from S3 to a local path."
+example = "aws s3 cp s3://my-bucket/app.zip ./app.zip --profile production"
+command = "aws s3 cp {source} {file} --profile {profile}"
+tags = ["aws", "s3", "download", "file"]
+danger = "low"
+args = [
+  { name = "source", prompt = "Source S3 URI" },
+  { name = "file", prompt = "Local destination path" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

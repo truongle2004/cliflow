@@ -1,0 +1,13 @@
+id = "update-lambda-code"
+namespace = "aws"
+title = "Update Lambda function code"
+description = "Deploys a local ZIP file as code for an existing Lambda function."
+example = "aws lambda update-function-code --function-name app-handler --zip-file fileb://function.zip --profile production"
+command = "aws lambda update-function-code --function-name {function} --zip-file fileb://{zip_file} --profile {profile}"
+tags = ["aws", "lambda", "deploy", "code"]
+danger = "medium"
+args = [
+  { name = "function", prompt = "Lambda function name" },
+  { name = "zip_file", prompt = "ZIP file path" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

@@ -1,0 +1,11 @@
+id = "list-iam-roles"
+namespace = "aws"
+title = "List IAM roles"
+description = "Lists IAM roles in the AWS account."
+example = "aws iam list-roles --profile production"
+command = "aws iam list-roles --profile {profile}"
+tags = ["aws", "iam", "roles", "list"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

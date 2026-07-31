@@ -1,0 +1,13 @@
+id = "ssh-into-instance"
+namespace = "aws"
+title = "SSH into an EC2 instance"
+description = "Connects to an EC2 instance over SSH using a key file and host."
+example = "ssh -i ~/.ssh/app.pem ec2-user@203.0.113.10"
+command = "ssh -i {key_file} {user}@{host}"
+tags = ["aws", "ec2", "ssh", "instance"]
+danger = "low"
+args = [
+  { name = "key_file", prompt = "SSH private key file" },
+  { name = "user", prompt = "SSH username", default = "ec2-user" },
+  { name = "host", prompt = "Instance public DNS or IP" }
+]

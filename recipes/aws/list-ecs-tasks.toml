@@ -1,0 +1,13 @@
+id = "list-ecs-tasks"
+namespace = "aws"
+title = "List ECS tasks"
+description = "Lists running tasks for an ECS service."
+example = "aws ecs list-tasks --cluster app-cluster --service-name api --profile production"
+command = "aws ecs list-tasks --cluster {cluster} --service-name {service} --profile {profile}"
+tags = ["aws", "ecs", "tasks", "list"]
+danger = "low"
+args = [
+  { name = "cluster", prompt = "ECS cluster name or ARN" },
+  { name = "service", prompt = "ECS service name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

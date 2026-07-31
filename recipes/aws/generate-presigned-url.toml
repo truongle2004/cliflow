@@ -1,0 +1,14 @@
+id = "generate-presigned-url"
+namespace = "aws"
+title = "Generate an S3 presigned URL"
+description = "Creates a temporary shareable URL for a private S3 object."
+example = "aws s3 presign s3://my-bucket/app.zip --expires-in 3600 --profile production"
+command = "aws s3 presign s3://{bucket}/{key} --expires-in {seconds} --profile {profile}"
+tags = ["aws", "s3", "presign", "share"]
+danger = "medium"
+args = [
+  { name = "bucket", prompt = "Bucket name" },
+  { name = "key", prompt = "Object key" },
+  { name = "seconds", prompt = "Expiration seconds", default = "3600" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

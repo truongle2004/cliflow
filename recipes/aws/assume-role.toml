@@ -1,0 +1,13 @@
+id = "assume-role"
+namespace = "aws"
+title = "Assume an IAM role"
+description = "Assumes an IAM role and returns temporary security credentials."
+example = "aws sts assume-role --role-arn arn:aws:iam::123456789012:role/Admin --role-session-name dev-session --profile production"
+command = "aws sts assume-role --role-arn {role_arn} --role-session-name {session_name} --profile {profile}"
+tags = ["aws", "sts", "iam", "assume-role"]
+danger = "medium"
+args = [
+  { name = "role_arn", prompt = "Role ARN" },
+  { name = "session_name", prompt = "Session name", default = "lazycmds-session" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

@@ -1,0 +1,12 @@
+id = "describe-stack"
+namespace = "aws"
+title = "Describe a CloudFormation stack"
+description = "Shows details and status for a specific CloudFormation stack."
+example = "aws cloudformation describe-stacks --stack-name app-prod --profile production"
+command = "aws cloudformation describe-stacks --stack-name {stack} --profile {profile}"
+tags = ["aws", "cloudformation", "stack", "describe"]
+danger = "low"
+args = [
+  { name = "stack", prompt = "Stack name" },
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

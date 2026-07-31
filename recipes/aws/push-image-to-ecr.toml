@@ -1,0 +1,13 @@
+id = "push-image-to-ecr"
+namespace = "aws"
+title = "Push an image to ECR"
+description = "Tags a local image for an ECR repository and pushes it."
+example = "docker tag app:latest 123456789012.dkr.ecr.us-east-1.amazonaws.com/app:latest && docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/app:latest"
+command = "docker tag {image} {repository_uri}:{tag} && docker push {repository_uri}:{tag}"
+tags = ["aws", "ecr", "docker", "push"]
+danger = "medium"
+args = [
+  { name = "image", prompt = "Local image" },
+  { name = "repository_uri", prompt = "ECR repository URI" },
+  { name = "tag", prompt = "Image tag", default = "latest" }
+]

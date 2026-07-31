@@ -1,0 +1,11 @@
+id = "get-current-region"
+namespace = "aws"
+title = "Show current AWS region"
+description = "Shows the configured region for an AWS CLI profile."
+example = "aws configure get region --profile production"
+command = "aws configure get region --profile {profile}"
+tags = ["aws", "region", "profile", "config"]
+danger = "low"
+args = [
+  { name = "profile", prompt = "AWS profile to use", default = "default" }
+]

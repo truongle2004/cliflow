@@ -1,0 +1,9 @@
+id = "list-profiles"
+namespace = "aws"
+title = "List AWS CLI profiles"
+description = "Lists configured local AWS CLI profiles."
+example = "aws configure list-profiles"
+command = "aws configure list-profiles"
+tags = ["aws", "profile", "config", "list"]
+danger = "low"
+args = []
