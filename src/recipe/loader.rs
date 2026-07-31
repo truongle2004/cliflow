@@ -55,5 +55,5 @@ fn load_filesystem_recipes(root: &Path) -> Result<Vec<Recipe>> {
 }
 
 fn user_recipe_dir() -> Option<PathBuf> {
-    dirs::config_dir().map(|path| path.join("cliflow").join("recipes"))
+    dirs::config_dir().map(|path| path.join("lazycmds").join("recipes"))
 }

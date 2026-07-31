@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cliflow.local/schemas/workflow.schema.json",
+  "$id": "https://lazycmds.local/schemas/workflow.schema.json",
   "title": "Workflow",
   "type": "object",
   "additionalProperties": false,
