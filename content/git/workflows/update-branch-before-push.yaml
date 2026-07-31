@@ -1,0 +1,66 @@
+id: update-branch-before-push
+title: Update branch with latest main before pushing
+description: You are mid-work on a branch and need to replay your commits on top of the latest main before pushing.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: medium
+tags:
+  - git
+  - rebase
+  - main
+  - push
+  - force-with-lease
+  - workflow
+steps:
+  - id: stage-current-work
+    title: Stage current work
+    description: Save the current state before rebasing.
+    command:
+      program: git
+      args:
+        - add
+        - .
+    risk: low
+  - id: commit-wip
+    title: Commit current work
+    description: Create a checkpoint commit before updating the branch.
+    command:
+      program: git
+      args:
+        - commit
+        - -m
+        - "wip: partial feature"
+    risk: low
+  - id: fetch-origin
+    title: Fetch latest remote state
+    description: Download origin/main without merging it.
+    command:
+      program: git
+      args:
+        - fetch
+        - origin
+    risk: low
+  - id: rebase-origin-main
+    title: Rebase on origin/main
+    description: Replay your branch commits on top of the latest main.
+    command:
+      program: git
+      args:
+        - rebase
+        - origin/main
+    risk: medium
+  - id: push-with-lease
+    title: Push after rebase
+    description: Rebase rewrites commit history, so use --force-with-lease instead of plain --force.
+    command:
+      program: git
+      args:
+        - push
+        - --force-with-lease
+    risk: medium

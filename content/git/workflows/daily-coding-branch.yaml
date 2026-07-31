@@ -1,0 +1,160 @@
+id: daily-coding-branch
+title: Full feature branch lifecycle
+description: Full day-one-to-done feature flow for a real project, from latest main to branch work, commits, pushes, merge, and cleanup.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: medium
+tags:
+  - git
+  - daily
+  - branch
+  - commit
+  - push
+  - workflow
+steps:
+  - id: checkout-main
+    title: Switch to main
+    description: Start from the integration branch.
+    command:
+      program: git
+      args:
+        - checkout
+        - main
+    risk: low
+  - id: sync-main
+    title: Sync main
+    description: Pull the latest remote changes before branching.
+    command:
+      program: git
+      args:
+        - pull
+    risk: low
+  - id: create-branch
+    title: Create a feature branch
+    description: Start the task on a dedicated branch.
+    command:
+      program: git
+      args:
+        - switch
+        - -c
+        - feat/add-recipe-examples
+    risk: low
+  - id: stage-changes
+    title: Stage focused hunks
+    description: Stage only the changes that belong in the first commit.
+    command:
+      program: git
+      args:
+        - add
+        - -p
+    risk: low
+  - id: commit-changes
+    title: Commit staged work
+    description: Create the first feature commit.
+    command:
+      program: git
+      args:
+        - commit
+        - -m
+        - "feat: retry logic for failed payments"
+    risk: low
+  - id: push-first-time
+    title: Push branch first time
+    description: Create the remote branch and set upstream tracking.
+    command:
+      program: git
+      args:
+        - push
+        - -u
+        - origin
+        - feature/payment-retry
+    risk: low
+  - id: stage-more-changes
+    title: Stage later changes
+    description: For a small clean follow-up, staging all changes can be acceptable.
+    command:
+      program: git
+      args:
+        - add
+        - .
+    risk: low
+  - id: commit-tests
+    title: Commit tests
+    description: Add a follow-up commit for tests.
+    command:
+      program: git
+      args:
+        - commit
+        - -m
+        - "test: add retry unit tests"
+    risk: low
+  - id: push-followup
+    title: Push follow-up commits
+    description: Subsequent pushes do not need -u after upstream is set.
+    command:
+      program: git
+      args:
+        - push
+    risk: low
+  - id: checkout-main-for-merge
+    title: Return to main for merge
+    description: Switch back to main when the branch is ready to integrate.
+    command:
+      program: git
+      args:
+        - checkout
+        - main
+    risk: low
+  - id: update-main-before-merge
+    title: Update main before merge
+    description: Make sure main is current before merging.
+    command:
+      program: git
+      args:
+        - pull
+    risk: low
+  - id: merge-feature
+    title: Merge feature branch
+    description: Use --no-ff to keep a clear merge commit for the feature.
+    command:
+      program: git
+      args:
+        - merge
+        - --no-ff
+        - feature/payment-retry
+    risk: medium
+  - id: push-main
+    title: Push merged main
+    description: Publish the merge commit.
+    command:
+      program: git
+      args:
+        - push
+    risk: low
+  - id: cleanup-local-branch
+    title: Delete local branch
+    description: Remove the merged local branch.
+    command:
+      program: git
+      args:
+        - branch
+        - -d
+        - feature/payment-retry
+    risk: medium
+  - id: cleanup-remote-branch
+    title: Delete remote branch
+    description: Remove the remote feature branch after merge.
+    command:
+      program: git
+      args:
+        - push
+        - origin
+        - --delete
+        - feature/payment-retry
+    risk: medium

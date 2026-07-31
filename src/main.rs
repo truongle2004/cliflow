@@ -24,7 +24,8 @@ fn run(cli: Cli) -> Result<i32> {
 
     match cli.command {
         None | Some(Commands::Ui) => {
-            cliflow::tui::run(&registry)?;
+            let workflows = cliflow::infrastructure::embedded_loader::load_embedded_workflows()?;
+            cliflow::tui::run(&registry, &workflows)?;
             Ok(0)
         }
         Some(Commands::DebugWorkflows) => {

@@ -1,0 +1,117 @@
+id: git-cli-setup
+title: Git CLI setup defaults
+description: One-time Git CLI setup for identity, default branch, rebase pulls, editor, and useful aliases.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: setup
+  name: Setup
+  description: One-time tool configuration.
+risk: low
+tags:
+  - git
+  - setup
+  - config
+  - aliases
+steps:
+  - id: set-name
+    title: Set user name
+    description: Configure the author name for commits.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - user.name
+        - "Your Name"
+    risk: low
+  - id: set-email
+    title: Set user email
+    description: Configure the author email for commits.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - user.email
+        - you@example.com
+    risk: low
+  - id: default-main
+    title: Use main as default branch
+    description: New repositories start on main.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - init.defaultBranch
+        - main
+    risk: low
+  - id: pull-rebase
+    title: Rebase on pull by default
+    description: Keeps local history cleaner when pulling.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - pull.rebase
+        - "true"
+    risk: low
+  - id: set-editor
+    title: Set default editor
+    description: Configure the editor Git opens for commit messages and rebases.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - core.editor
+        - vim
+    risk: low
+  - id: alias-status
+    title: Add status alias
+    description: Adds git st.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - alias.st
+        - status
+    risk: low
+  - id: alias-checkout
+    title: Add checkout alias
+    description: Adds git co.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - alias.co
+        - checkout
+    risk: low
+  - id: alias-branch
+    title: Add branch alias
+    description: Adds git br.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - alias.br
+        - branch
+    risk: low
+  - id: alias-log-graph
+    title: Add graph log alias
+    description: Adds git lg for visual history.
+    command:
+      program: git
+      args:
+        - config
+        - --global
+        - alias.lg
+        - "log --oneline --graph --decorate --all"
+    risk: low

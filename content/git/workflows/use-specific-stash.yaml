@@ -1,0 +1,67 @@
+id: use-specific-stash
+title: Apply a specific stash from a stack
+description: You have multiple stashes and need to inspect and apply the right one instead of blindly popping the latest.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: workflow
+  name: Workflow
+  description: Recommended daily development practices.
+risk: medium
+tags:
+  - git
+  - stash
+  - stack
+  - apply
+steps:
+  - id: list-stashes
+    title: List all stashes
+    description: See stash indexes and messages.
+    command:
+      program: git
+      args:
+        - stash
+        - list
+    risk: low
+  - id: preview-stash
+    title: Preview a stash diff
+    description: Inspect the stash before applying it.
+    command:
+      program: git
+      args:
+        - stash
+        - show
+        - -p
+        - stash@{1}
+    risk: low
+  - id: apply-stash
+    title: Apply specific stash
+    description: Apply the selected stash without deleting it yet.
+    command:
+      program: git
+      args:
+        - stash
+        - apply
+        - stash@{1}
+    risk: low
+  - id: drop-stash
+    title: Drop confirmed stash
+    description: Remove the selected stash after verifying the result.
+    command:
+      program: git
+      args:
+        - stash
+        - drop
+        - stash@{1}
+    risk: medium
+  - id: clear-stashes
+    title: Clear all stashes
+    description: Deletes every stash. Use only when you are certain nothing is needed.
+    command:
+      program: git
+      args:
+        - stash
+        - clear
+    risk: high

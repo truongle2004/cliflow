@@ -1,0 +1,50 @@
+id: submodule-basics
+title: Manage Git submodules
+description: Add and update nested repositories when a project depends on external repos directly.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: scale
+  name: Scale
+  description: Workflows useful as projects and teams grow.
+risk: medium
+tags:
+  - git
+  - submodule
+  - dependencies
+  - scale
+steps:
+  - id: add-submodule
+    title: Add submodule
+    description: Add an external repository at a path.
+    command:
+      program: git
+      args:
+        - submodule
+        - add
+        - <url>
+        - path/
+    risk: medium
+  - id: init-submodules
+    title: Initialize submodules
+    description: Clone and checkout submodule contents after cloning a repo.
+    command:
+      program: git
+      args:
+        - submodule
+        - update
+        - --init
+        - --recursive
+    risk: low
+  - id: update-submodules
+    title: Update submodules from remote
+    description: Pull latest commits from submodule remotes.
+    command:
+      program: git
+      args:
+        - submodule
+        - update
+        - --remote
+    risk: medium

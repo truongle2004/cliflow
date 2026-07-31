@@ -1,0 +1,46 @@
+id: cherry-pick-fix
+title: Cherry-pick a fix across branches
+description: Apply one or more existing commits onto another branch, useful for release or hotfix branches.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: release
+  name: Release
+  description: Release and versioning workflows.
+risk: medium
+tags:
+  - git
+  - cherry-pick
+  - hotfix
+  - release
+steps:
+  - id: cherry-pick-one
+    title: Cherry-pick one commit
+    description: Apply a specific commit onto the current branch.
+    command:
+      program: git
+      args:
+        - cherry-pick
+        - <commit>
+    risk: medium
+  - id: cherry-pick-many
+    title: Cherry-pick multiple commits
+    description: Apply several commits in order.
+    command:
+      program: git
+      args:
+        - cherry-pick
+        - <commit1>
+        - <commit2>
+    risk: medium
+  - id: abort-cherry-pick
+    title: Abort on conflict
+    description: Bail out if the cherry-pick becomes messy.
+    command:
+      program: git
+      args:
+        - cherry-pick
+        - --abort
+    risk: low

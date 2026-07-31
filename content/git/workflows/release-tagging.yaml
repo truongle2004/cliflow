@@ -1,0 +1,69 @@
+id: release-tagging
+title: Release tagging workflow
+description: Create, push, list, and remove annotated version tags for releases.
+tool:
+  id: git
+  name: Git
+  description: Distributed version control system.
+category:
+  id: release
+  name: Release
+  description: Release and versioning workflows.
+risk: medium
+tags:
+  - git
+  - release
+  - tag
+  - version
+steps:
+  - id: create-tag
+    title: Create annotated tag
+    description: Prefer annotated tags for releases.
+    command:
+      program: git
+      args:
+        - tag
+        - -a
+        - v1.2.0
+        - -m
+        - "Release 1.2.0"
+    risk: low
+  - id: push-tag
+    title: Push tag
+    description: Tags do not push automatically with branch commits.
+    command:
+      program: git
+      args:
+        - push
+        - origin
+        - v1.2.0
+    risk: low
+  - id: list-tags
+    title: List tags
+    description: Inspect local tags.
+    command:
+      program: git
+      args:
+        - tag
+    risk: low
+  - id: delete-local-tag
+    title: Delete local tag
+    description: Remove a local tag if it was created incorrectly.
+    command:
+      program: git
+      args:
+        - tag
+        - -d
+        - v1.2.0
+    risk: medium
+  - id: delete-remote-tag
+    title: Delete remote tag
+    description: Remove a tag from the remote when needed.
+    command:
+      program: git
+      args:
+        - push
+        - origin
+        - --delete
+        - v1.2.0
+    risk: medium
