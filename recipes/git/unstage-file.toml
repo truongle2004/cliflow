@@ -1,0 +1,11 @@
+id = "unstage-file"
+namespace = "git"
+title = "Unstage a file"
+description = "Removes a file from the staging area while keeping the working tree changes."
+example = "git restore --staged src/main.rs"
+command = "git restore --staged {file}"
+tags = ["git", "stage", "unstage", "restore"]
+danger = "low"
+args = [
+  { name = "file", prompt = "File path" }
+]

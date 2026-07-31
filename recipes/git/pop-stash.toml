@@ -1,0 +1,9 @@
+id = "pop-stash"
+namespace = "git"
+title = "Pop the latest stash"
+description = "Applies the latest stash and removes it from the stash list."
+example = "git stash pop"
+command = "git stash pop"
+tags = ["git", "stash", "pop", "wip"]
+danger = "medium"
+args = []

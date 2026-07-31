@@ -1,0 +1,11 @@
+id = "drop-stash"
+namespace = "git"
+title = "Drop a stash"
+description = "Deletes a selected stash entry from the stash list."
+example = "git stash drop stash@{0}"
+command = "git stash drop {stash}"
+tags = ["git", "stash", "drop", "delete"]
+danger = "medium"
+args = [
+  { name = "stash", prompt = "Stash reference", default = "stash@{0}" }
+]

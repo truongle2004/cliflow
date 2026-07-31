@@ -1,0 +1,9 @@
+id = "amend-last-commit"
+namespace = "git"
+title = "Amend the last commit"
+description = "Updates the most recent commit with staged changes or a new commit message. Avoid amending shared commits."
+example = "git commit --amend"
+command = "git commit --amend"
+tags = ["git", "commit", "amend", "history"]
+danger = "medium"
+args = []

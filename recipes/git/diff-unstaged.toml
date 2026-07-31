@@ -1,0 +1,9 @@
+id = "diff-unstaged"
+namespace = "git"
+title = "Show unstaged diff"
+description = "Shows changes in the working tree that have not been staged."
+example = "git diff"
+command = "git diff"
+tags = ["git", "diff", "inspect"]
+danger = "low"
+args = []

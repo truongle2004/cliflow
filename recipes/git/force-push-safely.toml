@@ -1,0 +1,9 @@
+id = "force-push-safely"
+namespace = "git"
+title = "Force push safely"
+description = "Force-pushes the current branch using --force-with-lease to avoid overwriting remote work you do not have locally."
+example = "git push --force-with-lease"
+command = "git push --force-with-lease"
+tags = ["git", "push", "force", "lease"]
+danger = "high"
+args = []

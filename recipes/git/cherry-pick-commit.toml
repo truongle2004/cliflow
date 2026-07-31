@@ -1,0 +1,11 @@
+id = "cherry-pick-commit"
+namespace = "git"
+title = "Cherry-pick a commit"
+description = "Applies the changes from one commit onto the current branch."
+example = "git cherry-pick abc1234"
+command = "git cherry-pick {commit}"
+tags = ["git", "cherry-pick", "commit", "history"]
+danger = "medium"
+args = [
+  { name = "commit", prompt = "Commit hash or ref" }
+]

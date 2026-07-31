@@ -1,0 +1,12 @@
+id = "create-branch-from-stash"
+namespace = "git"
+title = "Create a branch from a stash"
+description = "Creates a new branch starting where a stash was made, applies the stash there, and drops it if successful."
+example = "git stash branch feat/from-stash stash@{0}"
+command = "git stash branch {branch} {stash}"
+tags = ["git", "stash", "branch", "context-switch"]
+danger = "medium"
+args = [
+  { name = "branch", prompt = "New branch name" },
+  { name = "stash", prompt = "Stash reference", default = "stash@{0}" }
+]

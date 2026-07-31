@@ -1,0 +1,9 @@
+id = "continue-rebase"
+namespace = "git"
+title = "Continue an in-progress rebase"
+description = "Continues a rebase after conflicts have been resolved and staged."
+example = "git rebase --continue"
+command = "git rebase --continue"
+tags = ["git", "rebase", "continue", "conflict"]
+danger = "medium"
+args = []

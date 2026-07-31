@@ -1,0 +1,9 @@
+id = "diff-staged"
+namespace = "git"
+title = "Show staged diff"
+description = "Shows changes currently staged for the next commit."
+example = "git diff --staged"
+command = "git diff --staged"
+tags = ["git", "diff", "staged", "inspect"]
+danger = "low"
+args = []

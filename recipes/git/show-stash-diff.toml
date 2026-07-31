@@ -1,0 +1,11 @@
+id = "show-stash-diff"
+namespace = "git"
+title = "Show stash diff"
+description = "Shows the patch contained in a selected stash entry."
+example = "git stash show -p stash@{0}"
+command = "git stash show -p {stash}"
+tags = ["git", "stash", "diff", "patch"]
+danger = "low"
+args = [
+  { name = "stash", prompt = "Stash reference", default = "stash@{0}" }
+]

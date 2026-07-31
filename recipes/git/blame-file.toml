@@ -1,0 +1,11 @@
+id = "blame-file"
+namespace = "git"
+title = "Blame a file"
+description = "Shows line-by-line commit attribution for a file."
+example = "git blame src/main.rs"
+command = "git blame {file}"
+tags = ["git", "blame", "file", "inspect"]
+danger = "low"
+args = [
+  { name = "file", prompt = "File path" }
+]

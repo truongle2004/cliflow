@@ -1,0 +1,9 @@
+id = "abort-rebase"
+namespace = "git"
+title = "Abort an in-progress rebase"
+description = "Stops the current rebase and returns the branch to its pre-rebase state."
+example = "git rebase --abort"
+command = "git rebase --abort"
+tags = ["git", "rebase", "abort", "conflict"]
+danger = "medium"
+args = []

@@ -1,0 +1,11 @@
+id = "set-upstream-branch"
+namespace = "git"
+title = "Set upstream branch"
+description = "Connects the current local branch to a remote tracking branch on origin."
+example = "git branch --set-upstream-to=origin/feat/search-ui"
+command = "git branch --set-upstream-to=origin/{branch}"
+tags = ["git", "branch", "upstream", "remote"]
+danger = "low"
+args = [
+  { name = "branch", prompt = "Remote branch name" }
+]

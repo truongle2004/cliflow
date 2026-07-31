@@ -1,0 +1,11 @@
+id = "apply-stash-keep"
+namespace = "git"
+title = "Apply a stash without deleting it"
+description = "Applies a selected stash entry while keeping it available in the stash list."
+example = "git stash apply stash@{0}"
+command = "git stash apply {stash}"
+tags = ["git", "stash", "apply", "wip"]
+danger = "medium"
+args = [
+  { name = "stash", prompt = "Stash reference", default = "stash@{0}" }
+]

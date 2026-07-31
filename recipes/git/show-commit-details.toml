@@ -1,0 +1,11 @@
+id = "show-commit-details"
+namespace = "git"
+title = "Show commit details"
+description = "Displays metadata and patch details for a commit."
+example = "git show abc1234"
+command = "git show {commit}"
+tags = ["git", "commit", "show", "inspect"]
+danger = "low"
+args = [
+  { name = "commit", prompt = "Commit hash or ref" }
+]

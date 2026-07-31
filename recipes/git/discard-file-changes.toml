@@ -1,0 +1,11 @@
+id = "discard-file-changes"
+namespace = "git"
+title = "Discard file changes"
+description = "Restores a file from HEAD, permanently discarding local unstaged changes in that file."
+example = "git restore src/main.rs"
+command = "git restore {file}"
+tags = ["git", "restore", "discard", "file"]
+danger = "high"
+args = [
+  { name = "file", prompt = "File path" }
+]
