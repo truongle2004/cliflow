@@ -1,0 +1,12 @@
+id = "push-image"
+namespace = "docker"
+title = "Push a Docker image"
+description = "Uploads an image tag to a registry."
+example = "docker push registry.example.com/app:latest"
+command = "docker push {image}:{tag}"
+tags = ["docker", "image", "push", "registry"]
+danger = "medium"
+args = [
+  { name = "image", prompt = "Image name" },
+  { name = "tag", prompt = "Image tag", default = "latest" }
+]

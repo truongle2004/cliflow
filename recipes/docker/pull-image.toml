@@ -1,0 +1,12 @@
+id = "pull-image"
+namespace = "docker"
+title = "Pull a Docker image"
+description = "Downloads an image from a registry."
+example = "docker pull nginx:latest"
+command = "docker pull {image}:{tag}"
+tags = ["docker", "image", "pull", "registry"]
+danger = "low"
+args = [
+  { name = "image", prompt = "Image name", default = "nginx" },
+  { name = "tag", prompt = "Image tag", default = "latest" }
+]

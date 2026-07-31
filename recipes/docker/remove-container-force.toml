@@ -1,0 +1,11 @@
+id = "remove-container-force"
+namespace = "docker"
+title = "Force remove a container"
+description = "Stops and deletes a Docker container in one command."
+example = "docker rm -f api"
+command = "docker rm -f {container}"
+tags = ["docker", "container", "remove", "force"]
+danger = "high"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]

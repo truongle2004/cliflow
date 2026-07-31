@@ -1,0 +1,12 @@
+id = "build-image"
+namespace = "docker"
+title = "Build a Docker image"
+description = "Builds an image from the Dockerfile in the current directory."
+example = "docker build -t app:latest ."
+command = "docker build -t {name}:{tag} ."
+tags = ["docker", "image", "build"]
+danger = "low"
+args = [
+  { name = "name", prompt = "Image name" },
+  { name = "tag", prompt = "Image tag", default = "latest" }
+]

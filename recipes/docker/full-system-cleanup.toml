@@ -1,0 +1,9 @@
+id = "full-system-cleanup"
+namespace = "docker"
+title = "Remove all unused Docker data"
+description = "Deletes all unused containers, networks, images, build cache, and volumes after Docker confirmation."
+example = "docker system prune -a --volumes"
+command = "docker system prune -a --volumes"
+tags = ["docker", "cleanup", "system", "volumes"]
+danger = "high"
+args = []

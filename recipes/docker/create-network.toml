@@ -1,0 +1,11 @@
+id = "create-network"
+namespace = "docker"
+title = "Create a Docker network"
+description = "Creates a Docker network."
+example = "docker network create app-net"
+command = "docker network create {name}"
+tags = ["docker", "network", "create"]
+danger = "low"
+args = [
+  { name = "name", prompt = "Network name" }
+]

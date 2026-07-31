@@ -1,0 +1,9 @@
+id = "list-networks"
+namespace = "docker"
+title = "List Docker networks"
+description = "Shows Docker networks available locally."
+example = "docker network ls"
+command = "docker network ls"
+tags = ["docker", "networks", "list"]
+danger = "low"
+args = []

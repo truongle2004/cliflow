@@ -1,0 +1,12 @@
+id = "view-container-ip"
+namespace = "docker"
+title = "View container IP address"
+description = "Prints a container IP address using a Docker inspect format string."
+example = "docker inspect -f '{{.NetworkSettings.IPAddress}}' api"
+command = "docker inspect -f {format} {container}"
+tags = ["docker", "container", "ip", "inspect"]
+danger = "low"
+args = [
+  { name = "format", prompt = "Inspect format", default = "'{{.NetworkSettings.IPAddress}}'" },
+  { name = "container", prompt = "Container name or ID" }
+]

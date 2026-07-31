@@ -1,0 +1,11 @@
+id = "inspect-image"
+namespace = "docker"
+title = "Inspect a Docker image"
+description = "Displays low-level details for a Docker image."
+example = "docker inspect app:latest"
+command = "docker inspect {image}"
+tags = ["docker", "image", "inspect"]
+danger = "low"
+args = [
+  { name = "image", prompt = "Image name or ID" }
+]

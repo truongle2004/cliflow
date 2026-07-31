@@ -1,0 +1,11 @@
+id = "load-image-from-file"
+namespace = "docker"
+title = "Load an image from a tar file"
+description = "Imports a Docker image from a tar archive."
+example = "docker load -i app.tar"
+command = "docker load -i {file}"
+tags = ["docker", "image", "load", "archive"]
+danger = "low"
+args = [
+  { name = "file", prompt = "Input tar file", default = "image.tar" }
+]

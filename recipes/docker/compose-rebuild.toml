@@ -1,0 +1,9 @@
+id = "compose-rebuild"
+namespace = "docker"
+title = "Rebuild and start Docker Compose services"
+description = "Builds images and starts Docker Compose services in the background."
+example = "docker compose up -d --build"
+command = "docker compose up -d --build"
+tags = ["docker", "compose", "build", "services"]
+danger = "low"
+args = []

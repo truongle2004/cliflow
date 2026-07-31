@@ -1,0 +1,11 @@
+id = "exec-into-container"
+namespace = "docker"
+title = "Open a shell in a container"
+description = "Starts an interactive Bash shell inside a running container."
+example = "docker exec -it api /bin/bash"
+command = "docker exec -it {container} /bin/bash"
+tags = ["docker", "container", "exec", "shell"]
+danger = "low"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]

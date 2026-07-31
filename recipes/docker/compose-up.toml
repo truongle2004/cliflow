@@ -1,0 +1,9 @@
+id = "compose-up"
+namespace = "docker"
+title = "Start Docker Compose services"
+description = "Starts Docker Compose services in the background."
+example = "docker compose up -d"
+command = "docker compose up -d"
+tags = ["docker", "compose", "up", "services"]
+danger = "low"
+args = []

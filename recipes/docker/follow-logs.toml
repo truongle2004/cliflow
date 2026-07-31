@@ -1,0 +1,11 @@
+id = "follow-logs"
+namespace = "docker"
+title = "Follow container logs"
+description = "Streams logs from a Docker container."
+example = "docker logs -f api"
+command = "docker logs -f {container}"
+tags = ["docker", "logs", "container", "follow"]
+danger = "low"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]

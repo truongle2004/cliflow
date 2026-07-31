@@ -1,0 +1,9 @@
+id = "remove-unused-networks"
+namespace = "docker"
+title = "Remove unused networks"
+description = "Deletes unused Docker networks after Docker confirmation."
+example = "docker network prune"
+command = "docker network prune"
+tags = ["docker", "cleanup", "networks", "prune"]
+danger = "high"
+args = []

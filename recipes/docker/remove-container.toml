@@ -1,0 +1,11 @@
+id = "remove-container"
+namespace = "docker"
+title = "Remove a container"
+description = "Deletes a stopped Docker container."
+example = "docker rm api"
+command = "docker rm {container}"
+tags = ["docker", "container", "remove", "delete"]
+danger = "medium"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]

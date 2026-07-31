@@ -1,0 +1,11 @@
+id = "compose-restart-service"
+namespace = "docker"
+title = "Restart a Compose service"
+description = "Restarts one Docker Compose service."
+example = "docker compose restart api"
+command = "docker compose restart {service}"
+tags = ["docker", "compose", "restart", "service"]
+danger = "medium"
+args = [
+  { name = "service", prompt = "Compose service name" }
+]

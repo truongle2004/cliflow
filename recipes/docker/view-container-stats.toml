@@ -1,0 +1,9 @@
+id = "view-container-stats"
+namespace = "docker"
+title = "View live container stats"
+description = "Shows live CPU, memory, network, and I/O usage for containers."
+example = "docker stats"
+command = "docker stats"
+tags = ["docker", "container", "stats", "monitor"]
+danger = "low"
+args = []

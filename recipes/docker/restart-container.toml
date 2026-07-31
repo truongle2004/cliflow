@@ -1,0 +1,11 @@
+id = "restart-container"
+namespace = "docker"
+title = "Restart a container"
+description = "Restarts a running or stopped Docker container."
+example = "docker restart api"
+command = "docker restart {container}"
+tags = ["docker", "container", "restart"]
+danger = "medium"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]

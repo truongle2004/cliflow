@@ -1,0 +1,9 @@
+id = "remove-build-cache"
+namespace = "docker"
+title = "Remove build cache"
+description = "Deletes unused Docker build cache after Docker confirmation."
+example = "docker builder prune"
+command = "docker builder prune"
+tags = ["docker", "cleanup", "builder", "cache"]
+danger = "high"
+args = []

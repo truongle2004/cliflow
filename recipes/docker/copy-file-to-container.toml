@@ -1,0 +1,13 @@
+id = "copy-file-to-container"
+namespace = "docker"
+title = "Copy a file to a container"
+description = "Copies a local file or directory into a Docker container."
+example = "docker cp ./config.yml api:/app/config.yml"
+command = "docker cp {file} {container}:{path}"
+tags = ["docker", "container", "copy", "file"]
+danger = "medium"
+args = [
+  { name = "file", prompt = "Local file or directory" },
+  { name = "container", prompt = "Container name or ID" },
+  { name = "path", prompt = "Destination path in container" }
+]

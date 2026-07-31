@@ -1,0 +1,13 @@
+id = "copy-file-from-container"
+namespace = "docker"
+title = "Copy a file from a container"
+description = "Copies a file or directory from a Docker container to the local filesystem."
+example = "docker cp api:/app/logs ./logs"
+command = "docker cp {container}:{path} {file}"
+tags = ["docker", "container", "copy", "file"]
+danger = "low"
+args = [
+  { name = "container", prompt = "Container name or ID" },
+  { name = "path", prompt = "Source path in container" },
+  { name = "file", prompt = "Local destination path" }
+]

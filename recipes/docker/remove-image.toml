@@ -1,0 +1,11 @@
+id = "remove-image"
+namespace = "docker"
+title = "Remove a Docker image"
+description = "Deletes a local Docker image."
+example = "docker rmi app:latest"
+command = "docker rmi {image}"
+tags = ["docker", "image", "remove", "delete"]
+danger = "medium"
+args = [
+  { name = "image", prompt = "Image name or ID" }
+]

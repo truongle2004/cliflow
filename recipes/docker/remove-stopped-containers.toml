@@ -1,0 +1,9 @@
+id = "remove-stopped-containers"
+namespace = "docker"
+title = "Remove stopped containers"
+description = "Deletes all stopped containers after Docker confirmation."
+example = "docker container prune"
+command = "docker container prune"
+tags = ["docker", "cleanup", "containers", "prune"]
+danger = "high"
+args = []

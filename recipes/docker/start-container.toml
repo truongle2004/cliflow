@@ -1,0 +1,11 @@
+id = "start-container"
+namespace = "docker"
+title = "Start a container"
+description = "Starts an existing stopped Docker container."
+example = "docker start api"
+command = "docker start {container}"
+tags = ["docker", "container", "start"]
+danger = "low"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]
