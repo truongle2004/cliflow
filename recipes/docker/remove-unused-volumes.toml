@@ -1,0 +1,9 @@
+id = "remove-unused-volumes"
+namespace = "docker"
+title = "Remove unused volumes"
+description = "Deletes unused Docker volumes after Docker confirmation."
+example = "docker volume prune"
+command = "docker volume prune"
+tags = ["docker", "cleanup", "volumes", "prune"]
+danger = "high"
+args = []

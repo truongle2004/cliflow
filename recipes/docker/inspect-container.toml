@@ -1,0 +1,11 @@
+id = "inspect-container"
+namespace = "docker"
+title = "Inspect a container"
+description = "Displays low-level configuration and runtime details for a container."
+example = "docker inspect api"
+command = "docker inspect {container}"
+tags = ["docker", "container", "inspect"]
+danger = "low"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]

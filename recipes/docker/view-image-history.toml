@@ -1,0 +1,11 @@
+id = "view-image-history"
+namespace = "docker"
+title = "View image history"
+description = "Shows the layer history for a Docker image."
+example = "docker history app:latest"
+command = "docker history {image}"
+tags = ["docker", "image", "history", "layers"]
+danger = "low"
+args = [
+  { name = "image", prompt = "Image name or ID" }
+]

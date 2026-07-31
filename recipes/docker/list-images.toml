@@ -1,0 +1,9 @@
+id = "list-images"
+namespace = "docker"
+title = "List Docker images"
+description = "Shows Docker images available locally."
+example = "docker images"
+command = "docker images"
+tags = ["docker", "images", "list"]
+danger = "low"
+args = []

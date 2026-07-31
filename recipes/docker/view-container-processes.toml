@@ -1,0 +1,11 @@
+id = "view-container-processes"
+namespace = "docker"
+title = "View processes in a container"
+description = "Shows running processes inside a Docker container."
+example = "docker top api"
+command = "docker top {container}"
+tags = ["docker", "container", "processes", "top"]
+danger = "low"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]

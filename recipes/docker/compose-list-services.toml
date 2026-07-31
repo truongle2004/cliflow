@@ -1,0 +1,9 @@
+id = "compose-list-services"
+namespace = "docker"
+title = "List Docker Compose services"
+description = "Shows Docker Compose service containers and their status."
+example = "docker compose ps"
+command = "docker compose ps"
+tags = ["docker", "compose", "ps", "services"]
+danger = "low"
+args = []

@@ -1,0 +1,11 @@
+id = "inspect-network"
+namespace = "docker"
+title = "Inspect a Docker network"
+description = "Displays low-level details for a Docker network."
+example = "docker network inspect app-net"
+command = "docker network inspect {network}"
+tags = ["docker", "network", "inspect"]
+danger = "low"
+args = [
+  { name = "network", prompt = "Network name" }
+]

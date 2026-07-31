@@ -1,0 +1,11 @@
+id = "remove-volume"
+namespace = "docker"
+title = "Remove a Docker volume"
+description = "Deletes a Docker volume."
+example = "docker volume rm app-data"
+command = "docker volume rm {name}"
+tags = ["docker", "volume", "remove", "delete"]
+danger = "high"
+args = [
+  { name = "name", prompt = "Volume name" }
+]

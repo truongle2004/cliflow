@@ -1,0 +1,12 @@
+id = "save-image-to-file"
+namespace = "docker"
+title = "Save an image to a tar file"
+description = "Exports a Docker image to a tar archive."
+example = "docker save -o app.tar app:latest"
+command = "docker save -o {file} {image}"
+tags = ["docker", "image", "save", "archive"]
+danger = "low"
+args = [
+  { name = "file", prompt = "Output tar file", default = "image.tar" },
+  { name = "image", prompt = "Image name or ID" }
+]

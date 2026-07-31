@@ -1,0 +1,11 @@
+id = "inspect-volume"
+namespace = "docker"
+title = "Inspect a Docker volume"
+description = "Displays low-level details for a Docker volume."
+example = "docker volume inspect app-data"
+command = "docker volume inspect {name}"
+tags = ["docker", "volume", "inspect"]
+danger = "low"
+args = [
+  { name = "name", prompt = "Volume name" }
+]

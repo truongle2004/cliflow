@@ -1,0 +1,11 @@
+id = "login-registry"
+namespace = "docker"
+title = "Log in to a Docker registry"
+description = "Authenticates Docker with a container registry."
+example = "docker login registry.example.com"
+command = "docker login {registry}"
+tags = ["docker", "registry", "login", "auth"]
+danger = "low"
+args = [
+  { name = "registry", prompt = "Registry host", default = "registry.example.com" }
+]

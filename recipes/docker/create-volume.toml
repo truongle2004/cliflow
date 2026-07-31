@@ -1,0 +1,11 @@
+id = "create-volume"
+namespace = "docker"
+title = "Create a Docker volume"
+description = "Creates a named Docker volume."
+example = "docker volume create app-data"
+command = "docker volume create {name}"
+tags = ["docker", "volume", "create"]
+danger = "low"
+args = [
+  { name = "name", prompt = "Volume name" }
+]

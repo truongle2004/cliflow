@@ -1,0 +1,11 @@
+id = "compose-view-logs"
+namespace = "docker"
+title = "Follow Docker Compose service logs"
+description = "Streams logs for a Docker Compose service."
+example = "docker compose logs -f api"
+command = "docker compose logs -f {service}"
+tags = ["docker", "compose", "logs", "service"]
+danger = "low"
+args = [
+  { name = "service", prompt = "Compose service name" }
+]

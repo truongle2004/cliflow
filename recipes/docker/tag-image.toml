@@ -1,0 +1,12 @@
+id = "tag-image"
+namespace = "docker"
+title = "Tag a Docker image"
+description = "Creates a new tag pointing to an existing Docker image."
+example = "docker tag app:latest registry.example.com/app:latest"
+command = "docker tag {image} {new_tag}"
+tags = ["docker", "image", "tag"]
+danger = "low"
+args = [
+  { name = "image", prompt = "Source image" },
+  { name = "new_tag", prompt = "New image tag" }
+]

@@ -1,0 +1,12 @@
+id = "rename-container"
+namespace = "docker"
+title = "Rename a container"
+description = "Renames an existing Docker container."
+example = "docker rename old-api api"
+command = "docker rename {old_name} {new_name}"
+tags = ["docker", "container", "rename"]
+danger = "medium"
+args = [
+  { name = "old_name", prompt = "Current container name" },
+  { name = "new_name", prompt = "New container name" }
+]

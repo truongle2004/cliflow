@@ -1,0 +1,11 @@
+id = "stop-container"
+namespace = "docker"
+title = "Stop a container"
+description = "Stops a running Docker container."
+example = "docker stop api"
+command = "docker stop {container}"
+tags = ["docker", "container", "stop"]
+danger = "medium"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]

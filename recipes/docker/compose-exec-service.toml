@@ -1,0 +1,11 @@
+id = "compose-exec-service"
+namespace = "docker"
+title = "Open a shell in a Compose service"
+description = "Starts an interactive Bash shell inside a running Docker Compose service container."
+example = "docker compose exec api /bin/bash"
+command = "docker compose exec {service} /bin/bash"
+tags = ["docker", "compose", "exec", "shell"]
+danger = "low"
+args = [
+  { name = "service", prompt = "Compose service name" }
+]

@@ -1,0 +1,9 @@
+id = "list-volumes"
+namespace = "docker"
+title = "List Docker volumes"
+description = "Shows Docker volumes available locally."
+example = "docker volume ls"
+command = "docker volume ls"
+tags = ["docker", "volumes", "list"]
+danger = "low"
+args = []

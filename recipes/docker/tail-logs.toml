@@ -1,0 +1,11 @@
+id = "tail-logs"
+namespace = "docker"
+title = "Tail container logs"
+description = "Shows the last 100 log lines from a container."
+example = "docker logs --tail 100 api"
+command = "docker logs --tail 100 {container}"
+tags = ["docker", "logs", "container", "tail"]
+danger = "low"
+args = [
+  { name = "container", prompt = "Container name or ID" }
+]

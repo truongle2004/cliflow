@@ -1,0 +1,9 @@
+id = "compose-down"
+namespace = "docker"
+title = "Stop Docker Compose services"
+description = "Stops and removes Docker Compose containers and default networks."
+example = "docker compose down"
+command = "docker compose down"
+tags = ["docker", "compose", "down", "services"]
+danger = "medium"
+args = []

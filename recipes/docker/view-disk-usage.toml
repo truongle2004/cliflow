@@ -1,0 +1,9 @@
+id = "view-disk-usage"
+namespace = "docker"
+title = "View Docker disk usage"
+description = "Shows disk usage for Docker images, containers, volumes, and build cache."
+example = "docker system df"
+command = "docker system df"
+tags = ["docker", "disk", "usage", "system"]
+danger = "low"
+args = []

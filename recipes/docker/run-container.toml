@@ -1,0 +1,12 @@
+id = "run-container"
+namespace = "docker"
+title = "Run a container in the background"
+description = "Starts a detached container with a specific name from an image."
+example = "docker run -d --name api nginx:latest"
+command = "docker run -d --name {name} {image}"
+tags = ["docker", "container", "run", "detached"]
+danger = "low"
+args = [
+  { name = "name", prompt = "Container name" },
+  { name = "image", prompt = "Image name", default = "nginx:latest" }
+]

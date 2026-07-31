@@ -1,0 +1,12 @@
+id = "connect-container-to-network"
+namespace = "docker"
+title = "Connect a container to a network"
+description = "Connects an existing Docker container to a Docker network."
+example = "docker network connect app-net api"
+command = "docker network connect {network} {container}"
+tags = ["docker", "network", "container", "connect"]
+danger = "medium"
+args = [
+  { name = "network", prompt = "Network name" },
+  { name = "container", prompt = "Container name or ID" }
+]
