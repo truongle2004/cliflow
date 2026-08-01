@@ -30,11 +30,15 @@ mod tests {
     use super::load_content_workflows;
 
     #[test]
-    fn loads_git_workflow_from_content_tree() {
+    fn loads_workflows_from_content_tree() {
         let workflows = load_content_workflows("content").unwrap();
 
-        assert!(workflows.len() >= 12);
-        assert!(workflows.iter().all(|workflow| workflow.tool.id == "git"));
+        assert!(workflows.len() >= 18);
+        assert!(
+            workflows
+                .iter()
+                .all(|workflow| matches!(workflow.tool.id.as_str(), "git" | "linux"))
+        );
         assert!(
             workflows.iter().all(|workflow| workflow.steps.len() > 1),
             "workflow content should describe multi-step flows, not single CLI recipes"
@@ -53,6 +57,11 @@ mod tests {
             workflows
                 .iter()
                 .any(|workflow| workflow.id == "fix-commit-on-main")
+        );
+        assert!(
+            workflows
+                .iter()
+                .any(|workflow| workflow.id == "process-and-port-troubleshooting")
         );
     }
 }

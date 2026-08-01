@@ -1,0 +1,9 @@
+id = "change-file-owner"
+namespace = "linux"
+title = "Change file owner"
+description = "Change a file's user and group ownership."
+example = "chown user:group file"
+command = "chown {owner} {file}"
+tags = ["linux", "permissions", "chown"]
+danger = "high"
+args = [{ name = "owner", prompt = "User and group" }, { name = "file", prompt = "File path" }]

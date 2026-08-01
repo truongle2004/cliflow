@@ -1,0 +1,49 @@
+id: storage-maintenance
+title: Audit and reclaim disk space
+description: Find large files, inspect directory usage, archive logs, and identify risky filesystem conditions before cleanup.
+tool:
+  id: linux
+  name: Linux shell
+  description: Common GNU/Linux command-line tools.
+category:
+  id: maintenance
+  name: Maintenance
+  description: Inspect storage use and maintain log files.
+risk: high
+tags: [linux, disk, storage, logs, maintenance]
+steps:
+  - id: list-largest-files
+    title: Find the largest files
+    description: List the ten largest regular files under the current directory.
+    command:
+      program: sh
+      args: [-c, "find . -type f -exec du -h {} + | sort -rh | head -10"]
+    risk: low
+  - id: inspect-directory-usage
+    title: Inspect top-level usage
+    description: Compare disk use for top-level folders before deleting anything.
+    command:
+      program: sh
+      args: [-c, "du -h --max-depth=1 /var | sort -rh | head -10"]
+    risk: low
+  - id: find-broken-links
+    title: Find broken symlinks
+    description: Locate dangling symbolic links in the current tree.
+    command:
+      program: find
+      args: [., -xtype, l]
+    risk: low
+  - id: compress-old-logs
+    title: Compress old logs
+    description: Compress log files older than 30 days after verifying retention requirements.
+    command:
+      program: sh
+      args: [-c, "find /var/log -name '*.log' -mtime +30 -exec gzip {} \\;"]
+    risk: medium
+  - id: remove-expired-temp-files
+    title: Delete expired temporary files
+    description: Permanently remove files in /tmp older than seven days.
+    command:
+      program: find
+      args: [/tmp, -type, f, -mtime, "+7", -delete]
+    risk: high

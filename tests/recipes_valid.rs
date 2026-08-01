@@ -55,10 +55,11 @@ fn embedded_recipe_catalog_has_expected_counts() {
         *counts.entry(recipe.namespace.clone()).or_default() += 1;
     }
 
-    assert_eq!(recipes.len(), 155);
+    assert_eq!(recipes.len(), 176);
     assert_eq!(counts.get("aws"), Some(&59));
     assert_eq!(counts.get("docker"), Some(&52));
     assert_eq!(counts.get("git"), Some(&44));
+    assert_eq!(counts.get("linux"), Some(&21));
 }
 
 #[test]
@@ -126,6 +127,27 @@ fn embedded_aws_recipes_include_daily_operations() {
         "aws/get-current-region",
         "aws/get-cost-and-usage",
         "aws/list-cost-by-service",
+    ] {
+        assert!(keys.contains(key), "missing embedded recipe: {key}");
+    }
+}
+
+#[test]
+fn embedded_linux_recipes_include_daily_operations() {
+    let keys = load_embedded_recipes()
+        .expect("embedded recipes should load")
+        .into_iter()
+        .map(|recipe| recipe.key())
+        .collect::<BTreeSet<_>>();
+
+    for key in [
+        "linux/find-files-by-name",
+        "linux/search-text",
+        "linux/follow-log",
+        "linux/list-processes",
+        "linux/check-disk-usage",
+        "linux/create-tar-gz",
+        "linux/check-port",
     ] {
         assert!(keys.contains(key), "missing embedded recipe: {key}");
     }

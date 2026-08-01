@@ -1,0 +1,42 @@
+id: codebase-maintenance
+title: Search and maintain a codebase
+description: Search source files, inspect extension counts, then make scoped bulk changes after reviewing the matches.
+tool:
+  id: linux
+  name: Linux shell
+  description: Common GNU/Linux command-line tools.
+category:
+  id: development
+  name: Development
+  description: Maintain source trees from the command line.
+risk: high
+tags: [linux, codebase, grep, rename, replace]
+steps:
+  - id: search-todos
+    title: Find TODO comments
+    description: Search the source tree while excluding dependency and build directories.
+    command:
+      program: sh
+      args: [-c, "grep -rn 'TODO' . --exclude-dir={node_modules,.git,dist,build}"]
+    risk: low
+  - id: count-extensions
+    title: Count files by extension
+    description: Review file-type distribution before a broad rename or replacement.
+    command:
+      program: sh
+      args: [-c, "find . -type f | sed 's/.*\\.//' | sort | uniq -c | sort -rn"]
+    risk: low
+  - id: rename-jpeg-files
+    title: Rename JPEG files
+    description: Convert .jpeg suffixes to .jpg after reviewing the affected files.
+    command:
+      program: sh
+      args: [-c, "find . -name '*.jpeg' -exec bash -c 'mv \"$1\" \"${1%.jpeg}.jpg\"' _ {} \\;"]
+    risk: medium
+  - id: replace-text
+    title: Replace text in JavaScript files
+    description: Apply a scoped replacement only after inspecting the matching files.
+    command:
+      program: sh
+      args: [-c, "grep -rl 'old_string' . --include='*.js' | xargs sed -i 's/old_string/new_string/g'"]
+    risk: high

@@ -1,0 +1,9 @@
+id = "find-recent-files"
+namespace = "linux"
+title = "Find files modified recently"
+description = "Find files modified within the specified number of days."
+example = "find . -mtime -1"
+command = "find {path} -mtime {days}"
+tags = ["linux", "find", "modified"]
+danger = "low"
+args = [{ name = "path", prompt = "Search path", default = "." }, { name = "days", prompt = "Modified within days", default = "-1" }]

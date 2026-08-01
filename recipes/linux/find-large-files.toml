@@ -1,0 +1,9 @@
+id = "find-large-files"
+namespace = "linux"
+title = "Find large files"
+description = "Locate files larger than a given size."
+example = "find . -size +100M"
+command = "find {path} -size {size}"
+tags = ["linux", "find", "disk"]
+danger = "low"
+args = [{ name = "path", prompt = "Search path", default = "." }, { name = "size", prompt = "Minimum size", default = "+100M" }]

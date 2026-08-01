@@ -46,6 +46,7 @@ Recipe namespaces:
 - `git`
 - `docker`
 - `aws`
+- `linux`
 
 Git workflows include:
 
@@ -60,6 +61,9 @@ Git workflows include:
 - Cherry-picking fixes
 - Worktree hotfix flow
 - Submodules, Git LFS, and team history audit flows
+
+Linux workflows include log investigation, process and port troubleshooting, storage maintenance,
+codebase maintenance, resource audits, and file operations.
 
 ## Development
 

@@ -1,0 +1,9 @@
+id = "find-files-by-name"
+namespace = "linux"
+title = "Find files by name"
+description = "Recursively locate files matching a name pattern."
+example = "find . -name \"*.log\""
+command = "find {path} -name {pattern}"
+tags = ["linux", "find", "files"]
+danger = "low"
+args = [{ name = "path", prompt = "Search path", default = "." }, { name = "pattern", prompt = "File name pattern", default = "*.log" }]

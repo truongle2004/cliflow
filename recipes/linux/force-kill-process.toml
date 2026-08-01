@@ -1,0 +1,9 @@
+id = "force-kill-process"
+namespace = "linux"
+title = "Force kill a process"
+description = "Immediately terminate a process by PID."
+example = "kill -9 1234"
+command = "kill -9 {pid}"
+tags = ["linux", "process", "kill"]
+danger = "high"
+args = [{ name = "pid", prompt = "Process ID" }]

@@ -2,7 +2,10 @@ use crate::domain::workflow::Workflow;
 use crate::error::Result;
 use crate::recipe::{Danger, Recipe, Registry};
 use crate::search;
-use crossterm::event::{self, Event, KeyCode, KeyEventKind, KeyModifiers};
+use crossterm::event::{
+    self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEventKind, KeyModifiers,
+    MouseButton, MouseEvent, MouseEventKind,
+};
 use crossterm::execute;
 use crossterm::terminal::{
     EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode,
@@ -25,14 +28,18 @@ pub fn run(registry: &Registry, workflows: &[Workflow]) -> Result<()> {
 fn setup_terminal() -> Result<Terminal<CrosstermBackend<io::Stdout>>> {
     enable_raw_mode()?;
     let mut stdout = io::stdout();
-    execute!(stdout, EnterAlternateScreen)?;
+    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
     let backend = CrosstermBackend::new(stdout);
     Ok(Terminal::new(backend)?)
 }
 
 fn restore_terminal(terminal: &mut Terminal<CrosstermBackend<io::Stdout>>) -> Result<()> {
     disable_raw_mode()?;
-    execute!(terminal.backend_mut(), LeaveAlternateScreen)?;
+    execute!(
+        terminal.backend_mut(),
+        DisableMouseCapture,
+        LeaveAlternateScreen
+    )?;
     terminal.show_cursor()?;
     Ok(())
 }
@@ -46,6 +53,10 @@ struct App<'a> {
     selected_recipe: usize,
     selected_workflow: usize,
     detail_scroll: u16,
+    search_area: Rect,
+    recipe_area: Rect,
+    workflow_area: Rect,
+    detail_area: Rect,
 }
 
 #[derive(Clone, Copy, Eq, PartialEq)]
@@ -65,6 +76,10 @@ impl<'a> App<'a> {
             selected_recipe: 0,
             selected_workflow: 0,
             detail_scroll: 0,
+            search_area: Rect::default(),
+            recipe_area: Rect::default(),
+            workflow_area: Rect::default(),
+            detail_area: Rect::default(),
         }
     }
 
@@ -72,14 +87,14 @@ impl<'a> App<'a> {
         loop {
             terminal.draw(|frame| self.draw(frame))?;
 
-            if let Event::Key(key) = event::read()? {
-                if key.kind != KeyEventKind::Press {
-                    continue;
+            match event::read()? {
+                Event::Key(key) if key.kind == KeyEventKind::Press => {
+                    if self.handle_key(key.code, key.modifiers) {
+                        break;
+                    }
                 }
-
-                if self.handle_key(key.code, key.modifiers) {
-                    break;
-                }
+                Event::Mouse(mouse) => self.handle_mouse(mouse),
+                _ => {}
             }
         }
 
@@ -120,6 +135,41 @@ impl<'a> App<'a> {
         false
     }
 
+    fn handle_mouse(&mut self, mouse: MouseEvent) {
+        match mouse.kind {
+            MouseEventKind::Down(MouseButton::Left) if area_contains(self.search_area, &mouse) => {
+                self.searching = true;
+            }
+            MouseEventKind::Down(MouseButton::Left) if area_contains(self.recipe_area, &mouse) => {
+                self.searching = false;
+                self.active_pane = ActivePane::Recipes;
+                if let Some(index) = list_index(self.recipe_area, mouse.row)
+                    && index < self.visible_recipes().len()
+                {
+                    self.set_selection(index);
+                }
+            }
+            MouseEventKind::Down(MouseButton::Left)
+                if area_contains(self.workflow_area, &mouse) =>
+            {
+                self.searching = false;
+                self.active_pane = ActivePane::Workflows;
+                if let Some(index) = list_index(self.workflow_area, mouse.row)
+                    && index < self.visible_workflows().len()
+                {
+                    self.set_selection(index);
+                }
+            }
+            MouseEventKind::ScrollDown if area_contains(self.detail_area, &mouse) => {
+                self.scroll_details(3);
+            }
+            MouseEventKind::ScrollUp if area_contains(self.detail_area, &mouse) => {
+                self.scroll_details(-3);
+            }
+            _ => {}
+        }
+    }
+
     fn draw(&mut self, frame: &mut Frame<'_>) {
         let recipes = self.visible_recipes();
         let workflows = self.visible_workflows();
@@ -146,6 +196,11 @@ impl<'a> App<'a> {
             .direction(Direction::Vertical)
             .constraints([Constraint::Percentage(50), Constraint::Percentage(50)])
             .split(body[0]);
+
+        self.search_area = chunks[0];
+        self.recipe_area = lists[0];
+        self.workflow_area = lists[1];
+        self.detail_area = body[1];
 
         frame.render_widget(Clear, root);
         self.draw_search(frame, chunks[0]);
@@ -290,7 +345,7 @@ impl<'a> App<'a> {
 
     fn draw_help(&self, frame: &mut Frame<'_>, area: Rect, recipes: usize, workflows: usize) {
         let help = format!(
-            "{} recipe{} | {} workflow{} | /: search | j/k or Up/Down: select | Tab: switch pane | PgUp/PgDn: details | Enter: finish search | Esc/Ctrl-C: quit",
+            "{} recipe{} | {} workflow{} | /: search | j/k or Up/Down: select | Tab: switch pane | PgUp/PgDn: details | Mouse: select/scroll | Enter: finish search | Esc/Ctrl-C: quit",
             recipes,
             if recipes == 1 { "" } else { "s" },
             workflows,
@@ -385,6 +440,21 @@ impl<'a> App<'a> {
             self.detail_scroll = self.detail_scroll.saturating_add(delta as u16);
         }
     }
+}
+
+fn area_contains(area: Rect, mouse: &MouseEvent) -> bool {
+    mouse.column >= area.x
+        && mouse.column < area.x.saturating_add(area.width)
+        && mouse.row >= area.y
+        && mouse.row < area.y.saturating_add(area.height)
+}
+
+fn list_index(area: Rect, row: u16) -> Option<usize> {
+    let first_content_row = area.y.saturating_add(1);
+    let bottom_border_row = area.y.saturating_add(area.height).saturating_sub(1);
+
+    (row >= first_content_row && row < bottom_border_row)
+        .then_some(usize::from(row - first_content_row))
 }
 
 fn section_block(title: &'static str, active: bool) -> Block<'static> {
@@ -583,5 +653,40 @@ mod tests {
         app.handle_key(KeyCode::Enter, KeyModifiers::NONE);
         assert!(!app.searching);
         assert_eq!(app.query, "docke");
+    }
+
+    #[test]
+    fn mouse_selects_a_recipe_and_scrolls_details() {
+        let registry = Registry::new(vec![Recipe {
+            id: "list".to_string(),
+            namespace: "linux".to_string(),
+            title: "List files".to_string(),
+            description: String::new(),
+            example: "ls".to_string(),
+            command: "ls".to_string(),
+            tags: Vec::new(),
+            danger: Danger::Low,
+            args: Vec::new(),
+        }]);
+        let mut app = App::new(&registry, &[]);
+        app.recipe_area = Rect::new(0, 0, 20, 3);
+        app.detail_area = Rect::new(20, 0, 20, 10);
+
+        app.handle_mouse(MouseEvent {
+            kind: MouseEventKind::Down(MouseButton::Left),
+            column: 1,
+            row: 1,
+            modifiers: KeyModifiers::NONE,
+        });
+        assert!(matches!(app.active_pane, ActivePane::Recipes));
+        assert_eq!(app.selected_recipe, 0);
+
+        app.handle_mouse(MouseEvent {
+            kind: MouseEventKind::ScrollDown,
+            column: 21,
+            row: 1,
+            modifiers: KeyModifiers::NONE,
+        });
+        assert_eq!(app.detail_scroll, 3);
     }
 }

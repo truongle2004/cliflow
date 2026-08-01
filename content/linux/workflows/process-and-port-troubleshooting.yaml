@@ -1,0 +1,42 @@
+id: process-and-port-troubleshooting
+title: Diagnose and clear a busy port
+description: Identify the listener on a port, inspect system listeners, and terminate a blocking process only after confirming its PID.
+tool:
+  id: linux
+  name: Linux shell
+  description: Common GNU/Linux command-line tools.
+category:
+  id: troubleshooting
+  name: Troubleshooting
+  description: Diagnose running services and network listeners.
+risk: high
+tags: [linux, process, port, network, troubleshooting]
+steps:
+  - id: inspect-port
+    title: Inspect the port listener
+    description: Check which process owns the target port before taking action.
+    command:
+      program: lsof
+      args: [-i, ":8080"]
+    risk: low
+  - id: inspect-all-listeners
+    title: List listening ports
+    description: Review all TCP and UDP listeners with their process IDs.
+    command:
+      program: sh
+      args: [-c, "ss -tulnp | grep LISTEN"]
+    risk: low
+  - id: terminate-listener
+    title: Kill the confirmed listener
+    description: Replace the PID only after verifying it belongs to the unwanted process.
+    command:
+      program: kill
+      args: [-9, "<pid>"]
+    risk: high
+  - id: verify-remote-port
+    title: Check remote reachability
+    description: Confirm a deployment target accepts connections before deploying.
+    command:
+      program: sh
+      args: [-c, "nc -zv <host> <port> && echo reachable || echo unreachable"]
+    risk: low

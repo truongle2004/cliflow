@@ -1,0 +1,9 @@
+id = "make-executable"
+namespace = "linux"
+title = "Make a script executable"
+description = "Add executable permission to a script."
+example = "chmod +x script.sh"
+command = "chmod +x {file}"
+tags = ["linux", "permissions", "chmod"]
+danger = "medium"
+args = [{ name = "file", prompt = "Script path" }]

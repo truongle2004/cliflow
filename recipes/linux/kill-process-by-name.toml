@@ -1,0 +1,9 @@
+id = "kill-process-by-name"
+namespace = "linux"
+title = "Kill processes by name"
+description = "Terminate processes matching a name."
+example = "pkill node"
+command = "pkill {name}"
+tags = ["linux", "process", "kill"]
+danger = "high"
+args = [{ name = "name", prompt = "Process name" }]

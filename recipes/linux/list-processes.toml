@@ -1,0 +1,8 @@
+id = "list-processes"
+namespace = "linux"
+title = "List processes"
+description = "Show running processes with resource details."
+example = "ps aux"
+command = "ps aux"
+tags = ["linux", "process", "system"]
+danger = "low"
