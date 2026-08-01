@@ -53,6 +53,8 @@ struct App<'a> {
     selected_recipe: usize,
     selected_workflow: usize,
     detail_scroll: u16,
+    recipes_scroll: u16,
+    workflows_scroll: u16,
     search_area: Rect,
     recipe_area: Rect,
     workflow_area: Rect,
@@ -76,6 +78,8 @@ impl<'a> App<'a> {
             selected_recipe: 0,
             selected_workflow: 0,
             detail_scroll: 0,
+            recipes_scroll: 0,
+            workflows_scroll: 0,
             search_area: Rect::default(),
             recipe_area: Rect::default(),
             workflow_area: Rect::default(),
@@ -137,6 +141,18 @@ impl<'a> App<'a> {
 
     fn handle_mouse(&mut self, mouse: MouseEvent) {
         match mouse.kind {
+            MouseEventKind::ScrollDown if area_contains(self.recipe_area, &mouse) => {
+                self.scroll_recipes(3);
+            }
+            MouseEventKind::ScrollUp if area_contains(self.recipe_area, &mouse) => {
+                self.scroll_recipes(-3);
+            }
+            MouseEventKind::ScrollDown if area_contains(self.workflow_area, &mouse) => {
+                self.scroll_workflows(3);
+            }
+            MouseEventKind::ScrollUp if area_contains(self.workflow_area, &mouse) => {
+                self.scroll_workflows(-3);
+            }
             MouseEventKind::Down(MouseButton::Left) if area_contains(self.search_area, &mouse) => {
                 self.searching = true;
             }
@@ -144,9 +160,9 @@ impl<'a> App<'a> {
                 self.searching = false;
                 self.active_pane = ActivePane::Recipes;
                 if let Some(index) = list_index(self.recipe_area, mouse.row)
-                    && index < self.visible_recipes().len()
+                    && index + usize::from(self.recipes_scroll) < self.visible_recipes().len()
                 {
-                    self.set_selection(index);
+                    self.set_selection(index + usize::from(self.recipes_scroll));
                 }
             }
             MouseEventKind::Down(MouseButton::Left)
@@ -155,9 +171,9 @@ impl<'a> App<'a> {
                 self.searching = false;
                 self.active_pane = ActivePane::Workflows;
                 if let Some(index) = list_index(self.workflow_area, mouse.row)
-                    && index < self.visible_workflows().len()
+                    && index + usize::from(self.workflows_scroll) < self.visible_workflows().len()
                 {
-                    self.set_selection(index);
+                    self.set_selection(index + usize::from(self.workflows_scroll));
                 }
             }
             MouseEventKind::ScrollDown if area_contains(self.detail_area, &mouse) => {
@@ -238,7 +254,7 @@ impl<'a> App<'a> {
         );
     }
 
-    fn draw_recipe_list(&self, frame: &mut Frame<'_>, area: Rect, recipes: &[&Recipe]) {
+    fn draw_recipe_list(&mut self, frame: &mut Frame<'_>, area: Rect, recipes: &[&Recipe]) {
         let items = recipes
             .iter()
             .map(|recipe| {
@@ -250,7 +266,7 @@ impl<'a> App<'a> {
             })
             .collect::<Vec<_>>();
 
-        let mut state = ListState::default();
+        let mut state = ListState::default().with_offset(usize::from(self.recipes_scroll));
         if !items.is_empty() {
             state.select(Some(self.selected_recipe));
         }
@@ -271,9 +287,10 @@ impl<'a> App<'a> {
             area,
             &mut state,
         );
+        self.recipes_scroll = u16::try_from(state.offset()).unwrap_or(u16::MAX);
     }
 
-    fn draw_workflow_list(&self, frame: &mut Frame<'_>, area: Rect, workflows: &[&Workflow]) {
+    fn draw_workflow_list(&mut self, frame: &mut Frame<'_>, area: Rect, workflows: &[&Workflow]) {
         let items = workflows
             .iter()
             .map(|workflow| {
@@ -288,7 +305,7 @@ impl<'a> App<'a> {
             })
             .collect::<Vec<_>>();
 
-        let mut state = ListState::default();
+        let mut state = ListState::default().with_offset(usize::from(self.workflows_scroll));
         if !items.is_empty() {
             state.select(Some(self.selected_workflow));
         }
@@ -309,6 +326,7 @@ impl<'a> App<'a> {
             area,
             &mut state,
         );
+        self.workflows_scroll = u16::try_from(state.offset()).unwrap_or(u16::MAX);
     }
 
     fn draw_details(
@@ -438,6 +456,30 @@ impl<'a> App<'a> {
             self.detail_scroll = self.detail_scroll.saturating_sub(delta.unsigned_abs());
         } else {
             self.detail_scroll = self.detail_scroll.saturating_add(delta as u16);
+        }
+    }
+
+    fn scroll_recipes(&mut self, delta: i16) {
+        let len = self.visible_recipes().len();
+        if len > 0 {
+            self.active_pane = ActivePane::Recipes;
+            self.selected_recipe = self
+                .selected_recipe
+                .saturating_add_signed(isize::from(delta))
+                .min(len.saturating_sub(1));
+            self.detail_scroll = 0;
+        }
+    }
+
+    fn scroll_workflows(&mut self, delta: i16) {
+        let len = self.visible_workflows().len();
+        if len > 0 {
+            self.active_pane = ActivePane::Workflows;
+            self.selected_workflow = self
+                .selected_workflow
+                .saturating_add_signed(isize::from(delta))
+                .min(len.saturating_sub(1));
+            self.detail_scroll = 0;
         }
     }
 }
