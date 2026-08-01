@@ -52,7 +52,6 @@ fn mouse_selects_a_recipe_and_scrolls_details() {
     });
     assert_eq!(app.detail_scroll, 3);
 }
-
 #[test]
 fn mouse_scrolls_recipe_selection() {
     let registry = Registry::new(
@@ -133,4 +132,29 @@ fn mouse_scrolls_workflow_selection() {
         modifiers: KeyModifiers::NONE,
     });
     assert_eq!(app.selected_workflow, 0);
+}
+
+#[test]
+fn workflow_filter_matches_the_complete_substring() {
+    let workflow = Workflow {
+        id: "status".to_string(),
+        title: "Show repository status".to_string(),
+        description: String::new(),
+        tool: crate::domain::tool::Tool {
+            id: "git".to_string(),
+            name: "Git".to_string(),
+            description: String::new(),
+        },
+        category: crate::domain::category::Category {
+            id: "test".to_string(),
+            name: "Test".to_string(),
+            description: String::new(),
+        },
+        risk: crate::domain::risk::Risk::Low,
+        tags: Vec::new(),
+        steps: Vec::new(),
+    };
+
+    assert!(workflow_matches(&workflow, "REPOSITORY STAT"));
+    assert!(!workflow_matches(&workflow, "repository git"));
 }

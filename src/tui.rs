@@ -536,7 +536,7 @@ fn workflow_matches(workflow: &Workflow, query: &str) -> bool {
 
     let haystack = format!("{key} {title} {description} {tags} {steps}");
 
-    query.split_whitespace().all(|term| haystack.contains(term))
+    haystack.contains(&query)
 }
 
 fn recipe_lines(recipe: &Recipe) -> Vec<Line<'_>> {

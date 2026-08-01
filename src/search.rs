@@ -7,7 +7,7 @@ pub struct SearchResult<'a> {
 }
 
 pub fn search<'a>(recipes: impl Iterator<Item = &'a Recipe>, query: &str) -> Vec<SearchResult<'a>> {
-    let query = query.to_lowercase();
+    let query = query.trim().to_lowercase();
     let mut results = recipes
         .filter_map(|recipe| score(recipe, &query).map(|score| SearchResult { recipe, score }))
         .collect::<Vec<_>>();
@@ -33,6 +33,10 @@ fn score(recipe: &Recipe, query: &str) -> Option<usize> {
     let tags = recipe.tags.join(" ").to_lowercase();
     let haystack = format!("{key} {title} {description} {example} {tags}");
 
+    if !haystack.contains(query) {
+        return None;
+    }
+
     if key == query {
         return Some(1000);
     }
@@ -49,21 +53,44 @@ fn score(recipe: &Recipe, query: &str) -> Option<usize> {
         return Some(300 + query.len());
     }
 
-    fuzzy_score(&haystack, query)
+    Some(100 + query.len())
 }
 
-fn fuzzy_score(haystack: &str, query: &str) -> Option<usize> {
-    let mut score = 0;
-    let mut chars = haystack.chars();
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::recipe::Danger;
 
-    for needle in query.chars() {
-        for candidate in chars.by_ref() {
-            if candidate == needle {
-                score += 1;
-                break;
-            }
+    fn recipe() -> Recipe {
+        Recipe {
+            id: "status".to_string(),
+            namespace: "git".to_string(),
+            title: "Show repository status".to_string(),
+            description: String::new(),
+            example: "git status".to_string(),
+            command: "git status".to_string(),
+            tags: Vec::new(),
+            danger: Danger::Low,
+            args: Vec::new(),
         }
     }
 
-    (score == query.chars().count()).then_some(100 + score)
+    #[test]
+    fn matches_case_insensitive_substrings() {
+        let recipe = recipe();
+
+        let results = search(std::iter::once(&recipe), "REPOSITORY STAT");
+
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].recipe.key(), "git/status");
+    }
+
+    #[test]
+    fn excludes_non_contiguous_fuzzy_matches() {
+        let recipe = recipe();
+
+        let results = search(std::iter::once(&recipe), "gs");
+
+        assert!(results.is_empty());
+    }
 }
