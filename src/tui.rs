@@ -41,6 +41,7 @@ struct App<'a> {
     registry: &'a Registry,
     workflows: &'a [Workflow],
     query: String,
+    searching: bool,
     active_pane: ActivePane,
     selected_recipe: usize,
     selected_workflow: usize,
@@ -59,6 +60,7 @@ impl<'a> App<'a> {
             registry,
             workflows,
             query: String::new(),
+            searching: false,
             active_pane: ActivePane::Recipes,
             selected_recipe: 0,
             selected_workflow: 0,
@@ -75,30 +77,47 @@ impl<'a> App<'a> {
                     continue;
                 }
 
-                match key.code {
-                    KeyCode::Esc => break,
-                    KeyCode::Char('c') if key.modifiers == KeyModifiers::CONTROL => break,
-                    KeyCode::Backspace => {
-                        self.query.pop();
-                        self.reset_selection_for_query();
-                    }
-                    KeyCode::Char(char) => {
-                        self.query.push(char);
-                        self.reset_selection_for_query();
-                    }
-                    KeyCode::Tab => self.toggle_active_pane(),
-                    KeyCode::Down => self.move_selection(1),
-                    KeyCode::Up => self.move_selection(-1),
-                    KeyCode::Home => self.set_selection(0),
-                    KeyCode::End => self.move_selection(isize::MAX),
-                    KeyCode::PageDown => self.scroll_details(8),
-                    KeyCode::PageUp => self.scroll_details(-8),
-                    _ => {}
+                if self.handle_key(key.code, key.modifiers) {
+                    break;
                 }
             }
         }
 
         Ok(())
+    }
+
+    fn handle_key(&mut self, code: KeyCode, modifiers: KeyModifiers) -> bool {
+        match code {
+            KeyCode::Char('c') if modifiers == KeyModifiers::CONTROL => return true,
+            KeyCode::Esc if self.searching => {
+                self.query.clear();
+                self.searching = false;
+                self.reset_selection();
+            }
+            KeyCode::Esc => return true,
+            KeyCode::Char('/') if !self.searching => {
+                self.searching = true;
+            }
+            KeyCode::Enter if self.searching => self.searching = false,
+            KeyCode::Backspace if self.searching => {
+                self.query.pop();
+                self.reset_selection_for_query();
+            }
+            KeyCode::Char(char) if self.searching => {
+                self.query.push(char);
+                self.reset_selection_for_query();
+            }
+            KeyCode::Tab => self.toggle_active_pane(),
+            KeyCode::Down | KeyCode::Char('j') => self.move_selection(1),
+            KeyCode::Up | KeyCode::Char('k') => self.move_selection(-1),
+            KeyCode::Home => self.set_selection(0),
+            KeyCode::End => self.move_selection(isize::MAX),
+            KeyCode::PageDown => self.scroll_details(8),
+            KeyCode::PageUp => self.scroll_details(-8),
+            _ => {}
+        }
+
+        false
     }
 
     fn draw(&mut self, frame: &mut Frame<'_>) {
@@ -139,7 +158,11 @@ impl<'a> App<'a> {
     fn draw_search(&self, frame: &mut Frame<'_>, area: Rect) {
         let text = if self.query.is_empty() {
             Line::from(Span::styled(
-                "Type to search recipes and workflows...",
+                if self.searching {
+                    "Type to search recipes and workflows..."
+                } else {
+                    "Press / to search recipes and workflows..."
+                },
                 Style::default().fg(Color::DarkGray),
             ))
         } else {
@@ -147,7 +170,15 @@ impl<'a> App<'a> {
         };
 
         frame.render_widget(
-            Paragraph::new(text).block(Block::default().title("Search").borders(Borders::ALL)),
+            Paragraph::new(text).block(
+                Block::default()
+                    .title(if self.searching {
+                        "Search (active)"
+                    } else {
+                        "Search"
+                    })
+                    .borders(Borders::ALL),
+            ),
             area,
         );
     }
@@ -259,7 +290,7 @@ impl<'a> App<'a> {
 
     fn draw_help(&self, frame: &mut Frame<'_>, area: Rect, recipes: usize, workflows: usize) {
         let help = format!(
-            "{} recipe{} | {} workflow{} | Type: search | Tab: switch pane | Up/Down: select | PgUp/PgDn: details | Esc/Ctrl-C: quit",
+            "{} recipe{} | {} workflow{} | /: search | j/k or Up/Down: select | Tab: switch pane | PgUp/PgDn: details | Enter: finish search | Esc/Ctrl-C: quit",
             recipes,
             if recipes == 1 { "" } else { "s" },
             workflows,
@@ -529,5 +560,28 @@ fn danger_style(danger: Danger) -> Style {
         Danger::Low => Style::default().fg(Color::Green),
         Danger::Medium => Style::default().fg(Color::Yellow),
         Danger::High => Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn reentering_search_keeps_and_extends_the_previous_query() {
+        let registry = Registry::new(Vec::new());
+        let mut app = App::new(&registry, &[]);
+        app.query = "dock".to_string();
+
+        assert!(!app.handle_key(KeyCode::Char('/'), KeyModifiers::NONE));
+        assert!(app.searching);
+        assert_eq!(app.query, "dock");
+
+        app.handle_key(KeyCode::Char('e'), KeyModifiers::NONE);
+        assert_eq!(app.query, "docke");
+
+        app.handle_key(KeyCode::Enter, KeyModifiers::NONE);
+        assert!(!app.searching);
+        assert_eq!(app.query, "docke");
     }
 }
