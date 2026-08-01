@@ -1,0 +1,9 @@
+id = "list-files-by-time"
+namespace = "linux"
+title = "List files by modification time"
+description = "List directory contents with the newest items first."
+example = "ls -lt ./logs"
+command = "ls -lt {path}"
+tags = ["linux", "files", "list", "time"]
+danger = "low"
+args = [{ name = "path", prompt = "Directory path", default = "." }]

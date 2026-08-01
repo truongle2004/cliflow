@@ -1,0 +1,9 @@
+id = "list-running-services"
+namespace = "linux"
+title = "List running services"
+description = "Display active systemd services."
+example = "systemctl list-units --type=service --state=running"
+command = "systemctl list-units --type=service --state=running"
+tags = ["linux", "systemd", "service"]
+danger = "low"
+args = []

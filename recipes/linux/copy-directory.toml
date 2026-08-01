@@ -1,0 +1,9 @@
+id = "copy-directory"
+namespace = "linux"
+title = "Copy a directory recursively"
+description = "Copy a directory and its contents to another location."
+example = "cp -r ./config ./config-backup"
+command = "cp -r {source} {destination}"
+tags = ["linux", "directory", "copy"]
+danger = "medium"
+args = [{ name = "source", prompt = "Source directory", default = "./config" }, { name = "destination", prompt = "Destination directory", default = "./config-backup" }]

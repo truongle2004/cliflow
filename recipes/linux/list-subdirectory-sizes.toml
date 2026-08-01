@@ -1,0 +1,9 @@
+id = "list-subdirectory-sizes"
+namespace = "linux"
+title = "List top-level directory sizes"
+description = "Show the disk usage of immediate subdirectories."
+example = "du -sh */"
+command = "du -sh {path}*/"
+tags = ["linux", "disk", "directory", "usage"]
+danger = "low"
+args = [{ name = "path", prompt = "Directory prefix", default = "./" }]

@@ -1,0 +1,9 @@
+id = "move-directory"
+namespace = "linux"
+title = "Move or rename a directory"
+description = "Move a directory or rename it in place."
+example = "mv old-name new-name"
+command = "mv {source} {destination}"
+tags = ["linux", "directory", "move", "rename"]
+danger = "medium"
+args = [{ name = "source", prompt = "Source directory", default = "old-name" }, { name = "destination", prompt = "Destination directory", default = "new-name" }]

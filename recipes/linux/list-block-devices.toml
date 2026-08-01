@@ -1,0 +1,9 @@
+id = "list-block-devices"
+namespace = "linux"
+title = "List block devices"
+description = "Display disks, partitions, and mount relationships."
+example = "lsblk"
+command = "lsblk"
+tags = ["linux", "system", "disk", "storage"]
+danger = "low"
+args = []

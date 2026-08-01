@@ -1,0 +1,9 @@
+id = "show-system-info"
+namespace = "linux"
+title = "Show system information"
+description = "Display kernel, architecture, and host information."
+example = "uname -a"
+command = "uname -a"
+tags = ["linux", "system", "kernel"]
+danger = "low"
+args = []

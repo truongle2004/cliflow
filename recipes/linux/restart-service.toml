@@ -1,0 +1,9 @@
+id = "restart-service"
+namespace = "linux"
+title = "Restart a system service"
+description = "Restart a systemd service. This can interrupt users of the service."
+example = "sudo systemctl restart nginx"
+command = "sudo systemctl restart {service}"
+tags = ["linux", "systemd", "service", "restart"]
+danger = "high"
+args = [{ name = "service", prompt = "Service name", default = "nginx" }]

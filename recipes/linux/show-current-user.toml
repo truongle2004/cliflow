@@ -1,0 +1,9 @@
+id = "show-current-user"
+namespace = "linux"
+title = "Show the current user"
+description = "Print the username for the current shell session."
+example = "whoami"
+command = "whoami"
+tags = ["linux", "system", "user"]
+danger = "low"
+args = []

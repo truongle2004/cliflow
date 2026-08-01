@@ -1,0 +1,41 @@
+id: system-service-diagnosis
+title: Diagnose a systemd service
+description: Inspect host pressure, verify a service state, follow its journal, and restart it only after diagnosing the failure.
+tool:
+  id: linux
+  name: Linux shell
+  description: Common GNU/Linux command-line tools.
+category:
+  id: troubleshooting
+  name: Troubleshooting
+  description: Diagnose and recover system services.
+risk: high
+tags: [linux, systemd, service, journal, troubleshooting]
+steps:
+  - id: inspect-host-load
+    title: Check host load
+    description: Review uptime and load before attributing a service failure to the service itself.
+    command:
+      program: uptime
+    risk: low
+  - id: inspect-service-status
+    title: Check service status
+    description: Inspect the unit state and its recent journal entries.
+    command:
+      program: systemctl
+      args: [status, nginx]
+    risk: low
+  - id: follow-service-journal
+    title: Follow service logs
+    description: Stream new journal entries while reproducing the issue.
+    command:
+      program: journalctl
+      args: [-u, nginx, -f]
+    risk: low
+  - id: restart-service
+    title: Restart the confirmed service
+    description: Restart only after reviewing the service state and logs.
+    command:
+      program: sudo
+      args: [systemctl, restart, nginx]
+    risk: high

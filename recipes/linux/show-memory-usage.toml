@@ -1,0 +1,9 @@
+id = "show-memory-usage"
+namespace = "linux"
+title = "Show memory usage"
+description = "Display RAM and swap usage with human-readable sizes."
+example = "free -h"
+command = "free -h"
+tags = ["linux", "system", "memory", "ram"]
+danger = "low"
+args = []

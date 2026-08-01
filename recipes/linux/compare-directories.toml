@@ -1,0 +1,9 @@
+id = "compare-directories"
+namespace = "linux"
+title = "Compare directory trees"
+description = "List files that differ between two directories."
+example = "diff -rq ./v1 ./v2"
+command = "diff -rq {left} {right}"
+tags = ["linux", "directory", "diff", "compare"]
+danger = "low"
+args = [{ name = "left", prompt = "First directory", default = "./v1" }, { name = "right", prompt = "Second directory", default = "./v2" }]

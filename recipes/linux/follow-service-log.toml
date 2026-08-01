@@ -1,0 +1,9 @@
+id = "follow-service-log"
+namespace = "linux"
+title = "Follow a service log"
+description = "Stream journal entries for a systemd service."
+example = "journalctl -u nginx -f"
+command = "journalctl -u {service} -f"
+tags = ["linux", "systemd", "journal", "logs"]
+danger = "low"
+args = [{ name = "service", prompt = "Service name", default = "nginx" }]

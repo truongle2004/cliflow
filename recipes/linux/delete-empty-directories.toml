@@ -1,0 +1,9 @@
+id = "delete-empty-directories"
+namespace = "linux"
+title = "Delete empty directories"
+description = "Permanently delete empty directories beneath a path."
+example = "find . -empty -type d -delete"
+command = "find {path} -empty -type d -delete"
+tags = ["linux", "find", "directory", "delete"]
+danger = "high"
+args = [{ name = "path", prompt = "Search path", default = "." }]
