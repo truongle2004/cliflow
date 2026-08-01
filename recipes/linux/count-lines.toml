@@ -1,0 +1,9 @@
+id = "count-lines"
+namespace = "linux"
+title = "Count file lines"
+description = "Count lines in a file."
+example = "wc -l file"
+command = "wc -l {file}"
+tags = ["linux", "file", "count"]
+danger = "low"
+args = [{ name = "file", prompt = "File path" }]

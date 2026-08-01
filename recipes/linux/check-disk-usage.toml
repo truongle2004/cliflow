@@ -1,0 +1,8 @@
+id = "check-disk-usage"
+namespace = "linux"
+title = "Check disk usage"
+description = "Show mounted filesystem usage in human-readable units."
+example = "df -h"
+command = "df -h"
+tags = ["linux", "disk", "storage"]
+danger = "low"

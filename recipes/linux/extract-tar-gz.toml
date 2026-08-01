@@ -1,0 +1,9 @@
+id = "extract-tar-gz"
+namespace = "linux"
+title = "Extract a tar.gz archive"
+description = "Extract a compressed tar archive into the current directory."
+example = "tar -xzvf out.tar.gz"
+command = "tar -xzvf {archive}"
+tags = ["linux", "archive", "tar"]
+danger = "medium"
+args = [{ name = "archive", prompt = "Archive path" }]

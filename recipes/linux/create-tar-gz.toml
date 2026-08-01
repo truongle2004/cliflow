@@ -1,0 +1,9 @@
+id = "create-tar-gz"
+namespace = "linux"
+title = "Create a tar.gz archive"
+description = "Create a compressed archive from a folder."
+example = "tar -czvf out.tar.gz folder/"
+command = "tar -czvf {archive} {folder}"
+tags = ["linux", "archive", "tar"]
+danger = "medium"
+args = [{ name = "archive", prompt = "Archive output", default = "out.tar.gz" }, { name = "folder", prompt = "Folder to archive" }]

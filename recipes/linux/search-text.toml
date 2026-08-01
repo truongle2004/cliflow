@@ -1,0 +1,9 @@
+id = "search-text"
+namespace = "linux"
+title = "Search text recursively"
+description = "Search files recursively and include line numbers."
+example = "grep -rn \"pattern\" ."
+command = "grep -rn {pattern} {path}"
+tags = ["linux", "grep", "search"]
+danger = "low"
+args = [{ name = "pattern", prompt = "Search pattern" }, { name = "path", prompt = "Search path", default = "." }]

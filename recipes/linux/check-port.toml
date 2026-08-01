@@ -1,0 +1,9 @@
+id = "check-port"
+namespace = "linux"
+title = "Check what uses a port"
+description = "Show processes with an open network port."
+example = "lsof -i :8080"
+command = "lsof -i :{port}"
+tags = ["linux", "network", "port"]
+danger = "low"
+args = [{ name = "port", prompt = "Port number", default = "8080" }]

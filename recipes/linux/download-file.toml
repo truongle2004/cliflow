@@ -1,0 +1,9 @@
+id = "download-file"
+namespace = "linux"
+title = "Download a file"
+description = "Download a URL to the current directory with curl."
+example = "curl -O https://example.com/file.tar.gz"
+command = "curl -O {url}"
+tags = ["linux", "download", "curl"]
+danger = "medium"
+args = [{ name = "url", prompt = "File URL" }]

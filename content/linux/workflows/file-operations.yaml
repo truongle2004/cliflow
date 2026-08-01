@@ -1,0 +1,42 @@
+id: file-operations
+title: Safely manage files and archives
+description: Back up recent work, inspect ownership and permissions, and archive project files while excluding generated directories.
+tool:
+  id: linux
+  name: Linux shell
+  description: Common GNU/Linux command-line tools.
+category:
+  id: maintenance
+  name: Maintenance
+  description: Work with files, archives, and permissions.
+risk: high
+tags: [linux, backup, archive, permissions, files]
+steps:
+  - id: back-up-recent-files
+    title: Back up recently changed files
+    description: Copy files changed in the last hour to a backup directory after ensuring it exists.
+    command:
+      program: sh
+      args: [-c, "find . -type f -mmin -60 -exec cp {} /backup/ \\;"]
+    risk: medium
+  - id: archive-project
+    title: Archive a project
+    description: Create a compressed archive while excluding dependencies and Git metadata.
+    command:
+      program: tar
+      args: ["--exclude=node_modules", "--exclude=.git", -czvf, project.tar.gz, ./project]
+    risk: medium
+  - id: find-world-writable-files
+    title: Find world-writable files
+    description: Audit files writable by all users before changing permissions.
+    command:
+      program: sh
+      args: [-c, "find / -type f -perm -o+w 2>/dev/null"]
+    risk: low
+  - id: find-user-files
+    title: Find files owned by a user
+    description: Inspect files belonging to a user across the filesystem.
+    command:
+      program: sh
+      args: [-c, "find / -user <username> -type f 2>/dev/null"]
+    risk: low

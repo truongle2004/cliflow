@@ -1,0 +1,8 @@
+id = "monitor-resources"
+namespace = "linux"
+title = "Monitor system resources"
+description = "Open the interactive system resource monitor."
+example = "top"
+command = "top"
+tags = ["linux", "process", "monitoring"]
+danger = "low"

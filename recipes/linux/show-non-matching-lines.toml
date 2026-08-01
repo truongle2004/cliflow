@@ -1,0 +1,9 @@
+id = "show-non-matching-lines"
+namespace = "linux"
+title = "Show non-matching lines"
+description = "Print only lines that do not match a pattern."
+example = "grep -v \"pattern\" file"
+command = "grep -v {pattern} {file}"
+tags = ["linux", "grep", "filter"]
+danger = "low"
+args = [{ name = "pattern", prompt = "Excluded pattern" }, { name = "file", prompt = "File path" }]

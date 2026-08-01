@@ -1,0 +1,9 @@
+id = "follow-log"
+namespace = "linux"
+title = "Follow a log file"
+description = "Stream appended lines from a log file."
+example = "tail -f app.log"
+command = "tail -f {file}"
+tags = ["linux", "logs", "tail"]
+danger = "low"
+args = [{ name = "file", prompt = "Log file", default = "app.log" }]

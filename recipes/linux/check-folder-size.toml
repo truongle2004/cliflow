@@ -1,0 +1,9 @@
+id = "check-folder-size"
+namespace = "linux"
+title = "Check folder size"
+description = "Summarize a folder's disk usage."
+example = "du -sh folder"
+command = "du -sh {folder}"
+tags = ["linux", "disk", "storage"]
+danger = "low"
+args = [{ name = "folder", prompt = "Folder path", default = "." }]

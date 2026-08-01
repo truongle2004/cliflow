@@ -1,0 +1,42 @@
+id: system-resource-audit
+title: Audit system resource pressure
+description: Check filesystem capacity, identify memory and CPU consumers, and inspect disk I/O when a host is under load.
+tool:
+  id: linux
+  name: Linux shell
+  description: Common GNU/Linux command-line tools.
+category:
+  id: observability
+  name: Observability
+  description: Inspect host resource usage.
+risk: low
+tags: [linux, system, cpu, memory, disk, iotop]
+steps:
+  - id: check-filesystems
+    title: Check filesystem capacity
+    description: Review mounted filesystem capacity before investigating application symptoms.
+    command:
+      program: df
+      args: [-h]
+    risk: low
+  - id: rank-memory-processes
+    title: Find memory-heavy processes
+    description: Sort running processes by memory consumption.
+    command:
+      program: sh
+      args: [-c, "ps aux | sort -rk 4 | head -10"]
+    risk: low
+  - id: rank-cpu-processes
+    title: Find CPU-heavy processes
+    description: Sort running processes by CPU consumption.
+    command:
+      program: sh
+      args: [-c, "ps aux | sort -rk 3 | head -10"]
+    risk: low
+  - id: inspect-disk-io
+    title: Inspect disk I/O
+    description: Monitor processes currently generating disk I/O.
+    command:
+      program: iotop
+      args: [-o]
+    risk: low

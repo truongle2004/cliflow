@@ -1,0 +1,9 @@
+id = "show-file-head"
+namespace = "linux"
+title = "Show first file lines"
+description = "Print the first N lines of a file."
+example = "head -n 20 file"
+command = "head -n {lines} {file}"
+tags = ["linux", "file", "head"]
+danger = "low"
+args = [{ name = "lines", prompt = "Line count", default = "20" }, { name = "file", prompt = "File path" }]

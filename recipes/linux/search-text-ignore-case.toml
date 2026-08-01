@@ -1,0 +1,9 @@
+id = "search-text-ignore-case"
+namespace = "linux"
+title = "Search text ignoring case"
+description = "Search a file without case sensitivity."
+example = "grep -i \"pattern\" file"
+command = "grep -i {pattern} {file}"
+tags = ["linux", "grep", "search"]
+danger = "low"
+args = [{ name = "pattern", prompt = "Search pattern" }, { name = "file", prompt = "File path" }]

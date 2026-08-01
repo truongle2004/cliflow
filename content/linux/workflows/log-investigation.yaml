@@ -1,0 +1,42 @@
+id: log-investigation
+title: Investigate recent application errors
+description: Collect recent errors, follow new error output, inspect compressed history, and rank noisy clients.
+tool:
+  id: linux
+  name: Linux shell
+  description: Common GNU/Linux command-line tools.
+category:
+  id: observability
+  name: Observability
+  description: Inspect application logs and request activity.
+risk: low
+tags: [linux, logs, errors, grep, monitoring]
+steps:
+  - id: report-recent-errors
+    title: Save recent errors
+    description: Search logs modified in the last day and write matching errors to a report.
+    command:
+      program: sh
+      args: [-c, "find /var/log -name '*.log' -mtime -1 | xargs grep -n 'ERROR' > errors_today.txt"]
+    risk: low
+  - id: follow-errors
+    title: Follow only error lines
+    description: Stream a log while filtering lines case-insensitively for errors.
+    command:
+      program: sh
+      args: [-c, "tail -f app.log | grep --line-buffered -i 'error'"]
+    risk: low
+  - id: inspect-compressed-log
+    title: Search compressed history
+    description: Inspect an archived log without extracting it.
+    command:
+      program: zgrep
+      args: [ERROR, /var/log/app.log.gz]
+    risk: low
+  - id: rank-requesters
+    title: Rank requests by IP
+    description: Count the most frequent client IPs in an access log.
+    command:
+      program: sh
+      args: [-c, "awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -20"]
+    risk: low
