@@ -1,0 +1,9 @@
+id = "list-files-detailed"
+namespace = "linux"
+title = "List files with details"
+description = "Show hidden files, permissions, ownership, and human-readable sizes."
+example = "ls -lah ./project"
+command = "ls -lah {path}"
+tags = ["linux", "files", "list"]
+danger = "low"
+args = [{ name = "path", prompt = "Directory path", default = "." }]

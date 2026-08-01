@@ -1,0 +1,9 @@
+id = "show-cpu-count"
+namespace = "linux"
+title = "Show CPU core count"
+description = "Print the number of processing units available to the current process."
+example = "nproc"
+command = "nproc"
+tags = ["linux", "system", "cpu", "cores"]
+danger = "low"
+args = []

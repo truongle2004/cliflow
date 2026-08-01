@@ -1,0 +1,9 @@
+id = "show-directory-tree"
+namespace = "linux"
+title = "Show a directory tree"
+description = "Display a directory structure to a limited depth."
+example = "tree -L 2 ./project"
+command = "tree -L {depth} {path}"
+tags = ["linux", "directory", "tree"]
+danger = "low"
+args = [{ name = "depth", prompt = "Maximum depth", default = "2" }, { name = "path", prompt = "Directory path", default = "." }]

@@ -1,0 +1,9 @@
+id = "show-uptime"
+namespace = "linux"
+title = "Show uptime and load"
+description = "Display system uptime, logged-in users, and load averages."
+example = "uptime"
+command = "uptime"
+tags = ["linux", "system", "uptime", "load"]
+danger = "low"
+args = []

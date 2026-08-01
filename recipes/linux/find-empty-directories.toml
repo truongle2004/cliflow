@@ -1,0 +1,9 @@
+id = "find-empty-directories"
+namespace = "linux"
+title = "Find empty directories"
+description = "Recursively list directories with no contents."
+example = "find . -empty -type d"
+command = "find {path} -empty -type d"
+tags = ["linux", "find", "directory"]
+danger = "low"
+args = [{ name = "path", prompt = "Search path", default = "." }]

@@ -1,0 +1,9 @@
+id = "create-directory"
+namespace = "linux"
+title = "Create nested directories"
+description = "Create a directory and any missing parent directories."
+example = "mkdir -p src/components/ui"
+command = "mkdir -p {path}"
+tags = ["linux", "directory", "mkdir"]
+danger = "low"
+args = [{ name = "path", prompt = "Directory path", default = "src/components/ui" }]

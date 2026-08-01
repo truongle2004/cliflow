@@ -1,0 +1,9 @@
+id = "list-cron-jobs"
+namespace = "linux"
+title = "List cron jobs"
+description = "Show scheduled cron jobs for the current user."
+example = "crontab -l"
+command = "crontab -l"
+tags = ["linux", "system", "cron", "schedule"]
+danger = "low"
+args = []

@@ -1,0 +1,9 @@
+id = "sync-directory"
+namespace = "linux"
+title = "Synchronize a directory"
+description = "Copy only changed files from a source directory to a destination."
+example = "rsync -avh ./src/ user@server:/var/www/app/"
+command = "rsync -avh {source} {destination}"
+tags = ["linux", "rsync", "directory", "sync"]
+danger = "medium"
+args = [{ name = "source", prompt = "Source directory", default = "./src/" }, { name = "destination", prompt = "Destination path", default = "user@server:/var/www/app/" }]

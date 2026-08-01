@@ -1,0 +1,35 @@
+id: directory-synchronization
+title: Synchronize a directory safely
+description: Inspect differences, perform a non-destructive sync, then mirror only after confirming the destination can lose stale files.
+tool:
+  id: linux
+  name: Linux shell
+  description: Common GNU/Linux command-line tools.
+category:
+  id: maintenance
+  name: Maintenance
+  description: Maintain directory trees and deploy built artifacts.
+risk: high
+tags: [linux, rsync, directory, deployment, backup]
+steps:
+  - id: compare-directories
+    title: Compare source and destination
+    description: Review differing files before transferring or deleting anything.
+    command:
+      program: diff
+      args: [-rq, ./build, /var/www/app]
+    risk: low
+  - id: sync-changed-files
+    title: Copy changed files
+    description: Synchronize changed files without removing destination-only files.
+    command:
+      program: rsync
+      args: [-avh, ./build/, /var/www/app/]
+    risk: medium
+  - id: mirror-confirmed-output
+    title: Mirror confirmed output
+    description: Remove destination files absent from the build only after confirming the target path.
+    command:
+      program: rsync
+      args: [-avh, --delete, ./build/, /var/www/app/]
+    risk: high

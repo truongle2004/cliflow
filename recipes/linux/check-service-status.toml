@@ -1,0 +1,9 @@
+id = "check-service-status"
+namespace = "linux"
+title = "Check a system service"
+description = "Show the current status and recent messages for a systemd service."
+example = "systemctl status nginx"
+command = "systemctl status {service}"
+tags = ["linux", "systemd", "service"]
+danger = "low"
+args = [{ name = "service", prompt = "Service name", default = "nginx" }]

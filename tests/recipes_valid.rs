@@ -55,11 +55,11 @@ fn embedded_recipe_catalog_has_expected_counts() {
         *counts.entry(recipe.namespace.clone()).or_default() += 1;
     }
 
-    assert_eq!(recipes.len(), 176);
+    assert_eq!(recipes.len(), 201);
     assert_eq!(counts.get("aws"), Some(&59));
     assert_eq!(counts.get("docker"), Some(&52));
     assert_eq!(counts.get("git"), Some(&44));
-    assert_eq!(counts.get("linux"), Some(&21));
+    assert_eq!(counts.get("linux"), Some(&46));
 }
 
 #[test]
@@ -148,6 +148,10 @@ fn embedded_linux_recipes_include_daily_operations() {
         "linux/check-disk-usage",
         "linux/create-tar-gz",
         "linux/check-port",
+        "linux/create-directory",
+        "linux/sync-directory",
+        "linux/show-memory-usage",
+        "linux/check-service-status",
     ] {
         assert!(keys.contains(key), "missing embedded recipe: {key}");
     }

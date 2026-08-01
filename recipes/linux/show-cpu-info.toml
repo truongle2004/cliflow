@@ -1,0 +1,9 @@
+id = "show-cpu-info"
+namespace = "linux"
+title = "Show CPU information"
+description = "Display processor architecture and capabilities."
+example = "lscpu"
+command = "lscpu"
+tags = ["linux", "system", "cpu"]
+danger = "low"
+args = []

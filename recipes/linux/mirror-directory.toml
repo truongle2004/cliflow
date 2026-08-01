@@ -1,0 +1,9 @@
+id = "mirror-directory"
+namespace = "linux"
+title = "Mirror a directory"
+description = "Synchronize a directory and delete destination files absent from the source."
+example = "rsync -avh --delete ./build/ /var/www/app/"
+command = "rsync -avh --delete {source} {destination}"
+tags = ["linux", "rsync", "directory", "mirror"]
+danger = "high"
+args = [{ name = "source", prompt = "Source directory", default = "./build/" }, { name = "destination", prompt = "Destination path", default = "/var/www/app/" }]

@@ -1,0 +1,9 @@
+id = "remove-empty-directory"
+namespace = "linux"
+title = "Remove an empty directory"
+description = "Remove a directory only when it has no contents."
+example = "rmdir old-folder"
+command = "rmdir {path}"
+tags = ["linux", "directory", "remove"]
+danger = "medium"
+args = [{ name = "path", prompt = "Empty directory", default = "old-folder" }]
